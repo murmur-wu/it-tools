@@ -29,21 +29,19 @@ home:
     mode: 'Alternar modo oscuro/claro'
 about:
   content: >
-    # Sobre IT-Tools
+    # Acerca de IT-Tools
 
-    Este maravilloso sitio web, hecho con ❤ por [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=about) , agrega herramientas útiles para desarrolladores y personas que trabajan en IT. Si lo encuentra útil, no dude en compartirlo con las personas que crea que también pueden encontrarlo útil y ¡no olvide marcarlo como favorito en su barra de accesos directos!
+    IT-Tools es una colección de herramientas en línea útiles para desarrolladores y profesionales de TI. Todas las herramientas se ejecutan en tu navegador. Si te resulta útil, compártela y añádela a tus marcadores.
 
-    IT Tools es de código abierto (under the GPL-3.0 license) y gratis, y siempre lo será, pero me cuesta dinero alojar y renovar el nombre de dominio. Si desea apoyar mi trabajo y animarme a agregar más herramientas, considere apoyarme a través de[sponsoring me](https://www.buymeacoffee.com/cthmsst).
+    Este sitio es un despliegue personalizado del proyecto de código abierto [IT-Tools](https://github.com/CorentinTh/it-tools) de Corentin Thomasset (licencia GPL-3.0). El código fuente de esta versión está disponible en [GitHub](https://github.com/murmur-wu/it-tools).
 
     ## Tecnologías
 
-    IT Tools está creado en Vue.js (Vue 3) con la biblioteca de componentes Naive UI y Vercel lo aloja y lo implementa continuamente. En algunas herramientas se utilizan bibliotecas de código abierto de terceros; puede encontrar la lista completa en [package.json](https://github.com/CorentinTh/it-tools/blob/main/package.json) archivo del repositorio.
+    IT-Tools está construido con Vue.js (Vue 3) y la biblioteca de componentes Naive UI, y se aloja en Cloudflare. Algunas herramientas usan bibliotecas de código abierto de terceros; la lista completa está en el [package.json](https://github.com/murmur-wu/it-tools/blob/main/package.json) del repositorio.
 
     ## ¿Encontraste un error? ¿Falta una herramienta?
 
-    Si necesita una herramienta que actualmente no está presente aquí y cree que puede ser útil, puede enviar una solicitud de función en el [issues section](https://github.com/CorentinTh/it-tools/issues/new/choose) en el repositorio de GitHub.
-
-    Y si encontró un error o algo no funciona como se esperaba, presente un reporte de error en el [issues section](https://github.com/CorentinTh/it-tools/issues/new/choose) en el repositorio de GitHub.
+    Las solicitudes de funciones y los informes de errores son bienvenidos en la [sección de issues](https://github.com/murmur-wu/it-tools/issues) del repositorio de GitHub.
 
 404:
   notFound: '404 Not Found'

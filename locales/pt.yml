@@ -31,19 +31,17 @@ about:
   content: >
     # Sobre o IT-Tools
 
-    Este site maravilhoso, feito com ❤ por [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=about), junta ferramentas úteis para desenvolvedores e outras pessoas que trabalham com TI. Se você achar o site útil, fique à vontade para compartilhar com quem também possa gostar e não esqueça de salvar o bookmark na sua barra de atalhos!
+    O IT-Tools é uma coleção de ferramentas online úteis para desenvolvedores e profissionais de TI. Todas as ferramentas são executadas no seu navegador. Se achar útil, compartilhe e adicione aos favoritos!
 
-    O IT Tools é código aberto (sob a licença GPL-3.0), é gratuito, e sempre será, mas custa dinheiro para hospedar e renovar o domínio. Se quiser apoiar meu trabalho e me encorajar a adicionar mais ferramentas, por favor considere [ser patrocinador](https://www.buymeacoffee.com/cthmsst).
+    Este site é uma implantação personalizada do projeto de código aberto [IT-Tools](https://github.com/CorentinTh/it-tools) de Corentin Thomasset (licença GPL-3.0). O código-fonte desta versão está disponível no [GitHub](https://github.com/murmur-wu/it-tools).
 
     ## Tecnologias
 
-    O IT Tools é feito em Vue.js (Vue 3) com a biblioteca de componentes Naive UI e é hospedado pela Vercel. Bibliotecas de código aberto de terceiros são usadas em algumas ferramentas e você pode encontrar a lista completa no arquivo [package.json](https://github.com/CorentinTh/it-tools/blob/main/package.json) do repositório.
+    O IT-Tools é construído com Vue.js (Vue 3) e a biblioteca de componentes Naive UI, e está hospedado na Cloudflare. Algumas ferramentas usam bibliotecas de código aberto de terceiros; a lista completa está no [package.json](https://github.com/murmur-wu/it-tools/blob/main/package.json) do repositório.
 
-    ## Achou um bug? Está faltando uma ferramenta?
+    ## Encontrou um bug? Falta uma ferramenta?
 
-    Se você precisa de uma ferramenta que ainda não existe aqui e acha que pode ser útil, seu pedido será bem vindo na [seção de issues](https://github.com/CorentinTh/it-tools/issues/new/choose) no repositório do GitHub.
-
-    E se você encontrar um bug ou se algo não funcionar como esperado, por favor registre um relato de bug na [seção de issues](https://github.com/CorentinTh/it-tools/issues/new/choose) no GitHub.
+    Pedidos de funcionalidades e relatórios de bugs são bem-vindos na [seção de issues](https://github.com/murmur-wu/it-tools/issues) do repositório no GitHub.
 
 404:
   notFound: '404 Não Encontrado'

@@ -119,9 +119,10 @@ export default defineConfig({
       strategies: 'generateSW',
       manifest: {
         name: 'IT Tools',
-        description: 'Aggregated set of useful tools for developers.',
+        short_name: 'IT Tools',
+        description: '開發者的實用工具箱 - Handy online tools for developers and IT people.',
         display: 'standalone',
-        lang: 'fr-FR',
+        lang: 'zh-TW',
         start_url: `${baseUrl}?utm_source=pwa&utm_medium=pwa`,
         orientation: 'any',
         theme_color: '#18a058',

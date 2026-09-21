@@ -1,4 +1,7 @@
-/* TEAM */
-Developer: Corentin Thomasset
-Site: https://github.com/CorentinTh
-Twitter: @cthmsst
+/* SITE */
+Site: https://ittools.heitang.info
+Source: https://github.com/murmur-wu/it-tools
+
+/* THANKS */
+Based on IT-Tools by Corentin Thomasset
+https://github.com/CorentinTh/it-tools
