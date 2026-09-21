@@ -455,3 +455,7 @@ tools:
   xml-to-json:
     title: XML 轉 JSON
     description: 將 XML 轉換為 JSON
+
+  certificate-parser:
+    title: X.509 憑證解析
+    description: 解析 PEM 或 DER 憑證（或整條憑證鏈），顯示主體、簽發者、有效期限與剩餘天數、SAN、金鑰類型、金鑰用途、擴充欄位與指紋。全部在瀏覽器中完成。

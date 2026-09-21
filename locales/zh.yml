@@ -451,3 +451,7 @@ tools:
   xml-to-json:
     title: XML 转 JSON
     description: 将 XML 转换为 JSON
+
+  certificate-parser:
+    title: X.509 证书解析
+    description: 解析 PEM 或 DER 证书（或整条证书链），显示主体、签发者、有效期与剩余天数、SAN、密钥类型、密钥用途、扩展字段与指纹。全部在浏览器中完成。

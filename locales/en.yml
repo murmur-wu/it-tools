@@ -455,3 +455,7 @@ tools:
   xml-to-json:
     title: XML to JSON
     description: Convert XML to JSON
+
+  certificate-parser:
+    title: X.509 certificate parser
+    description: Decode a PEM or DER certificate (or a whole chain) and see the subject, issuer, validity and days left, SAN, key type, key usage, extensions and fingerprints. Everything runs in your browser.
