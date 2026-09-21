@@ -455,3 +455,11 @@ tools:
   certificate-parser:
     title: X.509 证书解析
     description: 解析 PEM 或 DER 证书（或整条证书链），显示主体、签发者、有效期与剩余天数、SAN、密钥类型、密钥用途、扩展字段与指纹。全部在浏览器中完成。
+
+  jwt-signer:
+    title: JWT 签名与验证
+    description: 由 header 与 payload 生成已签名的 JSON Web Token，或验证 token 的签名，支持 HS256/384/512、RS256/384/512、PS256/384/512 与 ES256/384/512。密钥不会离开浏览器。
+
+  chinese-converter:
+    title: 繁简中文转换
+    description: 使用 OpenCC 在简体中文与繁体中文（台湾、香港，可选择台湾惯用词，例如「软件」→「軟體」）之间转换文本，全部在浏览器中完成。

@@ -459,3 +459,11 @@ tools:
   certificate-parser:
     title: X.509 certificate parser
     description: Decode a PEM or DER certificate (or a whole chain) and see the subject, issuer, validity and days left, SAN, key type, key usage, extensions and fingerprints. Everything runs in your browser.
+
+  jwt-signer:
+    title: JWT sign and verify
+    description: Create a signed JSON Web Token from a header and payload, or verify a token's signature, with HS256/384/512, RS256/384/512, PS256/384/512 and ES256/384/512. Keys stay in your browser.
+
+  chinese-converter:
+    title: Traditional / Simplified Chinese converter
+    description: Convert text between Simplified Chinese and Traditional Chinese (Taiwan, Hong Kong, with optional Taiwanese phrases such as 软件 → 軟體) using OpenCC, entirely in your browser.

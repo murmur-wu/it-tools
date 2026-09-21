@@ -19,6 +19,8 @@ import { tool as textToBinary } from './text-to-binary';
 import { tool as ulidGenerator } from './ulid-generator';
 import { tool as aesAdvancedEncryption } from './aes-advanced-encryption';
 import { tool as certificateParser } from './certificate-parser';
+import { tool as jwtSigner } from './jwt-signer';
+import { tool as chineseConverter } from './chinese-converter';
 import { tool as ibanValidatorAndParser } from './iban-validator-and-parser';
 import { tool as stringObfuscator } from './string-obfuscator';
 import { tool as textDiff } from './text-diff';
@@ -132,6 +134,7 @@ export const toolsByCategory: ToolCategory[] = [
       otpCodeGeneratorAndValidator,
       mimeTypes,
       jwtParser,
+      jwtSigner,
       keycodeInfo,
       slugifyString,
       htmlWysiwygEditor,
@@ -185,8 +188,7 @@ export const toolsByCategory: ToolCategory[] = [
       stringObfuscator,
       textDiff,
       numeronymGenerator,
-      asciiTextDrawer,
-    ],
+      asciiTextDrawer, chineseConverter],
   },
   {
     name: 'Data',
