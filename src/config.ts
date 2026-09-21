@@ -14,6 +14,12 @@ export const config = figue({
       default: '',
       env: 'APP_COMMIT_SHA',
     },
+    siteUrl: {
+      doc: 'Public URL of the deployed site (analytics is only enabled on this host)',
+      format: 'string',
+      default: '',
+      env: 'APP_SITE_URL',
+    },
     baseUrl: {
       doc: 'Application base url',
       format: 'string',
@@ -53,6 +59,14 @@ export const config = figue({
       default: false,
     },
   },
+  analytics: {
+    gaMeasurementId: {
+      doc: 'Google Analytics 4 measurement ID (G-XXXXXXXXXX), empty to disable',
+      format: 'string',
+      default: 'G-G6QY47LXN8',
+      env: 'VITE_GA_MEASUREMENT_ID',
+    },
+  },
   showBanner: {
     doc: 'Show the banner',
     format: 'boolean',
@@ -71,6 +85,7 @@ export const config = figue({
     // These strings are statically replaced at build time (see 'define' in vite.config.ts)
     APP_VERSION: import.meta.env.APP_VERSION,
     APP_COMMIT_SHA: import.meta.env.APP_COMMIT_SHA,
+    APP_SITE_URL: import.meta.env.APP_SITE_URL,
   })
   .validate()
   .getConfig();

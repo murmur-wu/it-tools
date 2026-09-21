@@ -5,6 +5,7 @@ import { createHead } from '@vueuse/head';
 import { registerSW } from 'virtual:pwa-register';
 import shadow from 'vue-shadow-dom';
 import { plausible } from './plugins/plausible.plugin';
+import { createAnalytics } from './plugins/analytics.plugin';
 
 import 'virtual:uno.css';
 
@@ -24,6 +25,7 @@ app.use(i18nPlugin);
 app.use(router);
 app.use(naive);
 app.use(plausible);
+app.use(createAnalytics({ router }));
 app.use(shadow);
 
 app.mount('#app');

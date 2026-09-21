@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import process from 'node:process';
 import { resolve } from 'node:path';
 import { URL, fileURLToPath } from 'node:url';
@@ -12,7 +13,7 @@ import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
-import { defineConfig } from 'vite';
+import { type Plugin, defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import markdown from 'vite-plugin-vue-markdown';
 import svgLoader from 'vite-svg-loader';
@@ -37,6 +38,45 @@ const appCommitSha = process.env.WORKERS_CI_COMMIT_SHA
 
 // CalVer (YYYY.MM.DD) of the deployed commit, falling back to the build date
 const appVersion = getGitValue('git log -1 --format=%cs', new Date().toISOString().slice(0, 10)).replace(/-/g, '.');
+
+// Public URL of the deployed site (canonical links, sitemap, analytics gating)
+const siteUrl = (process.env.VITE_SITE_URL ?? 'https://ittools.heitang.info').replace(/\/$/, '');
+
+// Writes dist/sitemap.xml listing the home page and every tool route at build time
+function sitemapPlugin(): Plugin {
+  let outDir = 'dist';
+
+  return {
+    name: 'it-tools:sitemap',
+    apply: 'build',
+    configResolved(config) {
+      outDir = config.build.outDir;
+    },
+    closeBundle() {
+      const toolsDir = resolve(__dirname, 'src/tools');
+      const toolPaths = readdirSync(toolsDir, { withFileTypes: true })
+        .filter(entry => entry.isDirectory())
+        .map(entry => resolve(toolsDir, entry.name, 'index.ts'))
+        .map((file) => {
+          try {
+            return readFileSync(file, 'utf-8').match(/^\s*path:\s*'([^']+)'/m)?.[1];
+          }
+          catch {
+            return undefined;
+          }
+        })
+        .filter((path): path is string => typeof path === 'string');
+
+      const lastmod = appVersion.replace(/\./g, '-');
+      const urls = ['/', '/about', ...toolPaths.sort()]
+        .map(path => `  <url>\n    <loc>${siteUrl}${path}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`)
+        .join('\n');
+
+      mkdirSync(outDir, { recursive: true });
+      writeFileSync(resolve(outDir, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+    },
+  };
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -73,6 +113,7 @@ export default defineConfig({
     vueJsx(),
     markdown(),
     svgLoader(),
+    sitemapPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'generateSW',
@@ -127,6 +168,7 @@ export default defineConfig({
   define: {
     'import.meta.env.APP_VERSION': JSON.stringify(appVersion),
     'import.meta.env.APP_COMMIT_SHA': JSON.stringify(appCommitSha),
+    'import.meta.env.APP_SITE_URL': JSON.stringify(siteUrl),
   },
   test: {
     exclude: [...configDefaults.exclude, '**/*.e2e.spec.ts'],
