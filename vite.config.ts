@@ -1,3 +1,5 @@
+import { execSync } from 'node:child_process';
+import process from 'node:process';
 import { resolve } from 'node:path';
 import { URL, fileURLToPath } from 'node:url';
 
@@ -17,6 +19,24 @@ import svgLoader from 'vite-svg-loader';
 import { configDefaults } from 'vitest/config';
 
 const baseUrl = process.env.BASE_URL ?? '/';
+
+function getGitValue(command: string, fallback: string): string {
+  try {
+    return execSync(command, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || fallback;
+  }
+  catch {
+    return fallback;
+  }
+}
+
+// Commit being deployed: Cloudflare Workers Builds, Cloudflare Pages, Vercel, then the local git checkout
+const appCommitSha = process.env.WORKERS_CI_COMMIT_SHA
+  ?? process.env.CF_PAGES_COMMIT_SHA
+  ?? process.env.VERCEL_GIT_COMMIT_SHA
+  ?? getGitValue('git rev-parse HEAD', '');
+
+// CalVer (YYYY.MM.DD) of the deployed commit, falling back to the build date
+const appVersion = getGitValue('git log -1 --format=%cs', new Date().toISOString().slice(0, 10)).replace(/-/g, '.');
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -105,7 +125,8 @@ export default defineConfig({
     },
   },
   define: {
-    'import.meta.env.PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version),
+    'import.meta.env.APP_VERSION': JSON.stringify(appVersion),
+    'import.meta.env.APP_COMMIT_SHA': JSON.stringify(appCommitSha),
   },
   test: {
     exclude: [...configDefaults.exclude, '**/*.e2e.spec.ts'],
