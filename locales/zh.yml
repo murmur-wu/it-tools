@@ -392,3 +392,35 @@ tools:
   text-to-binary:
     title: 文本到 ASCII 二进制
     description: 将文本转换为其 ASCII 二进制表示形式，反之亦然。
+
+  ascii-text-drawer:
+    title: ASCII 艺术字生成器
+    description: 使用多种字体和样式生成 ASCII 艺术字。
+
+  email-normalizer:
+    title: Email 规范化
+    description: 将电子邮件地址规范化为标准格式以便比较，适用于去重和数据清理。
+
+  json-to-xml:
+    title: JSON 转 XML
+    description: 将 JSON 转换为 XML
+
+  markdown-to-html:
+    title: Markdown 转 HTML
+    description: 将 Markdown 转换为 HTML，并支持打印（保存为 PDF）
+
+  regex-memo:
+    title: 正则表达式速查表
+    description: JavaScript 正则表达式速查表
+
+  regex-tester:
+    title: 正则表达式测试器
+    description: 使用示例文本测试您的正则表达式。
+
+  safelink-decoder:
+    title: Outlook Safelink 解码器
+    description: 解码 Outlook SafeLink 链接
+
+  xml-to-json:
+    title: XML 转 JSON
+    description: 将 XML 转换为 JSON
