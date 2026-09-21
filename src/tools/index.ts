@@ -17,6 +17,7 @@ import { tool as numeronymGenerator } from './numeronym-generator';
 import { tool as macAddressGenerator } from './mac-address-generator';
 import { tool as textToBinary } from './text-to-binary';
 import { tool as ulidGenerator } from './ulid-generator';
+import { tool as aesAdvancedEncryption } from './aes-advanced-encryption';
 import { tool as ibanValidatorAndParser } from './iban-validator-and-parser';
 import { tool as stringObfuscator } from './string-obfuscator';
 import { tool as textDiff } from './text-diff';
@@ -91,7 +92,7 @@ import { tool as yamlViewer } from './yaml-viewer';
 export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Crypto',
-    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker],
+    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, aesAdvancedEncryption, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker],
   },
   {
     name: 'Converter',

@@ -151,6 +151,10 @@ tools:
     title: 加密/解密文本
     description: 使用加密算法（如AES、TripleDES、Rabbit或RC4）加密和解密文本明文。
 
+  aes-advanced-encryption:
+    title: AES 高级加密 / 解密
+    description: 使用明确指定的密钥与 IV（hex、base64 或文本），以 CBC、GCM、CTR 或 ECB 模式进行 AES 加密与解密，便于与其他系统互通。
+
   random-port-generator:
     title: 随机端口生成
     description: 生成“已知”端口范围（0-1023）之外的随机端口号。
