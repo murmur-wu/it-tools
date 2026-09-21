@@ -153,6 +153,10 @@ tools:
     title: Encrypt / decrypt text
     description: Encrypt clear text and decrypt ciphertext using crypto algorithms like AES, TripleDES, Rabbit or RC4.
 
+  aes-advanced-encryption:
+    title: AES advanced encrypt / decrypt
+    description: Encrypt and decrypt text with AES using an explicit key and IV (hex, base64 or text) in CBC, GCM, CTR or ECB mode, for interoperability with other systems.
+
   random-port-generator:
     title: Random port generator
     description: Generate random port numbers outside of the range of "known" ports (0-1023).
