@@ -4,6 +4,7 @@ import { useHead } from '@vueuse/head';
 import { computed } from 'vue';
 import Draggable from 'vuedraggable';
 import ToolCard from '../components/ToolCard.vue';
+import SmartPasteBox from '@/modules/smart-paste/components/smart-paste-box.vue';
 import { useToolStore } from '@/tools/tools.store';
 
 const toolStore = useToolStore();
@@ -22,6 +23,20 @@ function onUpdateFavoriteTools() {
 <template>
   <div class="pt-50px">
     <div class="grid-wrapper">
+      <SmartPasteBox />
+
+      <div v-if="toolStore.recentTools.length > 0">
+        <h3 class="mb-5px mt-25px text-neutral-400 font-500" flex items-center gap-2>
+          {{ $t('home.categories.recentTools') }}
+          <c-button size="small" variant="text" :aria-label="$t('home.categories.clearRecentTools')" @click="toolStore.clearRecentTools()">
+            {{ $t('home.categories.clearRecentTools') }}
+          </c-button>
+        </h3>
+        <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
+          <ToolCard v-for="tool in toolStore.recentTools" :key="tool.path" :tool="tool" />
+        </div>
+      </div>
+
       <transition name="height">
         <div v-if="toolStore.favoriteTools.length > 0">
           <h3 class="mb-5px mt-25px text-neutral-400 font-500">

@@ -5,10 +5,12 @@ import { formatJson } from './json.models';
 import { withDefaultOnError } from '@/utils/defaults';
 import { useValidation } from '@/composable/validation';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const inputElement = ref<HTMLElement>();
 
 const rawJson = useStorage('json-prettify:raw-json', '{"hello": "world", "foo": "bar"}');
+useSmartPasteInput(rawJson);
 const indentSize = useStorage('json-prettify:indent-size', 3);
 const sortKeys = useStorage('json-prettify:sort-keys', true);
 const cleanJson = computed(() => withDefaultOnError(() => formatJson({ rawJson, indentSize, sortKeys }), ''));

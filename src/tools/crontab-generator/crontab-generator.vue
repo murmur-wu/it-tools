@@ -2,6 +2,7 @@
 import cronstrue from 'cronstrue';
 import { isValidCron } from 'cron-validator';
 import { useStyleStore } from '@/stores/style.store';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 function isCronValid(v: string) {
   return isValidCron(v, { allowBlankDay: true, alias: true, seconds: true });
@@ -10,6 +11,7 @@ function isCronValid(v: string) {
 const styleStore = useStyleStore();
 
 const cron = ref('40 * * * *');
+useSmartPasteInput(cron);
 const cronstrueConfig = reactive({
   verbose: true,
   dayOfWeekStartIndexZero: true,

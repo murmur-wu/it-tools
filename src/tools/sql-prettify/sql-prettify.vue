@@ -2,6 +2,7 @@
 import { type FormatOptionsWithLanguage, format as formatSQL } from 'sql-formatter';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
 import { useStyleStore } from '@/stores/style.store';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const inputElement = ref<HTMLElement>();
 const styleStore = useStyleStore();
@@ -14,6 +15,7 @@ const config = reactive<FormatOptionsWithLanguage>({
 });
 
 const rawSQL = ref('select field1,field2,field3 from my_table where my_condition;');
+useSmartPasteInput(rawSQL);
 const prettySQL = computed(() => formatSQL(rawSQL.value, config));
 </script>
 

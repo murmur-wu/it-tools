@@ -2,10 +2,12 @@
 import db from 'oui-data';
 import { macAddressValidationRules } from '@/utils/macAddress';
 import { useCopy } from '@/composable/copy';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const getVendorValue = (address: string) => address.trim().replace(/[.:-]/g, '').toUpperCase().substring(0, 6);
 
 const macAddress = ref('20:37:06:12:34:56');
+useSmartPasteInput(macAddress);
 const details = computed<string | undefined>(() => (db as Record<string, string>)[getVendorValue(macAddress.value)]);
 
 const { copy } = useCopy({ source: () => details.value ?? '', text: 'Vendor info copied to the clipboard' });

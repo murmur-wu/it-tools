@@ -4,6 +4,8 @@ home:
     favoriteTools: 'Your favorite tools'
     allTools: 'All the tools'
     favoritesDndToolTip: 'Drag and drop to reorder favorites'
+    recentTools: 'Recently used'
+    clearRecentTools: 'Clear'
   subtitle: 'Handy tools for developers'
   toggleMenu: 'Toggle menu'
   home: Home
@@ -55,6 +57,33 @@ toolCard:
   new: New
 search:
   label: Search
+smartPaste:
+  title: 'Paste anything'
+  placeholder: 'Paste JSON, a JWT, a URL, a timestamp, a cron expression, an IP, a certificate... and jump to the right tool'
+  detected: 'Looks like:'
+  hint: 'Pasting opens the best matching tool right away. Typing shows the possible tools.'
+  kinds:
+    certificate: 'Certificate'
+    jwt: 'JWT'
+    json: 'JSON'
+    dockerRun: 'docker run'
+    sql: 'SQL'
+    xml: 'XML / HTML'
+    url: 'URL'
+    userAgent: 'User agent'
+    ipv4Cidr: 'IPv4 CIDR'
+    ipv4: 'IPv4 address'
+    mac: 'MAC address'
+    color: 'Color'
+    timestamp: 'Unix timestamp'
+    date: 'Date'
+    cron: 'Cron expression'
+    email: 'Email'
+    iban: 'IBAN'
+    yaml: 'YAML'
+    base64: 'Base64'
+    chinese: 'Chinese text'
+    text: 'Text'
 tools:
   categories:
     favorite-tools: 'Your favorite tools'

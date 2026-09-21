@@ -2,8 +2,10 @@
 import { normalizeEmail } from 'email-normalizer';
 import { withDefaultOnError } from '@/utils/defaults';
 import { useCopy } from '@/composable/copy';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const emails = ref('');
+useSmartPasteInput(emails);
 const normalizedEmails = computed(() => {
   if (!emails.value) {
     return '';
