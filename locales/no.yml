@@ -31,19 +31,17 @@ about:
   content: >
     # Om IT-Tools
 
-    Denne vidunderlige nettsiden, laget med ❤ av [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=about) , sammenstiller nyttige verktøy for utviklere og folk som jobber innen IT. Hvis du finner dette nyttig, Del det gjerne med andre som du tror kan få nytte av dette, og ikke glem å lage et bokmerke!
+    IT-Tools er en samling nyttige nettverktøy for utviklere og folk som jobber med IT. Alle verktøyene kjører i nettleseren din. Synes du det er nyttig, del det gjerne med andre og legg det til i bokmerkene dine!
 
-    IT Tools er åpen kildekode (under GPL-3.0 lisensen) og gratis, og det vil det alltid være, men det koster å drifte og å fornye domenet. Hvis du ønsker å støtte arbeidet mitt, og motivere meg til å legge til flere verktøy, gjerne støtt meg ved å [sponse meg](https://www.buymeacoffee.com/cthmsst).
+    Dette nettstedet er en tilpasset utgave av åpen kildekode-prosjektet [IT-Tools](https://github.com/CorentinTh/it-tools) av Corentin Thomasset (GPL-3.0-lisens). Kildekoden til denne versjonen finnes på [GitHub](https://github.com/murmur-wu/it-tools).
 
-    ## Teknologier
+    ## Teknologi
 
-    IT Tools er laget i Vue.js (Vue 3) med Naive UI komponent bibliotektet og er hosted og kontinuerlig deployet av Vercel. Tredjeparts åpen-kildekode biblioteker er brukt i noen verktøy, du kan finne den komplette listen i [package.json](https://github.com/CorentinTh/it-tools/blob/main/package.json) filen i depoet.
+    IT-Tools er bygget med Vue.js (Vue 3) og komponentbiblioteket Naive UI, og driftes på Cloudflare. Noen verktøy bruker tredjeparts åpen kildekode-biblioteker; den fullstendige listen finnes i [package.json](https://github.com/murmur-wu/it-tools/blob/main/package.json) i repositoriet.
 
-    ## Funnet en feil? Et verktøy som mangler?
+    ## Funnet en feil? Mangler et verktøy?
 
-    Hvis du trenger et verktøy som foreløpig ikke er tilgjengelig her, og du tenker det kan være nyttig for andre, så er du velkommen til å legge til en funksjonsforespørsel i [problem seksjonen](https://github.com/CorentinTh/it-tools/issues/new/choose) i github-depotet.
-
-    Og hvis du har funnet en feil, eller noe ikke oppfører seg som forventet, vennligst send inn en feilrapport i [problem seksjonen](https://github.com/CorentinTh/it-tools/issues/new/choose) i github-depotet.
+    Funksjonsønsker og feilrapporter er velkomne i [issues-seksjonen](https://github.com/murmur-wu/it-tools/issues) i GitHub-repositoriet.
 
 404:
   notFound: '404 ikke funnet'

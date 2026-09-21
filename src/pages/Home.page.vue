@@ -8,8 +8,8 @@ import { useToolStore } from '@/tools/tools.store';
 
 const toolStore = useToolStore();
 
-useHead({ title: 'IT Tools - Handy online tools for developers' });
 const { t } = useI18n();
+useHead(computed(() => ({ title: `IT Tools - ${t('home.subtitle')}` })));
 
 const favoriteTools = computed(() => toolStore.favoriteTools);
 

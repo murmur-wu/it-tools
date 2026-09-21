@@ -38,40 +38,18 @@ about:
   content: >
     # Über IT-Tools
 
-    Diese wunderbare Website, erstellt mit ❤ von [Corentin
-    Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=about), sammelt nützliche Tools für
-    Entwickler und Menschen, die in der IT arbeiten. Wenn du sie nützlich
-    findest, teile sie gerne mit Personen, von denen du denkst, dass sie sie
-    ebenfalls nützlich finden könnten, und vergiss nicht, sie in deiner
-    Lesezeichenleiste zu speichern!
+    IT-Tools ist eine Sammlung nützlicher Online-Werkzeuge für Entwickler und IT-Fachleute. Alle Werkzeuge laufen vollständig im Browser. Wenn sie dir helfen, teile die Seite gerne mit anderen und setze ein Lesezeichen!
 
-    IT-Tools ist Open Source (unter der GPL-3.0-Lizenz) und kostenlos und wird es
-    immer sein, aber es kostet mich Geld, die Website zu hosten und den
-    Domainnamen zu erneuern. Wenn du meine Arbeit unterstützen möchtest und mich
-    ermutigen möchtest, mehr Tools hinzuzufügen, überlege bitte, mich durch
-    [Sponsoring](https://www.buymeacoffee.com/cthmsst) zu unterstützen.
+    Diese Seite ist eine angepasste Installation des Open-Source-Projekts [IT-Tools](https://github.com/CorentinTh/it-tools) von Corentin Thomasset (GPL-3.0-Lizenz). Der Quellcode dieser Version ist auf [GitHub](https://github.com/murmur-wu/it-tools) verfügbar.
 
     ## Technologien
 
-    IT-Tools wurde mit Vue.js (Vue 3) und der Naive UI-Komponentenbibliothek
-    erstellt und wird von Vercel gehostet und kontinuierlich bereitgestellt. In
-    einigen Tools werden Drittanbieter-Open-Source-Bibliotheken verwendet. Du
-    findest die vollständige Liste in der
-    [package.json](https://github.com/CorentinTh/it-tools/blob/main/package.json)-Datei
-    des Repositorys.
+    IT-Tools basiert auf Vue.js (Vue 3) und der Komponentenbibliothek Naive UI und wird auf Cloudflare gehostet. Einige Werkzeuge verwenden Open-Source-Bibliotheken von Drittanbietern; die vollständige Liste steht in der [package.json](https://github.com/murmur-wu/it-tools/blob/main/package.json) des Repositorys.
 
-    ## Einen Fehler gefunden? Ein Tool fehlt?
+    ## Fehler gefunden? Ein Werkzeug fehlt?
 
-    Wenn du ein Tool benötigst, das hier noch nicht vorhanden ist, und du
-    denkst, dass es nützlich sein könnte, bist du herzlich eingeladen, einen
-    Feature-Request im
-    [Issues-Bereich](https://github.com/CorentinTh/it-tools/issues/new/choose)
-    im GitHub-Repository einzureichen.
+    Funktionswünsche und Fehlerberichte sind im [Issues-Bereich](https://github.com/murmur-wu/it-tools/issues) des GitHub-Repositorys willkommen.
 
-    Und wenn du einen Fehler gefunden hast oder etwas nicht wie erwartet
-    funktioniert, melde bitte einen Fehler im
-    [Issues-Bereich](https://github.com/CorentinTh/it-tools/issues/new/choose)
-    im GitHub-Repository.
 favoriteButton:
   remove: Aus Favoriten entfernen
   add: Zu Favoriten hinzufügen

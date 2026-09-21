@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { RouterView, useRoute } from 'vue-router';
+import { useHead } from '@vueuse/head';
 import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from 'naive-ui';
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
 import { layouts } from './layouts';
 import { useStyleStore } from './stores/style.store';
+import { getPreferredLocale } from './modules/i18n/preferred-locale';
 
 const route = useRoute();
 const layout = computed(() => route?.meta?.layout ?? layouts.base);
@@ -12,12 +14,21 @@ const styleStore = useStyleStore();
 const theme = computed(() => (styleStore.isDarkTheme ? darkTheme : null));
 const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrides : lightThemeOverrides));
 
-const { locale } = useI18n();
+const { locale, availableLocales } = useI18n();
 
-syncRef(
-  locale,
-  useStorage('locale', locale),
-);
+// First visit: pick the language from the browser; afterwards the user's choice is remembered
+const storedLocale = useStorage<string>('locale', '', undefined, { writeDefaults: false });
+if (!availableLocales.includes(storedLocale.value)) {
+  storedLocale.value = getPreferredLocale({
+    requestedLocales: navigator.languages ?? [navigator.language],
+    availableLocales,
+  });
+}
+locale.value = storedLocale.value;
+watch(locale, value => storedLocale.value = value);
+
+// Keep <html lang> in sync with the current language
+useHead(computed(() => ({ htmlAttrs: { lang: locale.value } })));
 </script>
 
 <template>

@@ -5,14 +5,18 @@
 </picture>
 
 <p align="center">
-Useful tools for developer and people working in IT. <a href="https://it-tools.tech">Try it!</a>
+Useful tools for developer and people working in IT. <a href="https://ittools.heitang.info">Try it!</a>
+</p>
+
+<p align="center">
+This is a customised fork of <a href="https://github.com/CorentinTh/it-tools">CorentinTh/it-tools</a>, deployed at <a href="https://ittools.heitang.info">ittools.heitang.info</a>.
 </p>
 
 ## Functionalities and roadmap
 
-Please check the [issues](https://github.com/CorentinTh/it-tools/issues) to see if some feature listed to be implemented.
+Please check the [issues](https://github.com/murmur-wu/it-tools/issues) to see if some feature listed to be implemented.
 
-You have an idea of a tool? Submit a [feature request](https://github.com/CorentinTh/it-tools/issues/new/choose)!
+You have an idea of a tool? Submit a [feature request](https://github.com/murmur-wu/it-tools/issues/new/choose)!
 
 ## Self host
 
