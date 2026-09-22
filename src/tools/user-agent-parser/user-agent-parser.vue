@@ -4,8 +4,10 @@ import { Adjustments, Browser, Cpu, Devices, Engine } from '@vicons/tabler';
 import UserAgentResultCards from './user-agent-result-cards.vue';
 import type { UserAgentResultSection } from './user-agent-parser.types';
 import { withDefaultOnError } from '@/utils/defaults';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const ua = ref(navigator.userAgent as string);
+useSmartPasteInput(ua);
 
 // If not input in the ua field is present return an empty object of type UAParser.IResult because otherwise
 // UAParser returns the values for the current Browser. This is confusing because results are shown for an empty

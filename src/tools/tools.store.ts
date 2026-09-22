@@ -7,6 +7,8 @@ import { toolsWithCategory } from './index';
 
 export const useToolStore = defineStore('tools', () => {
   const favoriteToolsName = useStorage('favoriteToolsName', []) as Ref<string[]>;
+  const recentToolsPath = useStorage('recentToolsPath', []) as Ref<string[]>;
+  const maxRecentTools = 8;
   const { t } = useI18n();
 
   const tools = computed<ToolWithCategory[]>(() => toolsWithCategory.map((tool) => {
@@ -38,9 +40,16 @@ export const useToolStore = defineStore('tools', () => {
       .filter(Boolean) as ToolWithCategory[]; // cast because .filter(Boolean) does not remove undefined from type
   });
 
+  const recentTools = computed(() => {
+    return recentToolsPath.value
+      .map(recentPath => tools.value.find(({ path }) => path === recentPath))
+      .filter(Boolean) as ToolWithCategory[];
+  });
+
   return {
     tools,
     favoriteTools,
+    recentTools,
     toolsByCategory,
     newTools: computed(() => tools.value.filter(({ isNew }) => isNew)),
 
@@ -62,6 +71,17 @@ export const useToolStore = defineStore('tools', () => {
 
     updateFavoriteTools(newOrder: ToolWithCategory[]) {
       favoriteToolsName.value = newOrder.map(tool => tool.path);
+    },
+
+    addToolToRecent({ path }: { path: string }) {
+      if (!tools.value.some(tool => tool.path === path)) {
+        return;
+      }
+      recentToolsPath.value = [path, ...recentToolsPath.value.filter(recentPath => recentPath !== path)].slice(0, maxRecentTools);
+    },
+
+    clearRecentTools() {
+      recentToolsPath.value = [];
     },
   };
 });

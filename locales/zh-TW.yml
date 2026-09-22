@@ -4,6 +4,8 @@ home:
     favoriteTools: '我的收藏'
     allTools: '全部工具'
     favoritesDndToolTip: '拖曳以重新排列收藏'
+    recentTools: '最近使用'
+    clearRecentTools: '清除'
   subtitle: '開發者的實用工具箱'
   toggleMenu: '切換選單'
   home: '首頁'
@@ -55,6 +57,33 @@ toolCard:
   new: '新'
 search:
   label: '搜尋'
+smartPaste:
+  title: '貼上即處理'
+  placeholder: '貼上 JSON、JWT、網址、時間戳、cron、IP、憑證……自動開啟對應的工具'
+  detected: '看起來是：'
+  hint: '直接貼上會立刻開啟最符合的工具；用打字的則會列出可能的工具。'
+  kinds:
+    certificate: '憑證'
+    jwt: 'JWT'
+    json: 'JSON'
+    dockerRun: 'docker run'
+    sql: 'SQL'
+    xml: 'XML / HTML'
+    url: '網址'
+    userAgent: 'User agent'
+    ipv4Cidr: 'IPv4 CIDR'
+    ipv4: 'IPv4 位址'
+    mac: 'MAC 位址'
+    color: '顏色'
+    timestamp: 'Unix 時間戳'
+    date: '日期'
+    cron: 'Cron 運算式'
+    email: 'Email'
+    iban: 'IBAN'
+    yaml: 'YAML'
+    base64: 'Base64'
+    chinese: '中文文字'
+    text: '文字'
 tools:
   categories:
     favorite-tools: '我的收藏'
@@ -426,3 +455,15 @@ tools:
   xml-to-json:
     title: XML 轉 JSON
     description: 將 XML 轉換為 JSON
+
+  certificate-parser:
+    title: X.509 憑證解析
+    description: 解析 PEM 或 DER 憑證（或整條憑證鏈），顯示主體、簽發者、有效期限與剩餘天數、SAN、金鑰類型、金鑰用途、擴充欄位與指紋。全部在瀏覽器中完成。
+
+  jwt-signer:
+    title: JWT 簽章與驗證
+    description: 由 header 與 payload 產生已簽章的 JSON Web Token，或驗證 token 的簽章，支援 HS256/384/512、RS256/384/512、PS256/384/512 與 ES256/384/512。金鑰不會離開瀏覽器。
+
+  chinese-converter:
+    title: 繁簡中文轉換
+    description: 使用 OpenCC 在簡體中文與繁體中文（台灣、香港，可選擇台灣慣用詞，例如「软件」→「軟體」）之間轉換文字，全部在瀏覽器中完成。

@@ -28,8 +28,10 @@ import {
 } from './date-time-converter.models';
 import { withDefaultOnError } from '@/utils/defaults';
 import { useValidation } from '@/composable/validation';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const inputDate = ref('');
+useSmartPasteInput(inputDate);
 
 const toDate: ToDateMapper = date => new Date(date);
 

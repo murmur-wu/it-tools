@@ -2,8 +2,10 @@
 import { extractIBAN, friendlyFormatIBAN, isQRIBAN, validateIBAN } from 'ibantools';
 import { getFriendlyErrors } from './iban-validator-and-parser.service';
 import type { CKeyValueListItems } from '@/ui/c-key-value-list/c-key-value-list.types';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const rawIban = ref('');
+useSmartPasteInput(rawIban);
 
 const ibanInfo = computed<CKeyValueListItems>(() => {
   const iban = rawIban.value.toUpperCase().replace(/\s/g, '').replace(/-/g, '');

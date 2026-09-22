@@ -7,6 +7,7 @@ import hwbPlugin from 'colord/plugins/hwb';
 import namesPlugin from 'colord/plugins/names';
 import lchPlugin from 'colord/plugins/lch';
 import { buildColorFormat } from './color-converter.models';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 extend([cmykPlugin, hwbPlugin, namesPlugin, lchPlugin]);
 
@@ -53,7 +54,7 @@ const formats = {
   }),
 };
 
-updateColorValue(colord('#1ea54c'));
+updateColorValue(colord(useSmartPasteInput() ?? '#1ea54c'));
 
 function updateColorValue(value: Colord | undefined, omitLabel?: string) {
   if (value === undefined) {

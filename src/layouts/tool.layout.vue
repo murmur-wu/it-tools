@@ -6,9 +6,14 @@ import type { HeadObject } from '@vueuse/head';
 import BaseLayout from './base.layout.vue';
 import FavoriteButton from '@/components/FavoriteButton.vue';
 import type { Tool } from '@/tools/tools.types';
+import { useToolStore } from '@/tools/tools.store';
 
 const route = useRoute();
 const { t } = useI18n();
+const toolStore = useToolStore();
+
+// Remember the tools the user opens so the home page can list them under "recent tools"
+watch(() => route.path, path => toolStore.addToolToRecent({ path }), { immediate: true });
 
 const i18nKey = computed<string>(() => route.path.trim().replace('/', ''));
 const toolTitle = computed<string>(() => t(`tools.${i18nKey.value}.title`, String(route.meta.name)));

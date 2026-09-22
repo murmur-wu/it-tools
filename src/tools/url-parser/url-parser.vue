@@ -2,8 +2,10 @@
 import InputCopyable from '../../components/InputCopyable.vue';
 import { isNotThrowing } from '@/utils/boolean';
 import { withDefaultOnError } from '@/utils/defaults';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const urlToParse = ref('https://me:pwd@it-tools.tech:3000/url-parser?key1=value&key2=value2#the-hash');
+useSmartPasteInput(urlToParse);
 
 const urlParsed = computed(() => withDefaultOnError(() => new URL(urlToParse.value), undefined));
 const urlValidationRules = [

@@ -5,10 +5,12 @@ import { formatYaml } from './yaml-models';
 import { withDefaultOnError } from '@/utils/defaults';
 import { useValidation } from '@/composable/validation';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
+import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
 const inputElement = ref<HTMLElement>();
 
 const rawYaml = useStorage('yaml-prettify:raw-yaml', '');
+useSmartPasteInput(rawYaml);
 const indentSize = useStorage('yaml-prettify:indent-size', 2);
 const sortKeys = useStorage('yaml-prettify:sort-keys', false);
 
