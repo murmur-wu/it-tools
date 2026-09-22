@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import {
-  formatISO,
-  formatISO9075,
-  formatRFC3339,
   formatRFC7231,
   fromUnixTime,
   getTime,
   getUnixTime,
   isDate,
   isValid,
-  parseISO,
   parseJSON,
 } from 'date-fns';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import type { DateFormat, ToDateMapper } from './date-time-converter.types';
 import {
   dateToExcelFormat,
@@ -29,35 +26,44 @@ import {
 import { withDefaultOnError } from '@/utils/defaults';
 import { useValidation } from '@/composable/validation';
 import { useToolInput } from '@/composable/toolInput';
+import { getBrowserTimezone, getTimezones } from '@/utils/timezones';
+
+const { t } = useI18n();
 
 const inputDate = ref('');
 useToolInput(inputDate, { example: '2026-09-21T10:30:00Z' });
 
+const timezone = ref(getBrowserTimezone());
+const timezoneOptions = getTimezones().map(value => ({ label: value, value }));
+
 const toDate: ToDateMapper = date => new Date(date);
+// Strings without an explicit offset are interpreted in the selected timezone.
+const toDateInTimezone: ToDateMapper = date => zonedTimeToUtc(date, timezone.value);
+const inTimezone = (pattern: string) => (date: Date) => formatInTimeZone(date, timezone.value, pattern);
 
 const formats: DateFormat[] = [
   {
     name: 'JS locale date string',
-    fromDate: date => date.toString(),
+    fromDate: inTimezone('EEE MMM dd yyyy HH:mm:ss \'GMT\'xx (zzzz)'),
     toDate,
     formatMatcher: () => false,
   },
   {
     name: 'ISO 8601',
-    fromDate: formatISO,
-    toDate: parseISO,
+    fromDate: inTimezone('yyyy-MM-dd\'T\'HH:mm:ssXXX'),
+    toDate: toDateInTimezone,
     formatMatcher: date => isISO8601DateTimeString(date),
   },
   {
     name: 'ISO 9075',
-    fromDate: formatISO9075,
-    toDate: parseISO,
+    fromDate: inTimezone('yyyy-MM-dd HH:mm:ss'),
+    toDate: toDateInTimezone,
     formatMatcher: date => isISO9075DateString(date),
   },
   {
     name: 'RFC 3339',
-    fromDate: formatRFC3339,
-    toDate,
+    fromDate: inTimezone('yyyy-MM-dd\'T\'HH:mm:ssXXX'),
+    toDate: toDateInTimezone,
     formatMatcher: date => isRFC3339DateString(date),
   },
   {
@@ -125,7 +131,7 @@ function onDateInputChanged(value: string) {
 
 const validation = useValidation({
   source: inputDate,
-  watch: [formatIndex],
+  watch: [formatIndex, timezone],
   rules: [
     {
       message: 'This date is invalid for this format',
@@ -171,6 +177,17 @@ function formatDateUsingFormatter(formatter: (date: Date) => string, date?: Date
         data-test-id="date-time-converter-format-select"
       />
     </div>
+
+    <c-select
+      v-model:value="timezone"
+      searchable
+      :label="t('tools.date-converter.timezone')"
+      label-position="left"
+      label-width="110px"
+      :options="timezoneOptions"
+      mt-3
+      data-test-id="date-time-converter-timezone"
+    />
 
     <n-divider />
 

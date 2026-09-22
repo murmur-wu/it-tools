@@ -92,6 +92,10 @@ toolLayout:
   outputCopied: 'Result copied to the clipboard'
   shortcutRun: 'run again'
   shortcutCopy: 'copy result'
+fileUpload:
+  title: Drag and drop files here, or click to select files
+  or: or
+  browse: Browse files
 tools:
   categories:
     favorite-tools: 'Your favorite tools'
@@ -163,6 +167,15 @@ tools:
   crontab-generator:
     title: Crontab generator
     description: Validate and generate crontab and get the human-readable description of the cron schedule.
+    verbose: Verbose
+    use24Hour: Use 24 hour time format
+    daysStartAtZero: Days start at 0
+    invalid: This cron is invalid
+    nextRuns: Next executions
+    timezone: Timezone
+    runAt: 'Run at ({timezone})'
+    rebootHint: This expression runs once at startup, so there is no schedule to preview.
+    noNextRuns: Enter a valid cron expression to preview its next executions.
 
   http-status-codes:
     title: HTTP status codes
@@ -291,6 +304,15 @@ tools:
   qrcode-generator:
     title: QR Code generator
     description: Generate and download a QR code for a URL (or just plain text), and customize the background and foreground colors.
+    decode:
+      title: Read a QR code from an image
+      upload: Drag and drop an image here, or click to select one
+      pasteHint: You can also paste an image from the clipboard (Ctrl+V).
+      result: Decoded content
+      notFound: No QR code found in this image.
+      error: Unable to read this image.
+      useAsInput: Use as text above
+      privacy: The image is processed in your browser and never uploaded.
 
   wifi-qrcode-generator:
     title: WiFi QR Code generator
@@ -335,6 +357,7 @@ tools:
   date-converter:
     title: Date-time converter
     description: Convert date and time into the various different formats
+    timezone: Timezone
 
   phone-parser-and-formatter:
     title: Phone parser and formatter
@@ -355,6 +378,18 @@ tools:
   hash-text:
     title: Hash text
     description: 'Hash a text string using the function you need : MD5, SHA1, SHA256, SHA224, SHA512, SHA384, SHA3 or RIPEMD160'
+    file:
+      title: Hash a file
+      upload: Drag and drop files here, or click to select files
+      algorithms: Algorithms
+      compare: Compare with
+      comparePlaceholder: Paste an expected hash to verify the file...
+      match: 'Matches {algorithm}'
+      mismatch: No computed hash matches
+      hashing: Hashing...
+      clear: Clear files
+      privacy: Files are hashed in your browser and never uploaded.
+      error: Unable to read this file.
 
   json-to-toml:
     title: JSON to TOML

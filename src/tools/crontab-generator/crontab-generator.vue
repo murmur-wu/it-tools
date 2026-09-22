@@ -1,17 +1,45 @@
 <script setup lang="ts">
 import cronstrue from 'cronstrue';
 import { isValidCron } from 'cron-validator';
+import { formatInTimeZone } from 'date-fns-tz';
+import { getNextCronRuns } from './crontab-generator.service';
 import { useStyleStore } from '@/stores/style.store';
 import { useToolInput } from '@/composable/toolInput';
+import { getBrowserTimezone, getTimezones } from '@/utils/timezones';
 
 function isCronValid(v: string) {
   return isValidCron(v, { allowBlankDay: true, alias: true, seconds: true });
 }
 
 const styleStore = useStyleStore();
+const { t } = useI18n();
 
 const cron = ref('40 * * * *');
 useToolInput(cron, { example: '0 9 * * 1-5' });
+
+const timezone = ref(getBrowserTimezone());
+const timezoneOptions = getTimezones().map(value => ({ label: value, value }));
+const now = useNow({ interval: 30_000 });
+
+const nextRuns = computed(() => {
+  if (!isCronValid(cron.value)) {
+    return [];
+  }
+
+  try {
+    return getNextCronRuns({ expression: cron.value, count: 5, from: now.value, timezone: timezone.value })
+      .map(date => ({
+        key: date.getTime(),
+        local: formatInTimeZone(date, timezone.value, 'yyyy-MM-dd HH:mm:ss (EEE)'),
+        iso: date.toISOString(),
+      }));
+  }
+  catch {
+    return [];
+  }
+});
+
+const isReboot = computed(() => cron.value.trim() === '@reboot');
 const cronstrueConfig = reactive({
   verbose: true,
   dayOfWeekStartIndexZero: true,
@@ -104,7 +132,7 @@ const cronString = computed(() => {
 const cronValidationRules = [
   {
     validator: (value: string) => isCronValid(value),
-    message: 'This cron is invalid',
+    message: t('tools.crontab-generator.invalid'),
   },
 ];
 </script>
@@ -129,17 +157,61 @@ const cronValidationRules = [
 
     <div flex justify-center>
       <n-form :show-feedback="false" label-width="170" label-placement="left">
-        <n-form-item label="Verbose">
+        <n-form-item :label="t('tools.crontab-generator.verbose')">
           <n-switch v-model:value="cronstrueConfig.verbose" />
         </n-form-item>
-        <n-form-item label="Use 24 hour time format">
+        <n-form-item :label="t('tools.crontab-generator.use24Hour')">
           <n-switch v-model:value="cronstrueConfig.use24HourTimeFormat" />
         </n-form-item>
-        <n-form-item label="Days start at 0">
+        <n-form-item :label="t('tools.crontab-generator.daysStartAtZero')">
           <n-switch v-model:value="cronstrueConfig.dayOfWeekStartIndexZero" />
         </n-form-item>
       </n-form>
     </div>
+  </c-card>
+
+  <c-card :title="t('tools.crontab-generator.nextRuns')">
+    <c-select
+      v-model:value="timezone"
+      searchable
+      :label="t('tools.crontab-generator.timezone')"
+      label-position="left"
+      label-width="110px"
+      :options="timezoneOptions"
+      mb-4
+      data-test-id="cron-timezone"
+    />
+
+    <div v-if="isReboot" op-70>
+      {{ t('tools.crontab-generator.rebootHint') }}
+    </div>
+    <div v-else-if="nextRuns.length === 0" op-70>
+      {{ t('tools.crontab-generator.noNextRuns') }}
+    </div>
+    <n-table v-else :bordered="false" size="small" data-test-id="cron-next-runs">
+      <thead>
+        <tr>
+          <th w-10>
+            #
+          </th>
+          <th>{{ t('tools.crontab-generator.runAt', { timezone }) }}</th>
+          <th v-if="!styleStore.isSmallScreen">
+            UTC
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(run, index) in nextRuns" :key="run.key">
+          <td>{{ index + 1 }}</td>
+          <td font-mono>
+            {{ run.local }}
+          </td>
+          <td v-if="!styleStore.isSmallScreen" font-mono op-70>
+            {{ run.iso }}
+          </td>
+        </tr>
+      </tbody>
+    </n-table>
   </c-card>
   <c-card>
     <pre>

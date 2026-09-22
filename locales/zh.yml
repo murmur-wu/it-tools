@@ -92,6 +92,10 @@ toolLayout:
   outputCopied: '结果已复制到剪贴板'
   shortcutRun: '重新生成'
   shortcutCopy: '复制结果'
+fileUpload:
+  title: '把文件拖拽到这里，或点击选择文件'
+  or: '或'
+  browse: '浏览文件'
 tools:
   categories:
     favorite-tools: '我的收藏'
@@ -161,6 +165,15 @@ tools:
   crontab-generator:
     title: Crontab 表达式生成
     description: 验证并生成crontab，并获取cron调度的可读描述。
+    verbose: '详细说明'
+    use24Hour: '使用 24 小时制'
+    daysStartAtZero: '星期从 0 开始'
+    invalid: '这个 cron 表达式无效'
+    nextRuns: '接下来的执行时间'
+    timezone: '时区'
+    runAt: '执行时间（{timezone}）'
+    rebootHint: '这个表达式只在系统启动时执行一次，没有计划可以预览。'
+    noNextRuns: '输入有效的 cron 表达式即可预览接下来的执行时间。'
 
   http-status-codes:
     title: HTTP 状态码
@@ -288,6 +301,15 @@ tools:
   qrcode-generator:
     title: 二维码生成器
     description: 生成并下载url或文本的QR代码，并自定义背景和前景颜色。
+    decode:
+      title: '从图片读取二维码'
+      upload: '把图片拖拽到这里，或点击选择图片'
+      pasteHint: '也可以直接从剪贴板粘贴图片（Ctrl+V）。'
+      result: '解码内容'
+      notFound: '这张图片里找不到二维码。'
+      error: '无法读取这张图片。'
+      useAsInput: '填入上方文本'
+      privacy: '图片只在你的浏览器里处理，不会上传。'
 
   wifi-qrcode-generator:
     title: WiFi 二维码生成器
@@ -331,6 +353,7 @@ tools:
   date-converter:
     title: 日期时间转换器
     description: 将日期和时间转换为各种不同的格式
+    timezone: '时区'
 
   phone-parser-and-formatter:
     title: 电话分析器和格式化程序
@@ -351,6 +374,18 @@ tools:
   hash-text:
     title: Hash 文本
     description: '使用所需的函数哈希文本字符串：MD5、SHA1、SHA256、SHA224、SHA512、SHA384、SHA3或RIPEMD160'
+    file:
+      title: '文件哈希'
+      upload: '把文件拖拽到这里，或点击选择文件'
+      algorithms: '算法'
+      compare: '比对哈希值'
+      comparePlaceholder: '粘贴预期的哈希值来验证文件…'
+      match: '与 {algorithm} 相符'
+      mismatch: '没有任何哈希值相符'
+      hashing: '计算中…'
+      clear: '清除文件'
+      privacy: '文件只在你的浏览器里计算，不会上传。'
+      error: '无法读取这个文件。'
 
   json-to-toml:
     title: JSON 转 TOML
