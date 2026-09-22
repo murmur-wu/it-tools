@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { textToNatoAlphabet } from './text-to-nato-alphabet.service';
 import { useCopy } from '@/composable/copy';
+import { useToolInput } from '@/composable/toolInput';
 
 const input = ref('');
+useToolInput(input, { example: 'Hello world' });
 const natoText = computed(() => textToNatoAlphabet({ text: input.value }));
 const { copy } = useCopy({ source: natoText, text: 'NATO alphabet string copied.' });
 </script>

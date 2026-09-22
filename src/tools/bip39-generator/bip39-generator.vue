@@ -20,6 +20,7 @@ import { useCopy } from '@/composable/copy';
 import { useValidation } from '@/composable/validation';
 import { isNotThrowing } from '@/utils/boolean';
 import { withDefaultOnError } from '@/utils/defaults';
+import { useToolRun } from '@/composable/toolInput';
 
 const languages = {
   'English': englishWordList,
@@ -75,6 +76,7 @@ const mnemonicValidation = useValidation({
 function refreshEntropy() {
   entropy.value = generateEntropy();
 }
+useToolRun(refreshEntropy);
 
 const { copy: copyEntropy } = useCopy({ source: entropy, text: 'Entropy copied to the clipboard' });
 const { copy: copyPassphrase } = useCopy({ source: passphrase, text: 'Passphrase copied to the clipboard' });

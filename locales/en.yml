@@ -84,6 +84,14 @@ smartPaste:
     base64: 'Base64'
     chinese: 'Chinese text'
     text: 'Text'
+toolLayout:
+  loadExample: 'Load example'
+  shareLink: 'Share link'
+  shareLinkTooltip: 'Copy a link that opens this tool with the current input'
+  linkCopied: 'Link copied to the clipboard'
+  outputCopied: 'Result copied to the clipboard'
+  shortcutRun: 'run again'
+  shortcutCopy: 'copy result'
 tools:
   categories:
     favorite-tools: 'Your favorite tools'

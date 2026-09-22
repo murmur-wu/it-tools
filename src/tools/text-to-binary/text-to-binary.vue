@@ -3,8 +3,10 @@ import { convertAsciiBinaryToText, convertTextToAsciiBinary } from './text-to-bi
 import { withDefaultOnError } from '@/utils/defaults';
 import { useCopy } from '@/composable/copy';
 import { isNotThrowing } from '@/utils/boolean';
+import { useToolInput } from '@/composable/toolInput';
 
 const inputText = ref('');
+useToolInput(inputText, { example: 'Hello' });
 const binaryFromText = computed(() => convertTextToAsciiBinary(inputText.value));
 const { copy: copyBinary } = useCopy({ source: binaryFromText });
 

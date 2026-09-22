@@ -5,9 +5,11 @@ import type { ShadowRootExpose } from 'vue-shadow-dom';
 import { matchRegex } from './regex-tester.service';
 import { useValidation } from '@/composable/validation';
 import { useQueryParamOrStorage } from '@/composable/queryParams';
+import { useToolInput } from '@/composable/toolInput';
 
 const regex = useQueryParamOrStorage({ name: 'regex', storageName: 'regex-tester:regex', defaultValue: '' });
 const text = ref('');
+useToolInput(text, { example: 'Contact us at hello@example.com or support@ittools.dev' });
 const global = ref(true);
 const ignoreCase = ref(false);
 const multiline = ref(false);

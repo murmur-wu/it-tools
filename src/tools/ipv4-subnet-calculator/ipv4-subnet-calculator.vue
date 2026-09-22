@@ -6,10 +6,10 @@ import { getIPClass } from './ipv4-subnet-calculator.models';
 import { withDefaultOnError } from '@/utils/defaults';
 import { isNotThrowing } from '@/utils/boolean';
 import SpanCopyable from '@/components/SpanCopyable.vue';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput } from '@/composable/toolInput';
 
 const ip = useStorage('ipv4-subnet-calculator:ip', '192.168.0.1/24');
-useSmartPasteInput(ip);
+useToolInput(ip, { example: '192.168.0.1/24' });
 
 const getNetworkInfo = (address: string) => new Netmask(address.trim());
 

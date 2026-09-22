@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import type { UseValidationRule } from '@/composable/validation';
 import CInputText from '@/ui/c-input-text/c-input-text.vue';
+import { useToolInput, useToolOutput } from '@/composable/toolInput';
 
 const props = withDefaults(
   defineProps<{
@@ -31,6 +32,10 @@ const inputElement = ref<typeof CInputText>();
 
 const input = ref(inputDefault.value);
 const output = computed(() => transformer.value(input.value));
+
+// Smart paste, share links, "load example" (the default input) and Ctrl+Shift+C for every converter built on this component
+useToolInput(input, { example: inputDefault.value });
+useToolOutput(output);
 </script>
 
 <template>

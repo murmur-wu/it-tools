@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { generateNumeronym } from './numeronym-generator.service';
+import { useToolInput } from '@/composable/toolInput';
 
 const word = ref('');
+useToolInput(word, { example: 'internationalization' });
 
 const numeronym = computed(() => generateNumeronym(word.value));
 </script>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { type ChineseVariant, convertChinese, countChineseCharacters, sourceVariants, targetVariants } from './chinese-converter.service';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput, useToolOutput } from '@/composable/toolInput';
 
 const input = ref('');
-useSmartPasteInput(input);
+useToolInput(input, { example: '我们的软件在服务器上运行，通过网络接口读取数据库，并把结果打印出来。' });
 
 const from = useStorage<ChineseVariant>('chinese-converter:from', 'cn');
 const to = useStorage<ChineseVariant>('chinese-converter:to', 'twp');
@@ -20,6 +20,7 @@ const output = computed(() => {
     return { text: '', error: error instanceof Error ? error.message : String(error) };
   }
 });
+useToolOutput(() => output.value.text);
 
 const stats = computed(() => ({
   characters: input.value.length,
@@ -36,12 +37,6 @@ function swapDirection() {
   if (output.value.text) {
     input.value = output.value.text;
   }
-}
-
-function loadExample() {
-  from.value = 'cn';
-  to.value = 'twp';
-  input.value = '我们的软件在服务器上运行，通过网络接口读取数据库，并把结果打印出来。';
 }
 </script>
 
@@ -69,10 +64,6 @@ function loadExample() {
       />
       <div mt-2 flex flex-wrap items-center gap-3 text-xs op-70>
         <span>{{ stats.characters }} characters, {{ stats.chinese }} Chinese, {{ stats.changed }} changed</span>
-        <span flex-1 />
-        <c-button size="small" @click="loadExample()">
-          Load example
-        </c-button>
       </div>
     </c-card>
 

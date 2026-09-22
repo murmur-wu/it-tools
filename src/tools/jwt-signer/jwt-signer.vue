@@ -10,7 +10,7 @@ import {
 } from './jwt-signer.service';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
 import { useCopy } from '@/composable/copy';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput, useToolOutput } from '@/composable/toolInput';
 
 const algorithmOptions = jwtAlgorithms.map(value => ({ value, label: `${value} (${value.startsWith('HS') ? 'HMAC' : value.startsWith('RS') ? 'RSA PKCS#1 v1.5' : value.startsWith('PS') ? 'RSA-PSS' : 'ECDSA'} SHA-${value.slice(2)})` }));
 const secretEncodingOptions = [
@@ -57,6 +57,7 @@ const signed = computedAsync(async () => {
     return { token: '', error: error instanceof Error ? error.message : String(error) };
   }
 }, { token: '', error: undefined as string | undefined });
+useToolOutput(() => signed.value.token);
 const { copy: copyToken } = useCopy({ source: computed(() => signed.value.token), text: 'Token copied to the clipboard' });
 
 async function generateKeys() {
@@ -73,7 +74,7 @@ async function generateKeys() {
 
 // Verify
 const tokenToVerify = ref('');
-useSmartPasteInput(tokenToVerify);
+useToolInput(tokenToVerify, { example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' });
 const verifySecret = ref('your-256-bit-secret');
 const verifySecretEncoding = ref<'utf8' | 'base64url'>('utf8');
 const verifyKeyPem = ref('');

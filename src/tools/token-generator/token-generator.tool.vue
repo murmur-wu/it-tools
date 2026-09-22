@@ -3,6 +3,7 @@ import { createToken } from './token-generator.service';
 import { useCopy } from '@/composable/copy';
 import { useQueryParam } from '@/composable/queryParams';
 import { computedRefreshable } from '@/composable/computedRefreshable';
+import { useToolOutput, useToolRun } from '@/composable/toolInput';
 
 const length = useQueryParam({ name: 'length', defaultValue: 64 });
 const withUppercase = useQueryParam({ name: 'uppercase', defaultValue: true });
@@ -20,6 +21,8 @@ const [token, refreshToken] = computedRefreshable(() =>
     withSymbols: withSymbols.value,
   }),
 );
+useToolOutput(token);
+useToolRun(refreshToken);
 
 const { copy } = useCopy({ source: token, text: t('tools.token-generator.copied') });
 </script>

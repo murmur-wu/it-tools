@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { formatXml, isValidXML } from './xml-formatter.service';
 import type { UseValidationRule } from '@/composable/validation';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
 
-const defaultValue = useSmartPasteInput() ?? '<hello><world>foo</world><world>bar</world></hello>';
+const defaultValue = '<hello><world>foo</world><world>bar</world></hello>';
 const indentSize = useStorage('xml-formatter:indent-size', 2);
 const collapseContent = useStorage('xml-formatter:collapse-content', true);
 

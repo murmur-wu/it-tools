@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useObfuscateString } from './string-obfuscator.model';
 import { useCopy } from '@/composable/copy';
+import { useToolInput } from '@/composable/toolInput';
 
 const str = ref('Lorem ipsum dolor sit amet');
+useToolInput(str, { example: 'Lorem ipsum dolor sit amet' });
 const keepFirst = ref(4);
 const keepLast = ref(4);
 const keepSpace = ref(true);

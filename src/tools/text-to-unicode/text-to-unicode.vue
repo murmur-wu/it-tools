@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { convertTextToUnicode, convertUnicodeToText } from './text-to-unicode.service';
 import { useCopy } from '@/composable/copy';
+import { useToolInput } from '@/composable/toolInput';
 
 const inputText = ref('');
+useToolInput(inputText, { example: 'Hello 世界' });
 const unicodeFromText = computed(() => inputText.value.trim() === '' ? '' : convertTextToUnicode(inputText.value));
 const { copy: copyUnicode } = useCopy({ source: unicodeFromText });
 

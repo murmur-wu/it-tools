@@ -4,6 +4,7 @@ import TextareaCopyable from '@/components/TextareaCopyable.vue';
 import { withDefaultOnErrorAsync } from '@/utils/defaults';
 import { useValidation } from '@/composable/validation';
 import { computedRefreshableAsync } from '@/composable/computedRefreshable';
+import { useToolRun } from '@/composable/toolInput';
 
 const bits = ref(2048);
 const emptyCerts = { publicKeyPem: '', privateKeyPem: '' };
@@ -22,6 +23,7 @@ const [certs, refreshCerts] = computedRefreshableAsync(
   () => withDefaultOnErrorAsync(() => generateKeyPair({ bits: bits.value }), emptyCerts),
   emptyCerts,
 );
+useToolRun(refreshCerts);
 </script>
 
 <template>

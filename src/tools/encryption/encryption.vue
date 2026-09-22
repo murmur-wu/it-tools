@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { AES, RC4, Rabbit, TripleDES, enc } from 'crypto-js';
 import { computedCatch } from '@/composable/computed/catchedComputed';
+import { useToolInput } from '@/composable/toolInput';
 
 const algos = { AES, TripleDES, Rabbit, RC4 };
 
 const cypherInput = ref('Lorem ipsum dolor sit amet');
+useToolInput(cypherInput, { example: 'Lorem ipsum dolor sit amet' });
 const cypherAlgo = ref<keyof typeof algos>('AES');
 const cypherSecret = ref('my secret key');
 const cypherOutput = computed(() => algos[cypherAlgo.value].encrypt(cypherInput.value, cypherSecret.value).toString());

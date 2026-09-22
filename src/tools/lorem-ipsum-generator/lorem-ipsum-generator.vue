@@ -3,6 +3,7 @@ import { generateLoremIpsum } from './lorem-ipsum-generator.service';
 import { useCopy } from '@/composable/copy';
 import { randIntFromInterval } from '@/utils/random';
 import { computedRefreshable } from '@/composable/computedRefreshable';
+import { useToolOutput, useToolRun } from '@/composable/toolInput';
 
 const paragraphs = ref(1);
 const sentences = ref([3, 8]);
@@ -19,6 +20,8 @@ const [loremIpsumText, refreshLoremIpsum] = computedRefreshable(() =>
     startWithLoremIpsum: startWithLoremIpsum.value,
   }),
 );
+useToolOutput(loremIpsumText);
+useToolRun(refreshLoremIpsum);
 
 const { copy } = useCopy({ source: loremIpsumText, text: 'Lorem ipsum copied to the clipboard' });
 </script>

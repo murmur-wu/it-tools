@@ -7,7 +7,7 @@ import hwbPlugin from 'colord/plugins/hwb';
 import namesPlugin from 'colord/plugins/names';
 import lchPlugin from 'colord/plugins/lch';
 import { buildColorFormat } from './color-converter.models';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput } from '@/composable/toolInput';
 
 extend([cmykPlugin, hwbPlugin, namesPlugin, lchPlugin]);
 
@@ -54,7 +54,10 @@ const formats = {
   }),
 };
 
-updateColorValue(colord(useSmartPasteInput() ?? '#1ea54c'));
+// Main input for smart paste, share links and "load example"; every format field stays in sync through updateColorValue
+const colorInput = ref('#1ea54c');
+useToolInput(colorInput, { example: '#1ea54c' });
+watch(colorInput, value => updateColorValue(colord(value)), { immediate: true });
 
 function updateColorValue(value: Colord | undefined, omitLabel?: string) {
   if (value === undefined) {

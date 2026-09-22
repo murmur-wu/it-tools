@@ -5,12 +5,12 @@ import { formatYaml } from './yaml-models';
 import { withDefaultOnError } from '@/utils/defaults';
 import { useValidation } from '@/composable/validation';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput } from '@/composable/toolInput';
 
 const inputElement = ref<HTMLElement>();
 
 const rawYaml = useStorage('yaml-prettify:raw-yaml', '');
-useSmartPasteInput(rawYaml);
+useToolInput(rawYaml, { example: 'name: it-tools\nversion: 1\nservices:\n  web:\n    image: nginx\n    ports:\n      - "80:80"' });
 const indentSize = useStorage('yaml-prettify:indent-size', 2);
 const sortKeys = useStorage('yaml-prettify:sort-keys', false);
 

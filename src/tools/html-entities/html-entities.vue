@@ -2,8 +2,10 @@
 import { escape, unescape } from 'lodash';
 
 import { useCopy } from '@/composable/copy';
+import { useToolInput } from '@/composable/toolInput';
 
 const escapeInput = ref('<title>IT Tool</title>');
+useToolInput(escapeInput, { example: '<title>IT Tools & "friends"</title>' });
 const escapeOutput = computed(() => escape(escapeInput.value));
 const { copy: copyEscaped } = useCopy({ source: escapeOutput });
 
