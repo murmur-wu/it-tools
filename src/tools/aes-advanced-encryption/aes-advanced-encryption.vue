@@ -13,6 +13,7 @@ import {
   validateIv,
 } from './aes-advanced-encryption.service';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
+import { useToolInput } from '@/composable/toolInput';
 
 const bytesEncodingOptions = [
   { label: 'Hexadecimal', value: 'hex' },
@@ -110,6 +111,7 @@ function getSettingsError(): string | undefined {
 
 // Encrypt
 const plaintext = ref('Lorem ipsum dolor sit amet');
+useToolInput(plaintext, { example: 'Lorem ipsum dolor sit amet' });
 const ciphertextEncoding = ref<BytesEncoding>('base64');
 const emptyResult = { value: '', error: undefined as string | undefined };
 
@@ -189,7 +191,7 @@ function useEncryptedOutputAsInput() {
           v-model:value="key"
           label="Key:"
           placeholder="Secret key (16, 24 or 32 bytes)"
-          raw-text clearable monospace flex-1
+          raw-text monospace clearable flex-1
           test-id="aes-key"
         />
         <c-select

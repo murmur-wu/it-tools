@@ -84,6 +84,14 @@ smartPaste:
     base64: 'Base64'
     chinese: '中文文字'
     text: '文字'
+toolLayout:
+  loadExample: '載入範例'
+  shareLink: '分享連結'
+  shareLinkTooltip: '複製一個會帶著目前輸入內容開啟此工具的連結'
+  linkCopied: '連結已複製到剪貼簿'
+  outputCopied: '結果已複製到剪貼簿'
+  shortcutRun: '重新產生'
+  shortcutCopy: '複製結果'
 tools:
   categories:
     favorite-tools: '我的收藏'

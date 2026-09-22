@@ -3,8 +3,10 @@ import { useCopy } from '@/composable/copy';
 import { useValidation } from '@/composable/validation';
 import { isNotThrowing } from '@/utils/boolean';
 import { withDefaultOnError } from '@/utils/defaults';
+import { useToolInput } from '@/composable/toolInput';
 
 const encodeInput = ref('Hello world :)');
+useToolInput(encodeInput, { example: 'Hello world :) & more?' });
 const encodeOutput = computed(() => withDefaultOnError(() => encodeURIComponent(encodeInput.value), ''));
 
 const encodedValidation = useValidation({

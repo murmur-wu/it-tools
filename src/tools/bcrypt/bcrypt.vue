@@ -2,10 +2,12 @@
 import { compareSync, hashSync } from 'bcryptjs';
 import { useThemeVars } from 'naive-ui';
 import { useCopy } from '@/composable/copy';
+import { useToolInput } from '@/composable/toolInput';
 
 const themeVars = useThemeVars();
 
 const input = ref('');
+useToolInput(input, { example: 'correct horse battery staple' });
 const saltCount = ref(10);
 const hashed = computed(() => hashSync(input.value, saltCount.value));
 const { copy } = useCopy({ source: hashed, text: 'Hashed string copied to the clipboard' });

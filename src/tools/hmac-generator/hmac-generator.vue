@@ -14,6 +14,7 @@ import {
 
 import { convertHexToBin } from '../hash-text/hash-text.service';
 import { useCopy } from '@/composable/copy';
+import { useToolInput } from '@/composable/toolInput';
 
 const algos = {
   MD5: HmacMD5,
@@ -36,6 +37,7 @@ function formatWithEncoding(words: lib.WordArray, encoding: Encoding) {
 }
 
 const plainText = ref('');
+useToolInput(plainText, { example: 'Hello world' });
 const secret = ref('');
 const hashFunction = ref<keyof typeof algos>('SHA256');
 const encoding = ref<Encoding>('Hex');

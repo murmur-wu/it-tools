@@ -9,8 +9,10 @@ import {
 import { withDefaultOnError } from '@/utils/defaults';
 import { booleanToHumanReadable } from '@/utils/boolean';
 import { useValidation } from '@/composable/validation';
+import { useToolInput } from '@/composable/toolInput';
 
 const rawPhone = ref('');
+useToolInput(rawPhone, { example: '+886 2 2345 6789' });
 const defaultCountryCode = ref(getDefaultCountryCode());
 const validation = useValidation({
   source: rawPhone,

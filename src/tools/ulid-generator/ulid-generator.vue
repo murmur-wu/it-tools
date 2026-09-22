@@ -3,6 +3,7 @@ import { ulid } from 'ulid';
 import _ from 'lodash';
 import { computedRefreshable } from '@/composable/computedRefreshable';
 import { useCopy } from '@/composable/copy';
+import { useToolOutput, useToolRun } from '@/composable/toolInput';
 
 const amount = useStorage('ulid-generator-amount', 1);
 const formats = [{ label: 'Raw', value: 'raw' }, { label: 'JSON', value: 'json' }] as const;
@@ -17,6 +18,8 @@ const [ulids, refreshUlids] = computedRefreshable(() => {
 
   return ids.join('\n');
 });
+useToolOutput(ulids);
+useToolRun(refreshUlids);
 
 const { copy } = useCopy({ source: ulids, text: 'ULIDs copied to the clipboard' });
 </script>

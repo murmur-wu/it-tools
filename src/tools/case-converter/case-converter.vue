@@ -13,12 +13,14 @@ import {
   snakeCase,
 } from 'change-case';
 import InputCopyable from '../../components/InputCopyable.vue';
+import { useToolInput } from '@/composable/toolInput';
 
 const baseConfig = {
   stripRegexp: /[^A-Za-zÀ-ÖØ-öø-ÿ]+/gi,
 };
 
 const input = ref('lorem ipsum dolor sit amet');
+useToolInput(input, { example: 'lorem ipsum dolor sit amet' });
 
 const formats = computed(() => [
   {

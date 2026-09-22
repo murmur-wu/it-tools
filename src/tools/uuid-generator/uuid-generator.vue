@@ -3,6 +3,7 @@ import { v1 as generateUuidV1, v3 as generateUuidV3, v4 as generateUuidV4, v5 as
 import { useCopy } from '@/composable/copy';
 import { computedRefreshable } from '@/composable/computedRefreshable';
 import { withDefaultOnError } from '@/utils/defaults';
+import { useToolOutput, useToolRun } from '@/composable/toolInput';
 
 const versions = ['NIL', 'v1', 'v3', 'v4', 'v5'] as const;
 
@@ -41,6 +42,8 @@ const [uuids, refreshUUIDs] = computedRefreshable(() => withDefaultOnError(() =>
     const generator = generators[version.value] ?? generators.NIL;
     return generator(index);
   }).join('\n'), ''));
+useToolOutput(uuids);
+useToolRun(refreshUUIDs);
 
 const { copy } = useCopy({ source: uuids, text: 'UUIDs copied to the clipboard' });
 </script>

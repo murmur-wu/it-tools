@@ -2,6 +2,7 @@
 import InputCopyable from '../../components/InputCopyable.vue';
 import { convertBase } from './integer-base-converter.model';
 import { getErrorMessageIfThrows } from '@/utils/error';
+import { useToolInput } from '@/composable/toolInput';
 
 const inputProps = {
   'labelPosition': 'left',
@@ -12,6 +13,7 @@ const inputProps = {
 } as const;
 
 const input = ref('42');
+useToolInput(input, { example: '42' });
 const inputBase = ref(10);
 const outputBase = ref(42);
 

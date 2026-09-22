@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import markdownit from 'markdown-it';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
+import { useToolInput } from '@/composable/toolInput';
 
 const inputMarkdown = ref('');
+useToolInput(inputMarkdown, { example: '# IT Tools\n\nSome **bold** and _italic_ text.\n\n- item one\n- item two\n\n[link](https://ittools.heitang.info)' });
 const outputHtml = computed(() => {
   const md = markdownit();
   return md.render(inputMarkdown.value);

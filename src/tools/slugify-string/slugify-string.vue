@@ -2,8 +2,10 @@
 import slugify from '@sindresorhus/slugify';
 import { withDefaultOnError } from '@/utils/defaults';
 import { useCopy } from '@/composable/copy';
+import { useToolInput } from '@/composable/toolInput';
 
 const input = ref('');
+useToolInput(input, { example: 'Hello World, IT Tools!' });
 const slug = computed(() => withDefaultOnError(() => slugify(input.value), ''));
 const { copy } = useCopy({ source: slug, text: 'Slug copied to clipboard' });
 </script>

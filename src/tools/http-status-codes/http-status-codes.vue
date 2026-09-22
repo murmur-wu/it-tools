@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { codesByCategories } from './http-status-codes.constants';
 import { useFuzzySearch } from '@/composable/fuzzySearch';
+import { useToolInput } from '@/composable/toolInput';
 
 const search = ref('');
+useToolInput(search, { example: '404' });
 
 const { searchResult } = useFuzzySearch({
   search,

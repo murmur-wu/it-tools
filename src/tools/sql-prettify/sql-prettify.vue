@@ -2,7 +2,7 @@
 import { type FormatOptionsWithLanguage, format as formatSQL } from 'sql-formatter';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
 import { useStyleStore } from '@/stores/style.store';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput } from '@/composable/toolInput';
 
 const inputElement = ref<HTMLElement>();
 const styleStore = useStyleStore();
@@ -15,7 +15,7 @@ const config = reactive<FormatOptionsWithLanguage>({
 });
 
 const rawSQL = ref('select field1,field2,field3 from my_table where my_condition;');
-useSmartPasteInput(rawSQL);
+useToolInput(rawSQL, { example: 'select u.id, u.name, count(o.id) as orders from users u left join orders o on o.user_id = u.id where u.active = 1 group by u.id, u.name order by orders desc limit 10;' });
 const prettySQL = computed(() => formatSQL(rawSQL.value, config));
 </script>
 

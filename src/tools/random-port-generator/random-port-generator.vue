@@ -2,8 +2,11 @@
 import { generatePort } from './random-port-generator.model';
 import { computedRefreshable } from '@/composable/computedRefreshable';
 import { useCopy } from '@/composable/copy';
+import { useToolOutput, useToolRun } from '@/composable/toolInput';
 
 const [port, refreshPort] = computedRefreshable(() => String(generatePort()));
+useToolOutput(port);
+useToolRun(refreshPort);
 
 const { copy } = useCopy({ source: port, text: 'Port copied to the clipboard' });
 </script>

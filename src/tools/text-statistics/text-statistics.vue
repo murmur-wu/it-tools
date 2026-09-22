@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { getStringSizeInBytes } from './text-statistics.service';
 import { formatBytes } from '@/utils/convert';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput } from '@/composable/toolInput';
 
 const text = ref('');
-useSmartPasteInput(text);
+useToolInput(text, { example: 'IT Tools is a collection of handy online tools for developers.\nEverything runs in your browser.' });
 </script>
 
 <template>

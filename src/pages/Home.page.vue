@@ -6,11 +6,26 @@ import Draggable from 'vuedraggable';
 import ToolCard from '../components/ToolCard.vue';
 import SmartPasteBox from '@/modules/smart-paste/components/smart-paste-box.vue';
 import { useToolStore } from '@/tools/tools.store';
+import { config } from '@/config';
 
 const toolStore = useToolStore();
 
 const { t } = useI18n();
-useHead(computed(() => ({ title: `IT Tools - ${t('home.subtitle')}` })));
+useHead(computed(() => ({
+  title: `IT Tools - ${t('home.subtitle')}`,
+  script: config.app.siteUrl
+    ? [{
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          'name': 'IT Tools',
+          'url': config.app.siteUrl,
+          'description': t('home.subtitle'),
+        }),
+      }]
+    : [],
+})));
 
 const favoriteTools = computed(() => toolStore.favoriteTools);
 

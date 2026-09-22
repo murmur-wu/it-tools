@@ -2,8 +2,10 @@
 import { SHA1 } from 'crypto-js';
 import InputCopyable from '@/components/InputCopyable.vue';
 import { macAddressValidation } from '@/utils/macAddress';
+import { useToolInput } from '@/composable/toolInput';
 
 const macAddress = ref('20:37:06:12:34:56');
+useToolInput(macAddress, { example: '20:37:06:12:34:56' });
 const calculatedSections = computed(() => {
   const timestamp = new Date().getTime();
   const hex40bit = SHA1(timestamp + macAddress.value)

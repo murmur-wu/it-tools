@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { type ParsedCertificate, parseCertificates } from './certificate-parser.service';
 import { rsaCertificatePem } from './certificate-parser.fixtures';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput } from '@/composable/toolInput';
 
 const rawInput = ref('');
-useSmartPasteInput(rawInput);
+useToolInput(rawInput, { example: rsaCertificatePem });
 
 const result = computed<{ certificates: ParsedCertificate[]; error?: undefined } | { certificates: []; error: string }>(() => {
   if (rawInput.value.trim().length === 0) {
@@ -31,10 +31,6 @@ function formatDate(date: Date) {
 function commonName(certificate: ParsedCertificate) {
   return certificate.subject.find(({ shortName }) => shortName === 'CN')?.value ?? certificate.subjectString;
 }
-
-function loadExample() {
-  rawInput.value = rsaCertificatePem;
-}
 </script>
 
 <template>
@@ -48,11 +44,8 @@ function loadExample() {
         raw-text autosize autofocus multiline monospace
         test-id="certificate-input"
       />
-      <div mt-3 flex justify-between>
-        <span text-xs op-70>Paste one certificate or a whole chain. Everything is parsed in your browser.</span>
-        <c-button size="small" @click="loadExample()">
-          Load example
-        </c-button>
+      <div mt-3 text-xs op-70>
+        Paste one certificate or a whole chain. Everything is parsed in your browser.
       </div>
     </c-card>
 

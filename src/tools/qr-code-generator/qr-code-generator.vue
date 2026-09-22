@@ -2,6 +2,7 @@
 import type { QRCodeErrorCorrectionLevel } from 'qrcode';
 import { useQRCode } from './useQRCode';
 import { useDownloadFileFromBase64 } from '@/composable/downloadBase64';
+import { useToolInput } from '@/composable/toolInput';
 
 const foreground = ref('#000000ff');
 const background = ref('#ffffffff');
@@ -10,6 +11,7 @@ const errorCorrectionLevel = ref<QRCodeErrorCorrectionLevel>('medium');
 const errorCorrectionLevels = ['low', 'medium', 'quartile', 'high'];
 
 const text = ref('https://it-tools.tech');
+useToolInput(text, { example: 'https://ittools.heitang.info' });
 const { qrcode } = useQRCode({
   text,
   color: {

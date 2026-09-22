@@ -8,6 +8,7 @@ import {
 } from './roman-numeral-converter.service';
 import { useCopy } from '@/composable/copy';
 import { useValidation } from '@/composable/validation';
+import { useToolInput } from '@/composable/toolInput';
 
 const inputNumeral = ref(42);
 const outputRoman = computed(() => arabicToRoman(inputNumeral.value));
@@ -23,6 +24,7 @@ const { attrs: validationNumeral } = useValidation({
 });
 
 const inputRoman = ref('XLII');
+useToolInput(inputRoman, { example: 'MMXXVI' });
 const outputNumeral = computed(() => romanToArabic(inputRoman.value));
 
 const validationRoman = useValidation({

@@ -2,17 +2,18 @@
 import { useCopy } from '@/composable/copy';
 import { base64ToText, isValidBase64, textToBase64 } from '@/utils/base64';
 import { withDefaultOnError } from '@/utils/defaults';
-import { useSmartPasteInput } from '@/composable/smartPasteInput';
+import { useToolInput, useToolOutput } from '@/composable/toolInput';
 
 const encodeUrlSafe = useStorage('base64-string-converter--encode-url-safe', false);
 const decodeUrlSafe = useStorage('base64-string-converter--decode-url-safe', false);
 
 const textInput = ref('');
 const base64Output = computed(() => textToBase64(textInput.value, { makeUrlSafe: encodeUrlSafe.value }));
+useToolOutput(base64Output);
 const { copy: copyTextBase64 } = useCopy({ source: base64Output, text: 'Base64 string copied to the clipboard' });
 
 const base64Input = ref('');
-useSmartPasteInput(base64Input);
+useToolInput(base64Input, { example: 'SGVsbG8gd29ybGQh' });
 const textOutput = computed(() =>
   withDefaultOnError(() => base64ToText(base64Input.value.trim(), { makeUrlSafe: decodeUrlSafe.value }), ''),
 );

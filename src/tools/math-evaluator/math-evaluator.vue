@@ -2,8 +2,10 @@
 import { evaluate } from 'mathjs';
 
 import { withDefaultOnError } from '@/utils/defaults';
+import { useToolInput } from '@/composable/toolInput';
 
 const expression = ref('');
+useToolInput(expression, { example: 'sqrt(16) + 2 * (3 + 4)' });
 
 const result = computed(() => withDefaultOnError(() => evaluate(expression.value) ?? '', ''));
 </script>

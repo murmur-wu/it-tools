@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import figlet from 'figlet';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
+import { useToolInput } from '@/composable/toolInput';
 
 const input = ref('Ascii ART');
+useToolInput(input, { example: 'IT Tools' });
 const font = useStorage('ascii-text-drawer:font', 'Standard');
 const width = useStorage('ascii-text-drawer:width', 80);
 const output = ref('');

@@ -4,6 +4,7 @@ import { generateRandomMacAddress } from './mac-adress-generator.models';
 import { computedRefreshable } from '@/composable/computedRefreshable';
 import { useCopy } from '@/composable/copy';
 import { usePartialMacAddressValidation } from '@/utils/macAddress';
+import { useToolOutput, useToolRun } from '@/composable/toolInput';
 
 const amount = useStorage('mac-address-generator-amount', 1);
 const macAddressPrefix = useStorage('mac-address-generator-prefix', '64:16:7F');
@@ -47,6 +48,8 @@ const [macAddresses, refreshMacAddresses] = computedRefreshable(() => {
   })));
   return ids.join('\n');
 });
+useToolOutput(macAddresses);
+useToolRun(refreshMacAddresses);
 
 const { copy } = useCopy({ source: macAddresses, text: 'MAC addresses copied to the clipboard' });
 </script>
