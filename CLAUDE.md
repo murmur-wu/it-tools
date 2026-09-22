@@ -1,12 +1,12 @@
 # 專案開發規範
 
-本 repo 是 [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools) 的客製化 fork，部署於 https://ittools.heitang.info。
+本 repo 原始碼源自 [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools)（GPL-3.0，已脫離 fork 獨立維護），部署於 https://ittools.heitang.info。上游已停止更新，不再同步。
 
 ## 分支流程
 
-- `main`：保留給同步上游用，不直接開發。
-- `dev`：開發主線，Cloudflare 從這裡部署正式站。
-- 功能一律開分支，PR 目標是 `dev`，合併後刪除分支。
+- `main`：唯一主線，Cloudflare 從這裡部署正式站，不直接 push。
+- 功能一律開分支，PR 目標是 `main`，合併後刪除分支。
+- 若日後需要參考上游修正，用本機 `upstream` remote 抓下來 cherry-pick，不做整支合併。
 
 ## Commit 訊息
 
