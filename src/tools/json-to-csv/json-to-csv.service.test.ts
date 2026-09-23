@@ -75,14 +75,14 @@ describe('json-to-csv service', () => {
       `);
     });
 
-    it('when a value contains a double quote, it is escaped with another double quote', () => {
+    it('when a value contains a double quote, the field is quoted and inner quotes are doubled (RFC 4180)', () => {
       const array = [
         { a: 'hello "world"', b: 2 },
       ];
 
       expect(convertArrayToCsv({ array })).toMatchInlineSnapshot(`
         "a,b
-        hello \\\\\\"world\\\\\\",2"
+        \\"hello \\"\\"world\\"\\"\\",2"
       `);
     });
   });
