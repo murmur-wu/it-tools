@@ -7,8 +7,10 @@ import ToolCard from '../components/ToolCard.vue';
 import SmartPasteBox from '@/modules/smart-paste/components/smart-paste-box.vue';
 import { useToolStore } from '@/tools/tools.store';
 import { config } from '@/config';
+import { useCollapsedCategories } from '@/composable/collapsedCategories';
 
 const toolStore = useToolStore();
+const { isCollapsed, toggle: toggleCategory } = useCollapsedCategories('home-tool-categories:collapsed');
 
 const { t } = useI18n();
 useHead(computed(() => ({
@@ -86,8 +88,28 @@ function onUpdateFavoriteTools() {
       <h3 class="mb-5px mt-25px text-neutral-400 font-500">
         {{ $t('home.categories.allTools') }}
       </h3>
-      <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
-        <ToolCard v-for="tool in toolStore.tools" :key="tool.name" :tool="tool" />
+
+      <div v-for="{ key, name, components } in toolStore.toolsByCategory" :key="key">
+        <h4
+          class="mb-5px mt-15px flex cursor-pointer select-none items-center text-neutral-400 font-500"
+          :data-test-id="`home-category-${key}`"
+          @click="toggleCategory({ key })"
+        >
+          <span
+            class="text-16px lh-1 op-50 transition-transform"
+            :class="{ 'rotate-0': isCollapsed({ key }), 'rotate-90': !isCollapsed({ key }) }"
+          >
+            <icon-mdi-chevron-right />
+          </span>
+          <span ml-6px>{{ name }}</span>
+          <span ml-8px text-12px op-50>{{ components.length }}</span>
+        </h4>
+
+        <n-collapse-transition :show="!isCollapsed({ key })">
+          <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
+            <ToolCard v-for="tool in components" :key="tool.name" :tool="tool" />
+          </div>
+        </n-collapse-transition>
       </div>
     </div>
   </div>

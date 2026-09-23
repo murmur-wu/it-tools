@@ -19,16 +19,16 @@ export const useToolStore = defineStore('tools', () => {
       path: tool.path,
       name: t(`tools.${toolI18nKey}.title`, tool.name),
       description: t(`tools.${toolI18nKey}.description`, tool.description),
-      category: t(`tools.categories.${tool.category.toLowerCase()}`, tool.category),
+      category: t(`tools.categories.${tool.categoryKey.toLowerCase()}`, tool.categoryKey),
     });
   }));
 
   const toolsByCategory = computed<ToolCategory[]>(() => {
     return _.chain(tools.value)
-      .groupBy('category')
-      .map((components, name, path) => ({
-        name,
-        path,
+      .groupBy('categoryKey')
+      .map((components, key) => ({
+        key,
+        name: components[0].category,
         components,
       }))
       .value();

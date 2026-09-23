@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useStorage } from '@vueuse/core';
 import { useThemeVars } from 'naive-ui';
 import { RouterLink, useRoute } from 'vue-router';
 import MenuIconItem from './MenuIconItem.vue';
 import type { Tool, ToolCategory } from '@/tools/tools.types';
+import { useCollapsedCategories } from '@/composable/collapsedCategories';
 
 const props = withDefaults(defineProps<{ toolsByCategory?: ToolCategory[] }>(), { toolsByCategory: () => [] });
 const { toolsByCategory } = toRefs(props);
@@ -12,27 +12,13 @@ const route = useRoute();
 const makeLabel = (tool: Tool) => () => h(RouterLink, { to: tool.path }, { default: () => tool.name });
 const makeIcon = (tool: Tool) => () => h(MenuIconItem, { tool });
 
-const collapsedCategories = useStorage<Record<string, boolean>>(
-  'menu-tool-option:collapsed-categories',
-  {},
-  undefined,
-  {
-    deep: true,
-    serializer: {
-      read: v => (v ? JSON.parse(v) : null),
-      write: v => JSON.stringify(v),
-    },
-  },
-);
-
-function toggleCategoryCollapse({ name }: { name: string }) {
-  collapsedCategories.value[name] = !collapsedCategories.value[name];
-}
+const { isCollapsed, toggle: toggleCategoryCollapse } = useCollapsedCategories('menu-tool-option:collapsed-categories');
 
 const menuOptions = computed(() =>
-  toolsByCategory.value.map(({ name, components }) => ({
+  toolsByCategory.value.map(({ name, key, components }) => ({
     name,
-    isCollapsed: collapsedCategories.value[name],
+    key,
+    collapsed: isCollapsed({ key, legacyKey: name }),
     tools: components.map(tool => ({
       label: makeLabel(tool),
       icon: makeIcon(tool),
@@ -45,9 +31,9 @@ const themeVars = useThemeVars();
 </script>
 
 <template>
-  <div v-for="{ name, tools, isCollapsed } of menuOptions" :key="name">
-    <div ml-6px mt-12px flex cursor-pointer items-center op-60 @click="toggleCategoryCollapse({ name })">
-      <span :class="{ 'rotate-0': isCollapsed, 'rotate-90': !isCollapsed }" text-16px lh-1 op-50 transition-transform>
+  <div v-for="{ name, key, tools, collapsed } of menuOptions" :key="key">
+    <div ml-6px mt-12px flex cursor-pointer items-center op-60 @click="toggleCategoryCollapse({ key, legacyKey: name })">
+      <span :class="{ 'rotate-0': collapsed, 'rotate-90': !collapsed }" text-16px lh-1 op-50 transition-transform>
         <icon-mdi-chevron-right />
       </span>
 
@@ -56,9 +42,9 @@ const themeVars = useThemeVars();
       </span>
     </div>
 
-    <n-collapse-transition :show="!isCollapsed">
+    <n-collapse-transition :show="!collapsed">
       <div class="menu-wrapper">
-        <div class="toggle-bar" @click="toggleCategoryCollapse({ name })" />
+        <div class="toggle-bar" @click="toggleCategoryCollapse({ key, legacyKey: name })" />
 
         <n-menu
           class="menu"
