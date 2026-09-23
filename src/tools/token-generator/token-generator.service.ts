@@ -1,4 +1,4 @@
-import { shuffleString } from '@/utils/random';
+import { pickRandom } from '@/utils/secureRandom';
 
 export function createToken({
   withUppercase = true,
@@ -16,11 +16,17 @@ export function createToken({
   alphabet?: string
 }) {
   const allAlphabet = alphabet ?? [
-    withUppercase ? 'ABCDEFGHIJKLMOPQRSTUVWXYZ' : '',
-    withLowercase ? 'abcdefghijklmopqrstuvwxyz' : '',
+    withUppercase ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '',
+    withLowercase ? 'abcdefghijklmnopqrstuvwxyz' : '',
     withNumbers ? '0123456789' : '',
     withSymbols ? '.,;:!?./-"\'#{([-|\\@)]=}*+' : '',
   ].join('');
 
-  return shuffleString(allAlphabet.repeat(length)).substring(0, length);
+  if (allAlphabet.length === 0 || length <= 0) {
+    return '';
+  }
+
+  const characters = [...allAlphabet];
+
+  return Array.from({ length }, () => pickRandom(characters)).join('');
 }

@@ -18,4 +18,19 @@ test.describe('Tool guide section', () => {
 
     await expect(page.getByTestId('tool-guide')).toHaveCount(0);
   });
+
+  test('follows the tool when navigating between tools without a page reload', async ({ page }) => {
+    await page.goto('/password-generator');
+    await expect(page.getByTestId('tool-guide')).toContainText('Password generator');
+
+    // Client-side navigation keeps the layout mounted, so the guide must update in place
+    await page.locator('a[href="/hash-text"]').first().click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hash text');
+    await expect(page.getByTestId('tool-guide')).toContainText('Hash text');
+    await expect(page.getByTestId('tool-guide')).not.toContainText('Password generator');
+
+    await page.locator('a[href="/token-generator"]').first().click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Token generator');
+    await expect(page.getByTestId('tool-guide')).toHaveCount(0);
+  });
 });

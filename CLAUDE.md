@@ -60,5 +60,6 @@
 ## 其他慣例
 
 - `components.d.ts` 由 build 自動產生，不要把它的變更加進 commit。
+- 產生密碼、token、金鑰等任何秘密時，一律用 `src/utils/secureRandom.ts`（`crypto.getRandomValues` 加拒絕取樣），不要用 `Math.random` 或 `src/utils/random.ts`；後者只適合 lorem ipsum 這類非安全用途。
 - 新工具用 `pnpm run script:create:tool <name>` 建立骨架，名稱與描述一律走 `translate()`，並在 `locales/en.yml`、`zh-TW.yml`、`zh.yml` 補上 key。
 - 每次新增 i18n key 後，確認 `zh-TW.yml` 與 `zh.yml` 的 key 集合與 `en.yml` 完全一致。

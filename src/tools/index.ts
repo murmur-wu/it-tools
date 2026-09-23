@@ -34,6 +34,7 @@ import { tool as jsonToCsv } from './json-to-csv';
 import { tool as cameraRecorder } from './camera-recorder';
 import { tool as imageCompressor } from './image-compressor';
 import { tool as csvToJson } from './csv-to-json';
+import { tool as passwordGenerator } from './password-generator';
 import { tool as timestampBatchConverter } from './timestamp-batch-converter';
 import { tool as listConverter } from './list-converter';
 import { tool as phoneParserAndFormatter } from './phone-parser-and-formatter';
@@ -98,7 +99,7 @@ import { tool as yamlViewer } from './yaml-viewer';
 export const toolsByCategory: ToolCategoryDefinition[] = [
   {
     name: 'Crypto',
-    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, aesAdvancedEncryption, bip39, hmacGenerator, rsaKeyPairGenerator, certificateParser, passwordStrengthAnalyser, pdfSignatureChecker],
+    components: [tokenGenerator, passwordGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, aesAdvancedEncryption, bip39, hmacGenerator, rsaKeyPairGenerator, certificateParser, passwordStrengthAnalyser, pdfSignatureChecker],
   },
   {
     name: 'Converter',
