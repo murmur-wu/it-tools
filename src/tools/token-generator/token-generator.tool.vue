@@ -60,11 +60,11 @@ const { copy } = useCopy({ source: token, text: t('tools.token-generator.copied'
 
       <c-input-text
         v-model:value="token"
-
+        multiline
         :placeholder="t('tools.token-generator.tokenPlaceholder')"
-
+        readonly
         rows="3"
-        readonly autosize multiline
+        autosize
         class="token-display"
       />
 
