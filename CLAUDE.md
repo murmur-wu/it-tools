@@ -29,6 +29,34 @@
 
 依序執行並確認全部通過：`pnpm lint`、`pnpm typecheck`、`pnpm test`、`pnpm build`。
 
+## 工具頁說明區塊
+
+每個工具頁底部可以有一段長篇說明，由 `src/components/ToolGuide.vue` 渲染，內容全部放在語言檔。
+
+- 觸發條件：語言檔中存在 `tools.<工具 key>.guide.intro` 就會顯示，沒有的工具不顯示任何東西。工具 key 就是路由去掉開頭斜線，例如 `/hash-text` 對應 `hash-text`。
+- 可用區塊（除 `intro` 外皆可省略）：
+
+  ```yaml
+  tools:
+    hash-text:
+      guide:
+        intro: '一兩句話說明這個工具在做什麼'
+        useCases:   # 什麼時候會用到
+          - '情境一'
+        steps:      # 使用方式，會渲染成有序清單
+          - '步驟一'
+        notes:      # 注意事項
+          - '提醒一'
+        faq:        # 常見問題
+          - q: '問題'
+            a: '答案'
+  ```
+
+- 三個語言檔都要補，且各區塊的陣列長度要一致，`src/components/tool-guide.test.ts` 會檢查。
+- 訊息裡的 `@` 是 vue-i18n 的保留字元，要寫成 `{'@'}`，例如 `"{'@'}reboot 只在啟動時執行"`。否則 build 會失敗。
+- 陣列區塊在元件裡是用 `tm()` 讀取，不能用 `te()` 判斷存在與否，`te()` 對陣列 key 一律回傳 false。
+- 內容請寫實際有用的資訊（適用情境、參數意義、常見陷阱），這同時是 SEO 與廣告審核看重的原創內容。
+
 ## 其他慣例
 
 - `components.d.ts` 由 build 自動產生，不要把它的變更加進 commit。

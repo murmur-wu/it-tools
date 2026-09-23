@@ -96,6 +96,12 @@ fileUpload:
   title: Drag and drop files here, or click to select files
   or: or
   browse: Browse files
+toolGuide:
+  title: 'About {tool}'
+  useCases: When you would use it
+  steps: How to use it
+  notes: Things worth knowing
+  faq: Frequently asked questions
 tools:
   categories:
     favorite-tools: 'Your favorite tools'
@@ -158,6 +164,27 @@ tools:
     hasHeader: First row is a header
     inferTypes: Convert numbers and booleans
     trimValues: Trim spaces around values
+    guide:
+      intro: 'CSV is the common exchange format for spreadsheets and databases; JSON is what APIs and programs prefer. This tool parses CSV according to RFC 4180, handling commas and line breaks inside quoted fields, and prints structured JSON.'
+      useCases:
+        - 'Feeding an export from Excel or Google Sheets into an API or a front-end.'
+        - 'Checking a CSV in the table preview to confirm the columns line up before using it.'
+        - 'Turning a database export into JSON for fixtures or configuration.'
+      steps:
+        - 'Paste the CSV into the input; the delimiter is detected automatically.'
+        - 'Check the table preview, paying attention to fields that contain commas.'
+        - 'Adjust the options as needed: header row, type conversion, trimming.'
+        - 'Copy the JSON from the output below.'
+      notes:
+        - 'A field containing a comma, a line break or a double quote must be wrapped in double quotes, with inner quotes doubled. The parser restores such fields correctly.'
+        - 'Type conversion is deliberately conservative: values such as 007, 1.0 and integers beyond the safe range stay strings so nothing is silently altered.'
+        - 'If detection picks the wrong delimiter, set it manually. Semicolons are common in Excel exports from Europe.'
+        - 'Everything is parsed in your browser; no data is uploaded.'
+      faq:
+        - q: 'Why do non-ASCII characters show up as garbage?'
+          a: 'That is a file encoding problem rather than a parsing one. Excel often exports CSV in a regional encoding or UTF-8 with a BOM. Re-save the file as UTF-8 in a text editor and paste it again.'
+        - q: 'Can I convert JSON back to CSV?'
+          a: 'Yes, with the JSON to CSV tool. Both sides follow RFC 4180 quoting, so a round trip preserves the values.'
 
   json-to-csv:
     title: JSON to CSV
@@ -233,6 +260,26 @@ tools:
         10: October
         11: November
         12: December
+    guide:
+      intro: 'Cron is the scheduling format used on Unix and Linux. Five (or six) fields describe when a job should run. This tool validates the expression, translates it into plain language and lists the next executions, so you can check a schedule before putting it in a crontab.'
+      useCases:
+        - 'Setting up periodic backups, log rotation or data sync on a server and wanting to confirm the schedule behaves as intended.'
+        - 'Reading a cron expression left behind by a colleague or an old project and wondering how often it actually fires.'
+        - 'Scheduling GitHub Actions, Kubernetes CronJobs or Cloudflare Workers, which all use the same syntax.'
+      steps:
+        - 'Type an expression in the field at the top, or build one with the dropdowns below and apply it.'
+        - 'Read the plain-language line in the middle and check it matches what you meant.'
+        - 'Pick a timezone under "Next executions" and verify the five upcoming times.'
+      notes:
+        - 'The five-field form is "minute hour day-of-month month day-of-week". The six-field form adds seconds at the front. Most server crontabs only accept five fields; the seconds field is common in application-level schedulers.'
+        - 'Sunday can be written as 0 or 7, both are equivalent. The "days start at 0" switch only changes the wording of the description, not the expression.'
+        - 'Timezone matters. A server crontab usually runs in the system timezone, often UTC, rather than yours, so check with the timezone selector.'
+        - "{'@'}reboot runs once at startup and has no recurring schedule, so no execution times are listed for it."
+      faq:
+        - q: 'How do I run something every 15 minutes?'
+          a: 'Use */15 * * * *. The slash means a step, so it fires at minutes 0, 15, 30 and 45 of every hour.'
+        - q: 'Why does my job run at a different time on the server than shown here?'
+          a: 'Almost always a timezone difference. Check the server timezone with the date command and switch the selector above to match. The other common cause is that a crontab has a different PATH than your login shell, so the command is never found and never really runs.'
 
   http-status-codes:
     title: HTTP status codes
@@ -463,6 +510,27 @@ tools:
     title: Date-time converter
     description: Convert date and time into the various different formats
     timezone: Timezone
+    guide:
+      intro: 'The same instant is written differently across systems: Unix timestamps, ISO 8601, RFC 3339, Excel serial numbers, MongoDB ObjectIDs. This tool detects what you paste in and prints every common format at once, in the timezone you choose.'
+      useCases:
+        - 'Seeing a bare number in a log line or an API response and wanting to know what time it represents.'
+        - 'Needing a specific format to write into a config file or a database.'
+        - 'Working across timezones and wanting to know what a given instant is for the other side.'
+        - 'Recovering dates from an Excel export where they turned into decimal numbers.'
+      steps:
+        - 'Paste the value into the input; the format is detected and the selector switches automatically.'
+        - 'If detection gets it wrong, pick the input format manually in the selector on the right.'
+        - 'Choose a timezone; every output is converted accordingly.'
+        - 'Use the copy icon next to a field to take the result.'
+      notes:
+        - 'An input without an offset (for example 2023-04-12 23:10:24) is read in the timezone you selected. An input with an offset (ending in Z or +08:00) keeps that offset and ignores the selector.'
+        - 'Unix timestamps come in seconds and milliseconds; ten digits is usually seconds, thirteen is milliseconds. The tool decides from the digit count.'
+        - 'The Excel serial value counts days since 1900, and the fractional part is the time of day.'
+      faq:
+        - q: 'What if I need to convert many timestamps at once?'
+          a: 'Use the timestamp batch converter, which takes many values at once and prints them as a table.'
+        - q: 'What is the difference between ISO 8601 and RFC 3339?'
+          a: 'RFC 3339 is effectively a strict subset of ISO 8601: it requires a T between date and time and always requires a timezone offset. For APIs and config files, RFC 3339 is the safer choice.'
 
   phone-parser-and-formatter:
     title: Phone parser and formatter
@@ -495,6 +563,27 @@ tools:
       clear: Clear files
       privacy: Files are hashed in your browser and never uploaded.
       error: Unable to read this file.
+    guide:
+      intro: 'A hash function turns data of any length into a fixed-length fingerprint. The same input always gives the same result, and the original cannot be recovered from it. Hashes are mainly used to verify that a file or a piece of data has not changed.'
+      useCases:
+        - 'Comparing a downloaded file against the SHA-256 published by the vendor to confirm it is intact and not tampered with.'
+        - 'Checking whether two seemingly identical files really hold the same bytes.'
+        - 'Producing fixed-length identifiers during development, or normalising cache keys.'
+      steps:
+        - 'Paste text into the field at the top; all eight algorithms are computed as you type.'
+        - 'Switch the digest encoding to get hexadecimal, Base64 or binary output.'
+        - 'To hash a file, scroll to the file section, tick the algorithms you need and drop the file in.'
+        - 'To verify a download, paste the published hash into the compare field; a match shows a green tag.'
+      notes:
+        - 'Files are hashed entirely in your browser, in streamed chunks, so nothing is uploaded and large files do not exhaust memory.'
+        - 'MD5 and SHA-1 have practical collision attacks and should not be used for security. They are still fine for detecting accidental corruption.'
+        - 'The "SHA3" row here is actually Keccak-512, the pre-NIST variant, so it does not match the sha3sum command. Do not use it when you need standard SHA3-512.'
+        - 'Hashing is not encryption: there is no key and nothing to reverse. Use bcrypt for passwords and the encryption tool to encrypt text.'
+      faq:
+        - q: 'Why does the same file give a different SHA-256 elsewhere?'
+          a: 'It should not. A difference usually means the files differ (CRLF versus LF line endings, or an incomplete download), or that one side hashed the text rather than the raw bytes.'
+        - q: 'Which algorithm should I pick?'
+          a: 'SHA-256 is the general-purpose choice for file integrity. Use SHA-512 if you want a longer digest. Avoid MD5 and SHA-1 for anything security related.'
 
   json-to-toml:
     title: JSON to TOML
@@ -531,6 +620,26 @@ tools:
   uuid-generator:
     title: UUIDs generator
     description: A Universally Unique Identifier (UUID) is a 128-bit number used to identify information in computer systems. The number of possible UUIDs is 16^32, which is 2^128 or about 3.4x10^38 (which is a lot!).
+    guide:
+      intro: 'A UUID is a 128-bit identifier designed so that separate systems can each mint their own without coordination and still practically never collide. They are common as database keys, request identifiers and generated file names.'
+      useCases:
+        - 'Producing primary keys, especially when the ID must exist before the row is written.'
+        - 'Generating request or trace identifiers so a single request can be followed across distributed logs.'
+        - 'Creating temporary file names or upload identifiers that will not clash.'
+      steps:
+        - 'Choose the version you need; v4 is the default.'
+        - 'Set how many you want; they are generated as you change the options.'
+        - 'Press Ctrl+Enter to generate a fresh batch.'
+      notes:
+        - 'v4 is fully random and is the right default for almost every use.'
+        - 'v1 embeds a timestamp and a network card address, so it sorts by time but leaks when and where it was generated.'
+        - 'v7 also embeds a timestamp, but at the front, so lexicographic order matches time order. That is much friendlier to database indexes than v4 and is the current recommendation.'
+        - 'Values come from the browser cryptographic random source; nothing is requested from a server.'
+      faq:
+        - q: 'Can UUIDs really never collide?'
+          a: 'v4 carries 122 random bits. Even generating a billion per second, a collision would take decades of output to become likely, so in practice you can treat them as unique.'
+        - q: 'Do UUID primary keys hurt database performance?'
+          a: 'They can, especially v4. Random values make B-tree indexes split constantly, which costs write throughput and index size compared with an incrementing integer. Use v7 if this matters: its time prefix keeps new rows at the end of the index.'
 
   ipv4-address-converter:
     title: IPv4 address converter
