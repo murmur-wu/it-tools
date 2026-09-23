@@ -2,6 +2,7 @@ import type { App } from 'vue';
 import { nextTick } from 'vue';
 import type { Router } from 'vue-router';
 import { config } from '@/config';
+import { isSiteHost } from '@/utils/siteHost';
 
 declare global {
   interface Window {
@@ -11,16 +12,7 @@ declare global {
 }
 
 export function shouldEnableAnalytics({ measurementId, siteUrl, currentHost }: { measurementId: string; siteUrl: string; currentHost: string }): boolean {
-  if (!measurementId || !siteUrl) {
-    return false;
-  }
-
-  try {
-    return new URL(siteUrl).host === currentHost;
-  }
-  catch {
-    return false;
-  }
+  return Boolean(measurementId) && isSiteHost({ siteUrl, currentHost });
 }
 
 export function createAnalytics({ router }: { router: Router }) {

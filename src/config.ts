@@ -15,7 +15,7 @@ export const config = figue({
       env: 'APP_COMMIT_SHA',
     },
     siteUrl: {
-      doc: 'Public URL of the deployed site (analytics is only enabled on this host)',
+      doc: 'Public URL of the deployed site (analytics and ads are only loaded on this host)',
       format: 'string',
       default: '',
       env: 'APP_SITE_URL',
@@ -65,6 +65,14 @@ export const config = figue({
       format: 'string',
       default: 'G-G6QY47LXN8',
       env: 'VITE_GA_MEASUREMENT_ID',
+    },
+  },
+  adsense: {
+    clientId: {
+      doc: 'Google AdSense publisher ID (ca-pub-XXXXXXXXXXXXXXXX), empty to disable',
+      format: 'string',
+      default: 'ca-pub-6608473900936395',
+      env: 'VITE_ADSENSE_CLIENT_ID',
     },
   },
   showBanner: {
