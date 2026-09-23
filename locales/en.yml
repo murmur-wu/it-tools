@@ -124,6 +124,74 @@ tools:
     title: Chronometer
     description: Monitor the duration of a thing. Basically a chronometer with simple chronometer features.
 
+  password-generator:
+    title: Password generator
+    description: Generate strong random passwords, memorable passphrases or PIN codes in your browser, with a strength estimate.
+    mode: Type
+    modes:
+      random: Random password
+      passphrase: Passphrase
+      pin: PIN code
+    length: Length
+    words: Words
+    count: How many
+    uppercase: Uppercase letters (A-Z)
+    lowercase: Lowercase letters (a-z)
+    numbers: Numbers (0-9)
+    symbols: Symbols (!#$%...)
+    excludeAmbiguous: Exclude look-alike characters (0 O o 1 l I)
+    requireEach: Include at least one character of every selected type
+    noCharacterSet: Select at least one character type.
+    separator: Separator
+    separators:
+      hyphen: Hyphen (-)
+      underscore: Underscore (_)
+      space: Space
+      dot: Dot (.)
+      none: None
+    capitalize: Capitalise each word
+    addNumber: Append a two-digit number
+    regenerate: Generate again
+    strength: Strength
+    levels:
+      0: Very weak
+      1: Weak
+      2: Fair
+      3: Strong
+      4: Very strong
+    entropy: '{bits} bits of entropy'
+    crackTime: 'Average time to crack offline at 10 billion guesses per second:'
+    crack:
+      instant: instantly
+      ages: longer than the age of the universe
+      seconds: '{n} seconds'
+      minutes: '{n} minutes'
+      hours: '{n} hours'
+      days: '{n} days'
+      years: '{n} years'
+    privacy: Generated in your browser from a cryptographic random source. Nothing is sent anywhere or stored.
+    guide:
+      intro: 'A good password is long, random and unique to one account. This tool generates them from the cryptographic random source built into your browser, so nothing is predictable and nothing leaves your device. It also estimates how long an attacker would need to guess the result.'
+      useCases:
+        - 'Creating a new account and wanting a password you will store in a password manager rather than remember.'
+        - 'Needing a passphrase you can actually type or read out loud, for a Wi-Fi network or a laptop login.'
+        - 'Generating a PIN for a phone, a card or a door lock.'
+        - 'Producing several candidates at once to pick from.'
+      steps:
+        - 'Pick the type: random characters for password managers, a passphrase for something you must type, a PIN for numeric locks.'
+        - 'Adjust the length or number of words and the character types. The strength panel updates as you change them.'
+        - 'Click the copy icon next to a result, or press Ctrl+Enter to generate a fresh batch.'
+      notes:
+        - 'Length matters far more than symbols. Sixteen random letters and digits are stronger than eight characters that mix everything.'
+        - 'A four-word passphrase from a 2048-word list carries about 44 bits of entropy, roughly the same as an eight-character fully random password, but it is much easier to type.'
+        - 'The crack-time estimate assumes an offline attack against a fast hash at ten billion guesses per second. A website that rate-limits logins is far slower; a leaked database hashed with a weak algorithm is about this fast.'
+        - 'Never reuse a generated password across accounts; a leak on one site then exposes the others.'
+      faq:
+        - q: 'Is it safe to generate a password on a website?'
+          a: 'Here, yes: generation runs entirely in your browser with the Web Crypto API and no request is made to any server. You can verify this by opening the network panel of your browser while generating.'
+        - q: 'Why do some sites reject the symbols in the generated password?'
+          a: 'Some services only accept a subset of symbols. Untick the symbols option and increase the length by a few characters instead; the result is just as strong.'
+
   token-generator:
     title: Token generator
     description: Generate random string with the chars you want, uppercase or lowercase letters, numbers and/or symbols.
