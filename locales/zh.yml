@@ -139,6 +139,25 @@ tools:
     title: SVG 占位符生成器
     description: 生成 svg 图像以用作应用程序中的占位符。
 
+  csv-to-json:
+    title: 'CSV 转 JSON'
+    description: '把 CSV（或 TSV）解析成 JSON，可自动检测分隔符、转换类型，并提供表格预览。'
+    input: '你的 CSV'
+    inputPlaceholder: '把 CSV 粘贴在这里…'
+    output: '转换后的 JSON'
+    preview: '表格预览'
+    previewTruncated: '显示前 {shown} 行，共 {total} 行。'
+    delimiter: '分隔符'
+    autoDetect: '自动检测'
+    comma: '逗号（,）'
+    semicolon: '分号（;）'
+    tab: 'Tab'
+    pipe: '竖线（|）'
+    indent: '缩进空格数'
+    hasHeader: '第一行是标题'
+    inferTypes: '转换数字与布尔值'
+    trimValues: '去除值前后空白'
+
   json-to-csv:
     title: JSON 转 CSV
     description: 使用自动标头检测将JSON转换为CSV。
@@ -405,6 +424,36 @@ tools:
   jwt-parser:
     title: JWT 解析器
     description: 解析和解码JSON Web Token（jwt）并显示其内容。
+
+  timestamp-batch-converter:
+    title: '时间戳批量转换'
+    description: '一次把多个 Unix 时间戳转成你要的时区与格式。'
+    input: '你的时间戳'
+    inputPlaceholder: '一行一个，或用逗号、分号、Tab 分隔…'
+    output: '转换结果'
+    unit: '单位'
+    format: '格式'
+    timezone: '时区'
+    result: '结果（{total} 个中有 {valid} 个有效）'
+    units:
+      auto: '自动检测'
+      seconds: '秒'
+      milliseconds: '毫秒'
+      microseconds: '微秒'
+      nanoseconds: '纳秒'
+    formats:
+      iso8601: 'ISO 8601'
+      iso9075: 'ISO 9075（yyyy-MM-dd HH:mm:ss）'
+      dateOnly: '只要日期'
+      timeOnly: '只要时间'
+      verbose: '含星期与时区'
+    columns:
+      input: '输入'
+      unit: '单位'
+      result: '结果（{timezone}）'
+    errors:
+      notANumber: '不是数字'
+      outOfRange: '超出范围'
 
   date-converter:
     title: 日期时间转换器

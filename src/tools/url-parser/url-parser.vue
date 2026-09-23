@@ -4,7 +4,7 @@ import { isNotThrowing } from '@/utils/boolean';
 import { withDefaultOnError } from '@/utils/defaults';
 import { useToolInput } from '@/composable/toolInput';
 
-const urlToParse = ref('https://me:pwd@it-tools.tech:3000/url-parser?key1=value&key2=value2#the-hash');
+const urlToParse = ref('https://me:pwd@ittools.heitang.info:3000/url-parser?key1=value&key2=value2#the-hash');
 useToolInput(urlToParse, { example: 'https://user:pass@ittools.heitang.info:8443/url-parser?key1=value&key2=value2#the-hash' });
 
 const urlParsed = computed(() => withDefaultOnError(() => new URL(urlToParse.value), undefined));

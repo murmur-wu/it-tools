@@ -17,10 +17,11 @@ function serializeValue(value: unknown): string {
     return '';
   }
 
-  const valueAsString = String(value).replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/"/g, '\\"');
+  const valueAsString = String(value).replace(/\n/g, '\\n').replace(/\r/g, '\\r');
 
-  if (valueAsString.includes(',')) {
-    return `"${valueAsString}"`;
+  // RFC 4180: a field holding a delimiter or a quote is quoted, and inner quotes are doubled.
+  if (valueAsString.includes(',') || valueAsString.includes('"')) {
+    return `"${valueAsString.replace(/"/g, '""')}"`;
   }
 
   return valueAsString;

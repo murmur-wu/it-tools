@@ -13,7 +13,7 @@ const errorCorrectionLevel = ref<QRCodeErrorCorrectionLevel>('medium');
 
 const errorCorrectionLevels = ['low', 'medium', 'quartile', 'high'];
 
-const text = ref('https://it-tools.tech');
+const text = ref('https://ittools.heitang.info');
 useToolInput(text, { example: 'https://ittools.heitang.info' });
 const { qrcode } = useQRCode({
   text,

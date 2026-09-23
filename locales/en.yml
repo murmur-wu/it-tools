@@ -140,6 +140,25 @@ tools:
     title: SVG placeholder generator
     description: Generate svg images to use as a placeholder in your applications.
 
+  csv-to-json:
+    title: CSV to JSON
+    description: Parse CSV (or TSV) into JSON, with delimiter detection, type inference and a table preview.
+    input: Your CSV
+    inputPlaceholder: Paste your CSV here...
+    output: JSON version of your CSV
+    preview: Table preview
+    previewTruncated: 'Showing the first {shown} of {total} rows.'
+    delimiter: Delimiter
+    autoDetect: Detect automatically
+    comma: 'Comma ( , )'
+    semicolon: 'Semicolon ( ; )'
+    tab: Tab
+    pipe: 'Pipe ( | )'
+    indent: Indent size
+    hasHeader: First row is a header
+    inferTypes: Convert numbers and booleans
+    trimValues: Trim spaces around values
+
   json-to-csv:
     title: JSON to CSV
     description: Convert JSON to CSV with automatic header detection.
@@ -409,6 +428,36 @@ tools:
   jwt-parser:
     title: JWT parser
     description: Parse and decode your JSON Web Token (jwt) and display its content.
+
+  timestamp-batch-converter:
+    title: Timestamp batch converter
+    description: Convert many Unix timestamps at once into the timezone and format you need.
+    input: Your timestamps
+    inputPlaceholder: 'One per line, or separated by commas, semicolons or tabs...'
+    output: Converted timestamps
+    unit: Unit
+    format: Format
+    timezone: Timezone
+    result: 'Results ({valid} of {total} valid)'
+    units:
+      auto: Detect automatically
+      seconds: Seconds
+      milliseconds: Milliseconds
+      microseconds: Microseconds
+      nanoseconds: Nanoseconds
+    formats:
+      iso8601: ISO 8601
+      iso9075: 'ISO 9075 (yyyy-MM-dd HH:mm:ss)'
+      dateOnly: Date only
+      timeOnly: Time only
+      verbose: With weekday and zone
+    columns:
+      input: Input
+      unit: Unit
+      result: 'Result ({timezone})'
+    errors:
+      notANumber: Not a number
+      outOfRange: Out of range
 
   date-converter:
     title: Date-time converter
