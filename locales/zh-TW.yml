@@ -176,6 +176,44 @@ tools:
     runAt: '執行時間（{timezone}）'
     rebootHint: '這個表達式只在系統啟動時執行一次，沒有排程可以預覽。'
     noNextRuns: '輸入有效的 cron 表達式即可預覽接下來的執行時間。'
+    builder:
+      title: '組出表達式'
+      frequency: '頻率'
+      everyMinutes: '每幾分鐘'
+      minute: '分'
+      hour: '時'
+      dayOfWeek: '星期'
+      dayOfMonth: '日'
+      month: '月份'
+      apply: '套用這個表達式'
+      frequencies:
+        minutely: '每幾分鐘'
+        hourly: '每小時'
+        daily: '每天'
+        weekly: '每週'
+        monthly: '每月'
+        yearly: '每年'
+      weekDays:
+        0: '星期日'
+        1: '星期一'
+        2: '星期二'
+        3: '星期三'
+        4: '星期四'
+        5: '星期五'
+        6: '星期六'
+      months:
+        1: '一月'
+        2: '二月'
+        3: '三月'
+        4: '四月'
+        5: '五月'
+        6: '六月'
+        7: '七月'
+        8: '八月'
+        9: '九月'
+        10: '十月'
+        11: '十一月'
+        12: '十二月'
 
   http-status-codes:
     title: HTTP 狀態碼
@@ -300,6 +338,24 @@ tools:
   lorem-ipsum-generator:
     title: Lorem ipsum 產生器
     description: Lorem ipsum 是一種常用的佔位文字，用於展示文件或字體的視覺效果，而不需依賴有意義的內容
+
+  image-compressor:
+    title: '圖片壓縮'
+    description: '壓縮圖片並轉成 WebP、JPEG 或 PNG，可調整尺寸，單張下載或打包成 zip。'
+    format: '輸出格式'
+    keepFormat: '維持原格式'
+    quality: '品質'
+    maxWidth: '最大寬度（px）'
+    maxHeight: '最大高度（px）'
+    noLimit: '不限制'
+    upload: '把圖片拖曳到這裡，或點擊選擇圖片'
+    privacy: '圖片只在你的瀏覽器裡處理，不會上傳。'
+    pngHint: 'PNG 是無損格式，品質滑桿對它沒有作用。'
+    download: '下載'
+    downloadAll: '全部下載（zip）'
+    clear: '清除'
+    notAnImage: '{name} 不是圖片。'
+    failed: '無法壓縮 {name}。'
 
   qrcode-generator:
     title: QR Code 產生器

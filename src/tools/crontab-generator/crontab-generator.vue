@@ -3,6 +3,7 @@ import cronstrue from 'cronstrue';
 import { isValidCron } from 'cron-validator';
 import { formatInTimeZone } from 'date-fns-tz';
 import { getNextCronRuns } from './crontab-generator.service';
+import { type CronFrequency, buildCronExpression, cronFrequencies } from './crontab-builder.service';
 import { useStyleStore } from '@/stores/style.store';
 import { useToolInput } from '@/composable/toolInput';
 import { getBrowserTimezone, getTimezones } from '@/utils/timezones';
@@ -40,6 +41,42 @@ const nextRuns = computed(() => {
 });
 
 const isReboot = computed(() => cron.value.trim() === '@reboot');
+
+// --- Visual builder ---
+
+const builder = reactive({
+  frequency: 'daily' as CronFrequency,
+  everyMinutes: 15,
+  minute: 0,
+  hour: 9,
+  dayOfWeek: 1,
+  dayOfMonth: 1,
+  month: 1,
+});
+
+const builtCron = computed(() => buildCronExpression(builder));
+
+const frequencyOptions = computed(() => cronFrequencies.map(value => ({
+  label: t(`tools.crontab-generator.builder.frequencies.${value}`),
+  value,
+})));
+
+const weekDayOptions = computed(() => [0, 1, 2, 3, 4, 5, 6].map(value => ({
+  label: t(`tools.crontab-generator.builder.weekDays.${value}`),
+  value,
+})));
+
+const monthOptions = computed(() => Array.from({ length: 12 }, (_, index) => ({
+  label: t(`tools.crontab-generator.builder.months.${index + 1}`),
+  value: index + 1,
+})));
+
+const showMinute = computed(() => builder.frequency !== 'minutely');
+const showHour = computed(() => ['daily', 'weekly', 'monthly', 'yearly'].includes(builder.frequency));
+
+function applyBuiltCron() {
+  cron.value = builtCron.value;
+}
 const cronstrueConfig = reactive({
   verbose: true,
   dayOfWeekStartIndexZero: true,
@@ -167,6 +204,45 @@ const cronValidationRules = [
           <n-switch v-model:value="cronstrueConfig.dayOfWeekStartIndexZero" />
         </n-form-item>
       </n-form>
+    </div>
+  </c-card>
+
+  <c-card :title="t('tools.crontab-generator.builder.title')">
+    <n-form label-width="150" label-placement="left" :show-feedback="false">
+      <n-form-item :label="t('tools.crontab-generator.builder.frequency')" mb-3>
+        <c-select v-model:value="builder.frequency" :options="frequencyOptions" data-test-id="cron-builder-frequency" />
+      </n-form-item>
+
+      <n-form-item v-if="builder.frequency === 'minutely'" :label="t('tools.crontab-generator.builder.everyMinutes')" mb-3>
+        <n-input-number v-model:value="builder.everyMinutes" :min="1" :max="59" w-full />
+      </n-form-item>
+
+      <n-form-item v-if="builder.frequency === 'weekly'" :label="t('tools.crontab-generator.builder.dayOfWeek')" mb-3>
+        <c-select v-model:value="builder.dayOfWeek" :options="weekDayOptions" />
+      </n-form-item>
+
+      <n-form-item v-if="['monthly', 'yearly'].includes(builder.frequency)" :label="t('tools.crontab-generator.builder.dayOfMonth')" mb-3>
+        <n-input-number v-model:value="builder.dayOfMonth" :min="1" :max="31" w-full />
+      </n-form-item>
+
+      <n-form-item v-if="builder.frequency === 'yearly'" :label="t('tools.crontab-generator.builder.month')" mb-3>
+        <c-select v-model:value="builder.month" :options="monthOptions" />
+      </n-form-item>
+
+      <n-form-item v-if="showHour" :label="t('tools.crontab-generator.builder.hour')" mb-3>
+        <n-input-number v-model:value="builder.hour" :min="0" :max="23" w-full />
+      </n-form-item>
+
+      <n-form-item v-if="showMinute" :label="t('tools.crontab-generator.builder.minute')" mb-3>
+        <n-input-number v-model:value="builder.minute" :min="0" :max="59" w-full />
+      </n-form-item>
+    </n-form>
+
+    <div mt-4 flex flex-wrap items-center justify-center gap-3>
+      <code text-18px font-mono data-test-id="cron-builder-preview">{{ builtCron }}</code>
+      <c-button size="small" data-test-id="cron-builder-apply" @click="applyBuiltCron">
+        {{ t('tools.crontab-generator.builder.apply') }}
+      </c-button>
     </div>
   </c-card>
 

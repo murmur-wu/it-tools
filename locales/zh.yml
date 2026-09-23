@@ -174,6 +174,44 @@ tools:
     runAt: '执行时间（{timezone}）'
     rebootHint: '这个表达式只在系统启动时执行一次，没有计划可以预览。'
     noNextRuns: '输入有效的 cron 表达式即可预览接下来的执行时间。'
+    builder:
+      title: '生成表达式'
+      frequency: '频率'
+      everyMinutes: '每几分钟'
+      minute: '分'
+      hour: '时'
+      dayOfWeek: '星期'
+      dayOfMonth: '日'
+      month: '月份'
+      apply: '套用这个表达式'
+      frequencies:
+        minutely: '每几分钟'
+        hourly: '每小时'
+        daily: '每天'
+        weekly: '每周'
+        monthly: '每月'
+        yearly: '每年'
+      weekDays:
+        0: '星期日'
+        1: '星期一'
+        2: '星期二'
+        3: '星期三'
+        4: '星期四'
+        5: '星期五'
+        6: '星期六'
+      months:
+        1: '一月'
+        2: '二月'
+        3: '三月'
+        4: '四月'
+        5: '五月'
+        6: '六月'
+        7: '七月'
+        8: '八月'
+        9: '九月'
+        10: '十月'
+        11: '十一月'
+        12: '十二月'
 
   http-status-codes:
     title: HTTP 状态码
@@ -297,6 +335,24 @@ tools:
   lorem-ipsum-generator:
     title: Lorem ipsum生成器
     description: Lorem ipsum是一种占位符文本，通常用于演示文档或字体的视觉形式，而不依赖于有意义的内容
+
+  image-compressor:
+    title: '图片压缩'
+    description: '压缩图片并转成 WebP、JPEG 或 PNG，可调整尺寸，单张下载或打包成 zip。'
+    format: '输出格式'
+    keepFormat: '保持原格式'
+    quality: '质量'
+    maxWidth: '最大宽度（px）'
+    maxHeight: '最大高度（px）'
+    noLimit: '不限制'
+    upload: '把图片拖拽到这里，或点击选择图片'
+    privacy: '图片只在你的浏览器里处理，不会上传。'
+    pngHint: 'PNG 是无损格式，质量滑块对它没有作用。'
+    download: '下载'
+    downloadAll: '全部下载（zip）'
+    clear: '清除'
+    notAnImage: '{name} 不是图片。'
+    failed: '无法压缩 {name}。'
 
   qrcode-generator:
     title: 二维码生成器
