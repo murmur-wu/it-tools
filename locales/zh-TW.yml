@@ -92,6 +92,10 @@ toolLayout:
   outputCopied: '結果已複製到剪貼簿'
   shortcutRun: '重新產生'
   shortcutCopy: '複製結果'
+fileUpload:
+  title: '把檔案拖曳到這裡，或點擊選擇檔案'
+  or: '或'
+  browse: '瀏覽檔案'
 tools:
   categories:
     favorite-tools: '我的收藏'
@@ -163,6 +167,15 @@ tools:
   crontab-generator:
     title: Crontab 產生器
     description: 驗證並產生 crontab，並取得 cron 排程的易讀說明。
+    verbose: '詳細說明'
+    use24Hour: '使用 24 小時制'
+    daysStartAtZero: '星期從 0 開始'
+    invalid: '這個 cron 表達式無效'
+    nextRuns: '接下來的執行時間'
+    timezone: '時區'
+    runAt: '執行時間（{timezone}）'
+    rebootHint: '這個表達式只在系統啟動時執行一次，沒有排程可以預覽。'
+    noNextRuns: '輸入有效的 cron 表達式即可預覽接下來的執行時間。'
 
   http-status-codes:
     title: HTTP 狀態碼
@@ -291,6 +304,15 @@ tools:
   qrcode-generator:
     title: QR Code 產生器
     description: 為網址（或純文字）產生並下載 QR Code，並可自訂前景與背景顏色。
+    decode:
+      title: '從圖片讀取 QR Code'
+      upload: '把圖片拖曳到這裡，或點擊選擇圖片'
+      pasteHint: '也可以直接從剪貼簿貼上圖片（Ctrl+V）。'
+      result: '解碼內容'
+      notFound: '這張圖片裡找不到 QR Code。'
+      error: '無法讀取這張圖片。'
+      useAsInput: '帶入上方文字'
+      privacy: '圖片只在你的瀏覽器裡處理，不會上傳。'
 
   wifi-qrcode-generator:
     title: WiFi QR Code 產生器
@@ -335,6 +357,7 @@ tools:
   date-converter:
     title: 日期時間轉換器
     description: 將日期與時間轉換為各種不同的格式
+    timezone: '時區'
 
   phone-parser-and-formatter:
     title: 電話號碼解析與格式化
@@ -355,6 +378,18 @@ tools:
   hash-text:
     title: 文字雜湊
     description: '使用您需要的雜湊函式對文字進行雜湊：MD5、SHA1、SHA256、SHA224、SHA512、SHA384、SHA3 或 RIPEMD160'
+    file:
+      title: '檔案雜湊'
+      upload: '把檔案拖曳到這裡，或點擊選擇檔案'
+      algorithms: '演算法'
+      compare: '比對雜湊值'
+      comparePlaceholder: '貼上預期的雜湊值來驗證檔案…'
+      match: '與 {algorithm} 相符'
+      mismatch: '沒有任何雜湊值相符'
+      hashing: '計算中…'
+      clear: '清除檔案'
+      privacy: '檔案只在你的瀏覽器裡計算，不會上傳。'
+      error: '無法讀取這個檔案。'
 
   json-to-toml:
     title: JSON 轉 TOML

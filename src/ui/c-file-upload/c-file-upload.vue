@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   multiple: false,
   accept: undefined,
-  title: 'Drag and drop files here, or click to select files',
+  title: undefined,
 });
 
 const emit = defineEmits<{
@@ -75,20 +75,20 @@ function handleUpload(files: FileList | null | undefined) {
     >
     <slot>
       <span op-70>
-        {{ title }}
+        {{ title ?? $t('fileUpload.title') }}
       </span>
 
       <!-- separator -->
       <div my-4 w-full flex items-center justify-center op-70>
         <div class="h-1px max-w-100px flex-1 bg-gray-300 op-50" />
         <div class="mx-2 text-gray-400">
-          or
+          {{ $t('fileUpload.or') }}
         </div>
         <div class="h-1px max-w-100px flex-1 bg-gray-300 op-50" />
       </div>
 
       <c-button>
-        Browse files
+        {{ $t('fileUpload.browse') }}
       </c-button>
     </slot>
   </div>
