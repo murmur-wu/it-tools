@@ -6,6 +6,7 @@ import { registerSW } from 'virtual:pwa-register';
 import shadow from 'vue-shadow-dom';
 import { plausible } from './plugins/plausible.plugin';
 import { createAnalytics } from './plugins/analytics.plugin';
+import { adsense } from './plugins/adsense.plugin';
 
 import 'virtual:uno.css';
 
@@ -26,6 +27,7 @@ app.use(router);
 app.use(naive);
 app.use(plausible);
 app.use(createAnalytics({ router }));
+app.use(adsense);
 app.use(shadow);
 
 app.mount('#app');
