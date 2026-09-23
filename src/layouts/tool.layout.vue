@@ -5,6 +5,7 @@ import type { HeadObject } from '@vueuse/head';
 
 import BaseLayout from './base.layout.vue';
 import FavoriteButton from '@/components/FavoriteButton.vue';
+import ToolGuide from '@/components/ToolGuide.vue';
 import type { Tool } from '@/tools/tools.types';
 import { useToolStore } from '@/tools/tools.store';
 import { useToolInputStore } from '@/modules/tool-input/tool-input.store';
@@ -142,6 +143,8 @@ useEventListener(window, 'keydown', (event: KeyboardEvent) => {
     <div class="tool-content">
       <slot />
     </div>
+
+    <ToolGuide :tool-key="i18nKey" />
   </BaseLayout>
 </template>
 
