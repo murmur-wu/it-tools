@@ -1,4 +1,4 @@
-import { parseExpression } from 'cron-parser';
+import { CronExpressionParser } from 'cron-parser';
 
 export function getNextCronRuns({
   expression,
@@ -17,7 +17,7 @@ export function getNextCronRuns({
     return [];
   }
 
-  const iterator = parseExpression(trimmed, { currentDate: from, tz: timezone });
+  const iterator = CronExpressionParser.parse(trimmed, { currentDate: from, tz: timezone });
   const runs: Date[] = [];
 
   for (let i = 0; i < count; i++) {
