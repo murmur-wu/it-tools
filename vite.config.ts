@@ -130,6 +130,16 @@ export default defineConfig({
               precacheFallback: { fallbackURL: 'index.html' },
             },
           },
+          {
+            // The PDF compressor's Ghostscript engine (~15 MB) is too large to precache; its file name
+            // is content-hashed, so once downloaded it can be served from the cache for good.
+            urlPattern: ({ url }) => /\/assets\/gs-[\w-]+\.wasm$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'ghostscript-wasm',
+              expiration: { maxEntries: 1 },
+            },
+          },
         ],
       },
       manifest: {
@@ -176,6 +186,13 @@ export default defineConfig({
     Unocss(),
   ],
   base: baseUrl,
+  worker: {
+    // The Ghostscript loader is an ES module (it uses import.meta.url), which classic workers cannot run
+    format: 'es',
+  },
+  optimizeDeps: {
+    exclude: ['@okathira/ghostpdl-wasm'],
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
