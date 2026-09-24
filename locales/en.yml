@@ -554,6 +554,67 @@ tools:
     notAnImage: '{name} is not an image.'
     failed: 'Unable to compress {name}.'
 
+  pdf-compressor:
+    title: 'PDF compressor'
+    description: 'Compress PDFs in your browser: shrink scans and photo-heavy documents while keeping text selectable. Files are never uploaded.'
+    preset: 'Compression level'
+    presets:
+      screen:
+        label: 'Smallest file'
+        hint: 'For reading on screen, email or messaging apps'
+      ebook:
+        label: 'Balanced'
+        hint: 'The best choice in most cases'
+      printer:
+        label: 'High quality'
+        hint: 'For printing, shrinks less'
+    upload: 'Drag and drop PDFs here, or click to select files'
+    privacy: 'PDFs are processed in your browser only and never uploaded.'
+    engine: 'Compression engine: Ghostscript (AGPL-3.0).'
+    sourceCode: 'Source code of this site'
+    largeFile: 'A file is larger than 100 MB. It will take a while, and may fail on phones because of limited memory.'
+    clear: 'Clear'
+    download: 'Download'
+    recompress: 'Compress again with current setting'
+    waiting: 'Waiting…'
+    loadingEngine: 'Downloading the compression engine (about 15 MB, only once)…'
+    compressing: 'Compressing…'
+    progress: 'Processing page {page} of {total}'
+    notSmaller: 'This setting cannot make the file any smaller, the original is already compact. Try a smaller compression level.'
+    errors:
+      notPdf: 'This is not a PDF file.'
+      password: 'This PDF is password-protected. Remove the password first, then compress it.'
+      invalid: 'This PDF cannot be read. The file may be damaged or incomplete.'
+      failed: 'Compression failed, please try again.'
+      engine: 'The compression engine could not be downloaded. Check your connection and try again.'
+    guide:
+      intro: 'A large PDF is rarely large because of its text. The weight is in the images: every page of a scan is a high-resolution photo, and reports or catalogues often embed full-size phone pictures. This tool uses Ghostscript to resample those images to a resolution that suits the purpose and recompress them, while text, fonts and layout stay as they are. Everything happens in your browser.'
+      useCases:
+        - 'An email attachment is over the size limit (usually 10 to 25 MB) and needs to be smaller before sending.'
+        - 'A government, school or job site only accepts uploads up to a certain size.'
+        - 'Contracts, receipts or IDs scanned with a phone take several MB per page and you want to archive or send them.'
+        - 'A report or catalogue with many photos should be lighter without hurting readability.'
+      steps:
+        - 'Pick a compression level: "Balanced" in most cases, "Smallest file" to send or read on screen, "High quality" to print.'
+        - 'Drop one or more PDFs on the area above, or click to select them. The first time, the compression engine (about 15 MB) is downloaded.'
+        - 'Wait for the processing to finish. Progress is shown per page, and the size before and after is listed at the end.'
+        - 'Click "Download" to save the compressed file. Not happy with it? Pick another level and click "Compress again with current setting".'
+      notes:
+        - 'Results depend on the content: scans and photo-heavy PDFs often shrink by half or more, sometimes by 90%. Text-only PDFs are already small and may barely change.'
+        - '"Smallest file" brings images down to 72 dpi. That is fine on screen, but photos and small print can look blurry when printed. Use "High quality" for documents you will print.'
+        - 'If the result would be larger than the original, the tool says so and keeps the original instead of offering the bigger file. It usually means the PDF was already optimised.'
+        - 'Password-protected PDFs cannot be processed; remove the password with the original software first. Compression rewrites the file, so digital signatures become invalid and interactive forms may not be fully preserved. Check the result for important documents.'
+        - 'Everything runs in your browser and PDFs are never uploaded. Very large files (over 100 MB) may fail because of limited memory, especially on phones; a computer works better for those.'
+      faq:
+        - q: 'Can I still select and search the text after compression?'
+          a: 'Yes. Only the images are recompressed; text stays text and can be selected, searched and copied. If the original is a scan without text recognition, it remains an image after compression too.'
+        - q: 'Why do some PDFs barely get smaller?'
+          a: 'Most of a PDF''s size comes from images. Files that are mainly text or vector graphics, or that were already compressed by another tool, have little room left to shrink.'
+        - q: 'What is the difference between the three levels?'
+          a: 'The image resolution: Smallest file uses 72 dpi, Balanced 150 dpi and High quality 300 dpi. A lower resolution gives a smaller file but looks blurrier when zoomed in or printed.'
+        - q: 'Are my files uploaded?'
+          a: 'No. The Ghostscript engine is downloaded to your browser and runs on your device, so your PDFs never leave your computer or phone.'
+
   qrcode-generator:
     title: QR Code generator
     description: Generate and download a QR code for a URL (or just plain text), and customize the background and foreground colors.
