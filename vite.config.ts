@@ -68,7 +68,7 @@ function sitemapPlugin(): Plugin {
         .filter((path): path is string => typeof path === 'string');
 
       const lastmod = appVersion.replace(/\./g, '-');
-      const urls = ['/', '/about', ...toolPaths.sort()]
+      const urls = ['/', '/about', '/privacy', ...toolPaths.sort()]
         .map(path => `  <url>\n    <loc>${siteUrl}${path}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`)
         .join('\n');
 
