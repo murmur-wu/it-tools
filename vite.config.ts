@@ -117,6 +117,21 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'generateSW',
+      workbox: {
+        // Pages come from the network whenever the visitor is online, so a new deploy (new tools,
+        // new routes) shows up on the first visit instead of after the service worker updates.
+        // Offline, the precached index.html is served; it always matches the precached scripts.
+        navigateFallback: null,
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkOnly',
+            options: {
+              precacheFallback: { fallbackURL: 'index.html' },
+            },
+          },
+        ],
+      },
       manifest: {
         name: 'IT Tools',
         short_name: 'IT Tools',
