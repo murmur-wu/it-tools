@@ -45,6 +45,69 @@ about:
 
     歡迎到 GitHub 儲存庫的 [issues 區](https://github.com/murmur-wu/it-tools/issues) 提出功能需求或回報問題。
 
+    ## 隱私權
+
+    您在工具中輸入的內容不會離開您的瀏覽器。本站使用會設定 Cookie 的 Google Analytics 與 Google AdSense，詳情請見[隱私權政策](/privacy)。
+
+privacy:
+  title: '隱私權政策'
+  content: |
+    # 隱私權政策
+
+    最後更新：2026 年 9 月 24 日
+
+    本政策說明 IT-Tools（ittools.heitang.info，以下稱「本站」）會處理哪些資料、用在哪裡，以及您可以怎麼控制。
+
+    ## 您在工具中輸入的資料
+
+    本站所有工具都在您的瀏覽器中執行。您輸入的文字、選擇的檔案與產生的結果，都只在您的裝置上處理，不會傳送到本站的伺服器；本站也沒有任何儲存這些資料的後端。
+
+    以下幾種情況，資料會留在您的裝置或網址中：
+
+    - 部分工具會把設定或上次的輸入存在瀏覽器的 localStorage，方便您下次使用。
+    - 收藏、最近使用的工具、語言與深色模式等偏好設定，也存在 localStorage。
+    - 使用「分享連結」時，輸入內容會放進網址的 `input` 參數，任何拿到這個連結的人都看得到。請不要分享含有密碼、金鑰或個人資料的連結。
+    - 本站使用 Service Worker 快取網站檔案，讓網站可以離線使用。快取的只有網站本身的程式與圖檔，不包含您的輸入。
+
+    清除瀏覽器中本站的網站資料，就能刪除以上所有內容。
+
+    ## Google Analytics
+
+    本站使用 Google Analytics 4 統計造訪情形，例如瀏覽的頁面、裝置與瀏覽器類型、大致地區與來源網站，用來了解哪些工具最常被使用、該優先改進什麼。Google Analytics 會使用 Cookie（例如 `_ga`）。您在工具中輸入的內容不會傳送給 Google Analytics。
+
+    如果不想被統計，可以安裝 [Google Analytics 停用瀏覽器外掛程式](https://tools.google.com/dlpage/gaoptout)。
+
+    ## Google AdSense 廣告與 Cookie
+
+    本站使用 Google AdSense 顯示廣告，以支應網站的維運：
+
+    - Google 等第三方供應商會使用 Cookie，根據使用者先前造訪本站或其他網站的紀錄來放送廣告。
+    - Google 使用廣告 Cookie，讓 Google 及其合作夥伴能根據使用者造訪本站或網際網路上其他網站的紀錄，向使用者放送廣告。
+    - 您可以前往 [Google 廣告設定](https://adssettings.google.com/) 停用個人化廣告，也可以前往 [www.aboutads.info](https://www.aboutads.info/choices/) 停用第三方供應商用於個人化廣告的 Cookie。
+
+    Google 如何使用這些資料，請見 [Google 如何使用與我們合作的網站或應用程式所提供的資訊](https://policies.google.com/technologies/partner-sites)。
+
+    ## 網站託管
+
+    本站託管於 Cloudflare。和所有網站一樣，Cloudflare 在傳送網頁時會處理您的 IP 位址等連線資訊，用於提供服務與防範攻擊。詳見 [Cloudflare 隱私權政策](https://www.cloudflare.com/privacypolicy/)。
+
+    ## 您的選擇
+
+    - 清除瀏覽器中本站的網站資料，即可刪除本站存在您裝置上的所有資料。
+    - 可以在瀏覽器設定中封鎖 Cookie。工具本身不需要 Cookie 也能正常使用。
+    - 可以透過上方的連結停用 Google Analytics 統計與個人化廣告。
+
+    ## 兒童
+
+    本站不是為 13 歲以下兒童設計，也不會刻意收集兒童的個人資料。
+
+    ## 政策變更
+
+    本政策如有修改，會更新本頁內容與上方的「最後更新」日期。
+
+    ## 聯絡方式
+
+    對本政策有任何疑問，歡迎到 GitHub 儲存庫的 [issues 區](https://github.com/murmur-wu/it-tools/issues) 提出。
 404:
   notFound: '404 找不到頁面'
   sorry: '抱歉，這個頁面似乎不存在'

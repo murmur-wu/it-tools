@@ -45,6 +45,69 @@ about:
 
     Feature requests and bug reports are welcome in the [issues section](https://github.com/murmur-wu/it-tools/issues) of the GitHub repository.
 
+    ## Privacy
+
+    What you enter in the tools never leaves your browser. The site uses Google Analytics and Google AdSense, which set cookies; see the [privacy policy](/privacy) for details.
+
+privacy:
+  title: 'Privacy policy'
+  content: |
+    # Privacy policy
+
+    Last updated: 24 September 2026
+
+    This policy explains what data IT-Tools (ittools.heitang.info, "the site") handles, what it is used for, and how you can control it.
+
+    ## What you enter in the tools
+
+    Every tool on this site runs in your browser. The text you type, the files you pick and the results you get are processed on your device only. They are never sent to a server of this site, and the site has no backend that stores them.
+
+    Data stays on your device or in a URL in these cases:
+
+    - Some tools save their settings or your last input in the browser's localStorage so they are there next time.
+    - Favorites, recently used tools, language and dark mode preferences are also kept in localStorage.
+    - When you use "Share link", your input is put in the `input` parameter of the URL, so anyone who gets the link can read it. Do not share links that contain passwords, keys or personal data.
+    - The site uses a service worker to cache its own files so it works offline. Only the site's code and images are cached, never your input.
+
+    Clearing this site's data in your browser removes all of the above.
+
+    ## Google Analytics
+
+    The site uses Google Analytics 4 to measure visits, such as pages viewed, device and browser type, approximate region and referring site. This tells us which tools are used most and what to improve first. Google Analytics uses cookies (for example `_ga`). Nothing you enter in the tools is sent to Google Analytics.
+
+    If you do not want to be measured, you can install the [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout).
+
+    ## Google AdSense ads and cookies
+
+    The site shows ads through Google AdSense to cover its running costs:
+
+    - Third party vendors, including Google, use cookies to serve ads based on a user's prior visits to this website or other websites.
+    - Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to this site and/or other sites on the Internet.
+    - You may opt out of personalized advertising by visiting [Google Ads Settings](https://adssettings.google.com/). You can also opt out of a third-party vendor's use of cookies for personalized advertising by visiting [www.aboutads.info](https://www.aboutads.info/choices/).
+
+    For how Google uses this data, see [How Google uses information from sites or apps that use our services](https://policies.google.com/technologies/partner-sites).
+
+    ## Hosting
+
+    The site is hosted on Cloudflare. As with any website, Cloudflare processes connection data such as your IP address when it delivers pages, to provide the service and protect against attacks. See the [Cloudflare privacy policy](https://www.cloudflare.com/privacypolicy/).
+
+    ## Your choices
+
+    - Clearing this site's data in your browser deletes everything the site stored on your device.
+    - You can block cookies in your browser settings. The tools themselves work without cookies.
+    - You can opt out of Google Analytics and personalized ads with the links above.
+
+    ## Children
+
+    The site is not designed for children under 13 and does not knowingly collect personal data from children.
+
+    ## Changes to this policy
+
+    If this policy changes, this page and the "Last updated" date above will be updated.
+
+    ## Contact
+
+    If you have any question about this policy, please open an issue in the GitHub repository's [issues section](https://github.com/murmur-wu/it-tools/issues).
 404:
   notFound: '404 Not Found'
   sorry: 'Sorry, this page does not seem to exist'

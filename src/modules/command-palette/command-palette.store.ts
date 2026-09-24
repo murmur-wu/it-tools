@@ -10,6 +10,7 @@ import GithubIcon from '~icons/mdi/github';
 import BugIcon from '~icons/mdi/bug-outline';
 import DiceIcon from '~icons/mdi/dice-5';
 import InfoIcon from '~icons/mdi/information-outline';
+import PrivacyIcon from '~icons/mdi/shield-lock-outline';
 
 export const useCommandPaletteStore = defineStore('command-palette', () => {
   const toolStore = useToolStore();
@@ -69,6 +70,14 @@ export const useCommandPaletteStore = defineStore('command-palette', () => {
       category: 'Pages',
       keywords: ['about', 'learn', 'more', 'info', 'information'],
       icon: InfoIcon,
+    },
+    {
+      name: 'Privacy policy',
+      description: 'How IT-Tools handles your data, cookies and ads.',
+      to: '/privacy',
+      category: 'Pages',
+      keywords: ['privacy', 'policy', 'cookie', 'cookies', 'ads', 'analytics', 'gdpr'],
+      icon: PrivacyIcon,
     },
   ];
 

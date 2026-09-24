@@ -65,6 +65,11 @@ const tools = computed<ToolCategory[]>(() => [
               - {{ commitSha }}
             </template>
           </div>
+          <div mt-2>
+            <RouterLink to="/privacy" class="footer-link" data-test-id="privacy-link">
+              {{ $t('privacy.title') }}
+            </RouterLink>
+          </div>
         </div>
       </div>
     </template>
@@ -122,6 +127,10 @@ const tools = computed<ToolCategory[]>(() => [
   color: #838587;
   margin-top: 20px;
   padding: 20px 0;
+
+  .footer-link {
+    color: inherit;
+  }
 }
 
 .sider-content {

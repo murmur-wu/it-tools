@@ -8,7 +8,10 @@ const { markdown } = toRefs(props);
 marked.use({
   renderer: {
     link(href, title, text) {
-      return `<a class="text-primary transition decoration-none hover:underline" href="${href}" target="_blank" rel="noopener">${text}</a>`;
+      // Pages of this site (e.g. /privacy) open in the same tab, external links in a new one
+      const isInternal = href.startsWith('/') && !href.startsWith('//');
+      const target = isInternal ? '' : ' target="_blank" rel="noopener"';
+      return `<a class="text-primary transition decoration-none hover:underline" href="${href}"${target}>${text}</a>`;
     },
   },
 });

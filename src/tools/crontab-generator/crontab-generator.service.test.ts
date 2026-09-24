@@ -34,6 +34,15 @@ describe('crontab generator service', () => {
       ]);
     });
 
+    it('supports @annually', () => {
+      const runs = getNextCronRuns({ expression: '@annually', from, timezone: 'Asia/Taipei', count: 2 });
+
+      expect(runs.map(d => d.toISOString())).toEqual([
+        '2026-12-31T16:00:00.000Z',
+        '2027-12-31T16:00:00.000Z',
+      ]);
+    });
+
     it('returns nothing for @reboot and empty expressions', () => {
       expect(getNextCronRuns({ expression: '@reboot', from })).toEqual([]);
       expect(getNextCronRuns({ expression: '   ', from })).toEqual([]);
