@@ -698,6 +698,91 @@ tools:
       notANumber: Not a number
       outOfRange: Out of range
 
+  date-calculator:
+    title: 'Date calculator'
+    description: 'Count the days between two dates, or add and subtract days from a date. Exclude chosen weekdays and Taiwan public holidays to count working days.'
+    modes:
+      count: 'Days between'
+      add: 'Add days'
+      subtract: 'Subtract days'
+    startDate: 'Start date'
+    endDate: 'End date'
+    today: 'Today'
+    pickDate: 'Pick a date'
+    daysToAdd: 'Days to add'
+    daysToSubtract: 'Days to subtract'
+    settings: 'Settings'
+    includeEnd: 'Include the end date'
+    exclude: 'Exclude'
+    workdaysPreset: 'Working days only'
+    clearExclusions: 'Clear'
+    excludeHolidays: 'Exclude Taiwan public holidays'
+    holidaysHint: 'Based on the official Taiwan government office calendar ({first}–{last}), including substitute days off. Saturdays declared as working days count as working days.'
+    calculate: 'Calculate'
+    weekdays:
+      mon: 'Monday'
+      tue: 'Tuesday'
+      wed: 'Wednesday'
+      thu: 'Thursday'
+      fri: 'Friday'
+      sat: 'Saturday'
+      sun: 'Sunday'
+    errors:
+      startDate: 'Pick a start date.'
+      endDate: 'Pick an end date.'
+      amount: 'Enter a number of days.'
+      allExcluded: 'Every day of the week is excluded, so no day can be counted.'
+    result:
+      days: 'Days between'
+      countedDays: 'Days after exclusions'
+      daysValue: '{count} days'
+      reversed: 'The end date is before the start date, so the result is negative.'
+      calendarDays: '{count} calendar days'
+      excludedPrefix: ', {count} excluded: '
+      excludedWeekday: '{count} × {weekday}'
+      excludedHolidays: '{count} × public holiday'
+      separator: ', '
+      weeks: 'That is {weeks} weeks and {days} days'
+      calendarDifference: 'The dates are {value} apart'
+      unitSeparator: ', '
+      units:
+        years: '{count} years'
+        months: '{count} months'
+        days: '{count} days'
+      date: 'Resulting date'
+      shiftedAfter: 'Day number {count} counted after the start date, {calendarDays} calendar days later'
+      shiftedBefore: 'Day number {count} counted before the start date, {calendarDays} calendar days earlier'
+      skippedPrefix: '{count} days skipped: '
+      holidaysInRange: 'Public holidays in this period'
+      missingHolidayYears: 'There is no public holiday data for {years} yet (currently {first}–{last}), so holidays in those years are not excluded.'
+    guide:
+      intro: 'The date calculator works three ways: it counts the days between two dates, and it moves forward or backward from a date by a number of days. You can exclude chosen weekdays and, based on the official calendar published by Taiwan''s Directorate-General of Personnel Administration, Taiwan public holidays and substitute days off, which gives you working days directly.'
+      useCases:
+        - 'Find how many days a contract, lease or probation period lasts, or how many are left.'
+        - 'A letter, regulation or contract says "within 10 working days" and you need the actual deadline.'
+        - 'Project planning: count 30 working days forward from the start date, skipping weekends, Lunar New Year and long weekends.'
+        - 'Working backwards: an internal review must be done 5 working days before the submission date, so find the latest day to send it for review.'
+      steps:
+        - 'Choose a mode at the top: "Days between", "Add days" or "Subtract days".'
+        - 'Pick the start date ("Today" fills it in). To count days, pick the end date too; to add or subtract, enter the number of days.'
+        - 'In "Settings", tick the weekdays and holidays to exclude. "Working days only" ticks Saturday, Sunday and public holidays in one go.'
+        - 'Click "Calculate". The result lists what was excluded and the public holidays in the period, and it updates as you change the dates or settings.'
+      notes:
+        - 'When counting days, the end date itself is not counted by default, so 1 January to 31 January is 30 days. Tick "Include the end date" to count it too.'
+        - 'When adding or subtracting, the start date itself is not counted: adding 1 working day to a Friday gives the following Monday.'
+        - 'With Saturday, Sunday and public holidays excluded, Saturdays the government declared working days are counted, so the result matches the official working days.'
+        - 'The years covered by the holiday data are shown under "Exclude Taiwan public holidays". The government publishes the next year''s calendar around June and the data is updated then; years outside the range show a warning.'
+        - 'Public holidays here are days off for government offices. Private companies, schools and some trades (Labour Day is a day off for workers only, for example) may differ, so check important deadlines against the competent authority or the contract.'
+      faq:
+        - q: 'Why is 1 to 31 January 30 days and not 31?'
+          a: 'The number of days between two dates does not include the end date, like most calendars and spreadsheets. To count every day from the first to the last, tick "Include the end date" and the result becomes 31.'
+        - q: 'How are working days counted?'
+          a: '"Working days only" excludes Saturdays, Sundays and public holidays (including substitute days off) and counts Saturdays declared as working days. Over a full year it gives exactly the working days of the official government calendar.'
+        - q: 'Are typhoon days included?'
+          a: 'No. Typhoon days off are announced by each city or county at short notice and cannot be known in advance; subtract them yourself if there were any.'
+        - q: 'Can it count other countries'' holidays?'
+          a: 'Only Taiwan public holidays are built in. For other countries, use the weekday exclusions and subtract local holidays yourself.'
+
   date-converter:
     title: Date-time converter
     description: Convert date and time into the various different formats
