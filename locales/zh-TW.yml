@@ -41,9 +41,23 @@ about:
 
     IT-Tools 使用 Vue.js（Vue 3）搭配 Naive UI 元件庫開發，並託管於 Cloudflare。部分工具使用了第三方開源函式庫，完整清單請見儲存庫中的 [package.json](https://github.com/murmur-wu/it-tools/blob/main/package.json)。
 
-    ## 發現錯誤？缺少想要的工具？
+    ## 這個版本加了什麼
 
-    歡迎到 GitHub 儲存庫的 [issues 區](https://github.com/murmur-wu/it-tools/issues) 提出功能需求或回報問題。
+    本站在原始專案之外獨立維護，另外加入了：
+
+    - 完整的繁體中文翻譯，並依瀏覽器語言自動切換。
+
+    - 新工具：密碼產生器、PDF 壓縮、圖片壓縮、日期計算器（含台灣國定假日與工作日計算）、cron 表達式建構器、CSV 轉 JSON、時間戳批次轉換、JWT 簽章與驗證、繁簡中文轉換、X.509 憑證解析與 AES 加密。
+
+    - 工具頁底部的長篇說明，介紹適用情境、各選項的意義與常見陷阱，陸續補齊更多工具。
+
+    - 工具頁共用功能：載入範例、分享輸入內容的連結、鍵盤快捷鍵，以及首頁的「最近使用」與「貼上即處理」。
+
+    ## 聯絡方式
+
+    - Email：[murmur20260202{'@'}gmail.com](mailto:murmur20260202{'@'}gmail.com)
+
+    - 錯誤回報與工具需求：GitHub 儲存庫的 [issues 區](https://github.com/murmur-wu/it-tools/issues)。
 
     ## 隱私權
 

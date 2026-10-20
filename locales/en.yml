@@ -41,9 +41,23 @@ about:
 
     IT-Tools is built with Vue.js (Vue 3) and the Naive UI component library, and is hosted on Cloudflare. Some tools rely on third-party open-source libraries; the complete list is in the repository's [package.json](https://github.com/murmur-wu/it-tools/blob/main/package.json).
 
-    ## Found a bug? A tool is missing?
+    ## What this version adds
 
-    Feature requests and bug reports are welcome in the [issues section](https://github.com/murmur-wu/it-tools/issues) of the GitHub repository.
+    Beyond the original project, this site is maintained independently and adds:
+
+    - A complete Traditional Chinese translation, with the language picked automatically from your browser.
+
+    - New tools: password generator, PDF compressor, image compressor, date calculator (with Taiwan public holidays and working days), cron expression builder, CSV to JSON, batch timestamp converter, JWT signer and verifier, Traditional and Simplified Chinese converter, X.509 certificate parser and AES encryption.
+
+    - Long-form guides at the bottom of tool pages that explain when to use the tool, what the options mean and common pitfalls. More tools are being covered over time.
+
+    - Shared features on tool pages: load an example, share a link to your input, keyboard shortcuts, plus recently used tools and smart paste on the home page.
+
+    ## Contact
+
+    - Email: [murmur20260202{'@'}gmail.com](mailto:murmur20260202{'@'}gmail.com)
+
+    - Bug reports and tool requests: the [issues section](https://github.com/murmur-wu/it-tools/issues) of the GitHub repository.
 
     ## Privacy
 
