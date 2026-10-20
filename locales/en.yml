@@ -283,6 +283,26 @@ tools:
     button:
       copy: Copy
       refresh: Refresh
+    guide:
+      intro: 'Generates a random string from the character sets you choose. It is meant for things like API keys, session secrets, test fixtures and one-time identifiers, using the browser''s cryptographically secure random source.'
+      useCases:
+        - 'Creating an API key, webhook secret or session secret for an application''s configuration.'
+        - 'Generating a random string of an exact length for test data or a temporary identifier.'
+        - 'Making a token restricted to letters and digits when a system rejects symbols.'
+      steps:
+        - 'Switch the character sets on or off: uppercase, lowercase, numbers, symbols.'
+        - 'Drag the slider to set the length (1 to 512, default 64).'
+        - 'Copy the token, or press the refresh button (Ctrl+Enter also works) to get a new one.'
+      notes:
+        - 'Randomness comes from the browser''s crypto.getRandomValues with rejection sampling, so every character is equally likely. It never uses Math.random.'
+        - 'Strength depends on length and alphabet size. A 64-character token from letters and digits carries roughly 380 bits of entropy, far more than most systems need; 32 characters is already plenty for a secret.'
+        - 'If all four character sets are off, the result is empty.'
+        - 'Settings are stored in the page address, so a bookmarked link reopens with the same options. The generated token itself is never put in the address.'
+      faq:
+        - q: 'Is the token sent anywhere?'
+          a: 'No. It is generated in your browser and is not uploaded or stored. Copy it and keep it in a secrets manager.'
+        - q: 'Should I use this for user passwords?'
+          a: 'For passwords people have to type or remember, use the password generator, which can avoid look-alike characters. This tool is for machine-to-machine secrets.'
   percentage-calculator:
     title: Percentage calculator
     description: Easily calculate percentages from a value to another value, or from a percentage to a value.
@@ -354,6 +374,26 @@ tools:
   bcrypt:
     title: Bcrypt
     description: Hash and compare text string using bcrypt. Bcrypt is a password-hashing function based on the Blowfish cipher.
+    guide:
+      intro: 'bcrypt is a password-hashing function built on the Blowfish cipher. Unlike a plain hash, it is deliberately slow and adds a random salt, which makes stolen password databases far harder to crack. This tool creates a bcrypt hash and checks whether a text matches an existing one.'
+      useCases:
+        - 'Generating a hash to insert into a database or a seed script for a test user.'
+        - 'Checking whether a stored hash really belongs to a given password while debugging a login problem.'
+        - 'Trying different cost factors to see how long hashing takes on your device before choosing one for production.'
+      steps:
+        - 'In the hash section, enter the text and set the salt rounds (the cost factor, default 10).'
+        - 'Copy the generated hash; it starts with $2 followed by the cost and the salt.'
+        - 'In the compare section, enter a text and a hash and read whether they match.'
+      notes:
+        - 'Each extra round roughly doubles the work. 10 to 12 is common today; higher values make logins slower for everyone, and very high values can freeze this page.'
+        - 'The result changes every time because a new random salt is generated. Two different hashes of the same text are both valid, which is why you must use compare, not string equality.'
+        - 'bcrypt only reads the first 72 bytes of its input. Anything beyond that, including long passphrases, is ignored.'
+        - 'Hashing runs in the browser. Do not enter real user passwords into any online tool, including this one; use test values.'
+      faq:
+        - q: 'Why is my hash different from the one in the database?'
+          a: 'That is expected. The salt is random and stored inside the hash, so the same password produces a different string each time. Verify with the compare section, which reads the salt back out of the hash.'
+        - q: 'What cost factor should I choose?'
+          a: 'Pick the highest value that keeps a single hash at roughly 100 to 300 ms on your production hardware, and revisit it every few years as computers get faster.'
 
   crontab-generator:
     title: Crontab generator
@@ -489,6 +529,27 @@ tools:
   base64-string-converter:
     title: Base64 string encoder/decoder
     description: Simply encode and decode strings into their base64 representation.
+    guide:
+      intro: 'Base64 turns arbitrary bytes into a text made of 64 printable characters so they can travel through channels that only handle text, such as JSON fields, URLs, e-mail or HTTP headers. This tool encodes text to Base64 and decodes it back, handling UTF-8 characters correctly.'
+      useCases:
+        - 'Reading a Base64 value taken from a config file, an HTTP header or a JSON payload to see what it holds.'
+        - 'Producing a Base64 string to put in an environment variable or a Kubernetes secret manifest.'
+        - 'Creating a URL-safe value for a query string or a JWT-style segment.'
+      steps:
+        - 'To encode, type or paste text in "String to encode"; the Base64 version appears below it.'
+        - 'To decode, paste a Base64 string in the second card; the decoded text appears below it.'
+        - 'Switch on the URL-safe option on either side when the value is used in a URL or a JWT.'
+        - 'Use the copy buttons to take the result.'
+      notes:
+        - 'Base64 is an encoding, not encryption. Anyone can decode it, so it does not protect secrets.'
+        - 'The URL-safe variant swaps + and / for - and _ and drops the trailing = padding. Decoding with the wrong setting reports an invalid string.'
+        - 'Encoded data is about one third larger than the original (3 bytes become 4 characters).'
+        - 'Decoded bytes that are not valid text, such as an image or a compressed file, are not shown meaningfully here. Use the file converter for binary data.'
+      faq:
+        - q: 'Why does decoding say my string is invalid?'
+          a: 'Usual causes: a URL-safe string decoded without the URL-safe option (or the other way around), characters that are not part of the alphabet, or a truncated copy.'
+        - q: 'Why do I see garbled characters after decoding?'
+          a: 'The original bytes probably were not UTF-8 text, for example a binary file or text in another encoding. Decoding is only meaningful for text that was encoded from UTF-8.'
 
   toml-to-yaml:
     title: TOML to YAML
@@ -529,6 +590,26 @@ tools:
   json-prettify:
     title: JSON prettify and format
     description: Prettify your JSON string into a friendly, human-readable format.
+    guide:
+      intro: 'Formats a JSON string into an indented, readable layout. It also accepts relaxed JSON5 input (comments, trailing commas, unquoted keys) and always outputs standard JSON.'
+      useCases:
+        - 'Reading a minified API response or log line that arrives as a single long line.'
+        - 'Cleaning up a config file before committing it, so the diff shows only real changes.'
+        - 'Finding out where a JSON document is broken, since invalid input is flagged with an error message.'
+      steps:
+        - 'Paste or type your JSON into the left field; the formatted result appears below right away.'
+        - 'Choose the indent size (0 to 10 spaces).'
+        - 'Turn "Sort keys" on or off, then copy the result with the copy button.'
+      notes:
+        - '"Sort keys" is on by default and reorders every object alphabetically. That is good for diffing but changes the order of your data, so turn it off if key order matters to you.'
+        - 'Because JSON5 is accepted, input with comments or trailing commas is formatted successfully, but the output drops the comments and is plain JSON.'
+        - 'Numbers beyond JavaScript''s safe integer range (about 9 quadrillion) can lose precision when parsed, so long IDs may change. Keep such values as strings.'
+        - 'Your last input and settings are remembered in this browser only, never sent to a server.'
+      faq:
+        - q: 'Why does the output not appear?'
+          a: 'When the input is not valid JSON or JSON5, the validation message under the input shows the problem and the output stays empty. Typical causes are a missing comma, an unmatched bracket, or text pasted before or after the JSON.'
+        - q: 'Does it validate against a schema?'
+          a: 'No. It only checks that the text is syntactically valid and then reformats it. It does not check types or required fields.'
 
   docker-run-to-docker-compose-converter:
     title: Docker run to Docker compose converter
@@ -641,6 +722,26 @@ tools:
       error: Unable to read this image.
       useAsInput: Use as text above
       privacy: The image is processed in your browser and never uploaded.
+    guide:
+      intro: 'Turns a URL or any text into a QR code that you can download as an image, with your own colours and error-correction level. It can also read the content of a QR code from an image.'
+      useCases:
+        - 'Creating a code for a link, a Wi-Fi password note, a contact, or an event page to print on a poster or card.'
+        - 'Making a branded code with your own foreground and background colours.'
+        - 'Reading what an unknown QR code points to before you open it, by uploading or pasting a screenshot.'
+      steps:
+        - 'Enter the text or URL in the Text field; the code updates as you type.'
+        - 'Optionally change the foreground and background colours and the error resistance level.'
+        - 'Download the image. To read a code, drop an image onto the reading area or paste one with Ctrl+V.'
+      notes:
+        - 'Error resistance levels low, medium, quartile and high allow roughly 7%, 15%, 25% and 30% of the code to be damaged and still scan. Higher levels make the code denser, so keep it low for long text.'
+        - 'Keep strong contrast between the two colours, and keep the foreground darker than the background. Low contrast or inverted colours fail on many scanners.'
+        - 'Longer content creates a denser code that needs a larger print size. If a code scans poorly, shorten the text, for example with a short link.'
+        - 'A QR code stores static content: once printed it cannot be changed. Both creating and reading happen in your browser; images are not uploaded.'
+      faq:
+        - q: 'Why will my QR code not scan?'
+          a: 'Common reasons: too little contrast, too small a print size for the amount of data, a missing blank margin around the code, or a very high error level on long text that makes it too dense.'
+        - q: 'Does the code expire?'
+          a: 'No. The code simply encodes the text you entered. If it points to a URL, it works as long as that URL does.'
 
   wifi-qrcode-generator:
     title: WiFi QR Code generator
@@ -677,10 +778,50 @@ tools:
   json-diff:
     title: JSON diff
     description: Compare two JSON objects and get the differences between them.
+    guide:
+      intro: 'Compares two JSON documents and shows what was added, removed or changed, as a tree with colour coding. Both inputs accept relaxed JSON5, so comments and trailing commas do not get in the way.'
+      useCases:
+        - 'Comparing an API response before and after a deploy to see exactly which fields changed.'
+        - 'Reviewing two versions of a configuration file without relying on line-by-line text diffs.'
+        - 'Checking that a serializer or migration produced the same data as the original.'
+      steps:
+        - 'Paste the original JSON into the first field.'
+        - 'Paste the JSON to compare into the second field.'
+        - 'Read the tree below: added, removed and changed entries are highlighted, and unchanged ones are shown for context.'
+      notes:
+        - 'Objects are compared key by key, so the order of keys does not matter and reordering alone is not reported as a change.'
+        - 'Arrays are compared by position. Inserting an item at the start shifts everything after it, so many entries may show as changed. Sort or key the arrays first when order is not meaningful.'
+        - 'A value whose type changes (for example the number 1 to the string "1") is reported as a change.'
+        - 'If either side is not valid JSON, the field shows an error and no comparison is made.'
+      faq:
+        - q: 'How is this different from a normal text diff?'
+          a: 'A text diff compares lines, so reformatting or reordering keys produces a lot of noise. This tool compares the parsed data, so only real differences in keys, values and types appear.'
+        - q: 'Can it ignore certain fields such as timestamps?'
+          a: 'Not at the moment. Remove those fields from both inputs before comparing.'
 
   jwt-parser:
     title: JWT parser
     description: Parse and decode your JSON Web Token (jwt) and display its content.
+    guide:
+      intro: 'A JSON Web Token (JWT) is three Base64URL-encoded parts joined by dots: a header, a payload of claims, and a signature. This tool decodes the header and payload so you can read them, and shows what each standard claim means.'
+      useCases:
+        - 'Checking why an API returns 401: is the token expired, issued for another audience, or missing the scope you expected?'
+        - 'Inspecting the tokens your login flow hands out to see which claims (sub, roles, tenant) the backend actually receives.'
+        - 'Reading the iat, nbf and exp claims as dates instead of Unix timestamps while debugging clock-skew problems.'
+      steps:
+        - 'Paste the whole token (the three dot-separated parts) into the field.'
+        - 'Read the header to see the signing algorithm (alg) and token type.'
+        - 'Read the payload; exp, nbf and iat are also shown as local dates next to the raw number.'
+      notes:
+        - 'This tool only decodes. It does not verify the signature, so a readable token is not proof that it is genuine. Verify signatures on your server, or use the JWT signer tool here.'
+        - 'The payload is encoded, not encrypted: anyone who holds the token can read it. Never put passwords or other secrets in claims.'
+        - 'Decoding happens in your browser and the token is not sent anywhere. Even so, treat a live production token like a password and prefer expired or test tokens when you can.'
+        - 'Dates are shown in your device''s time zone, while exp and iat are always UTC-based Unix seconds.'
+      faq:
+        - q: 'Why does my token fail to decode?'
+          a: 'A valid JWT has exactly three dot-separated parts and each of the first two must be Base64URL-encoded JSON. Common causes are a leftover "Bearer " prefix, a truncated copy, or an opaque token (such as a random string) that is not a JWT at all.'
+        - q: 'Is it safe to paste a token here?'
+          a: 'The decoding runs locally in the page and nothing is uploaded. If the token is still valid, it can be used by anyone who sees it, so avoid pasting it into screenshots, chats or any site that sends data to a server.'
 
   timestamp-batch-converter:
     title: Timestamp batch converter
@@ -830,6 +971,26 @@ tools:
   ipv4-subnet-calculator:
     title: IPv4 subnet calculator
     description: Parse your IPv4 CIDR blocks and get all the info you need about your subnet.
+    guide:
+      intro: 'Enter an IPv4 address with a mask (CIDR such as 192.168.0.1/24, or a netmask) and get the network address, mask, wildcard, first and last usable address, broadcast address and number of addresses. It also shows the address class.'
+      useCases:
+        - 'Planning how to split a network into subnets and checking that two ranges do not overlap.'
+        - 'Working out which range a CIDR block in a cloud security group or firewall rule really covers.'
+        - 'Finding the network and broadcast address of a host, or converting between /24 and 255.255.255.0 notation.'
+      steps:
+        - 'Type an address with a mask, for example 10.0.0.0/22.'
+        - 'Read the table: network address, netmask in dotted and binary form, wildcard mask, network size, first and last address, broadcast address and IP class.'
+        - 'Use the previous and next buttons to move to the neighbouring block of the same size.'
+      notes:
+        - '"Network size" is the total number of addresses in the block. In a normal subnet, the first (network) and last (broadcast) addresses cannot be given to hosts, so the usable host count is the size minus 2.'
+        - '"First address" and "last address" are the first and last usable host addresses, so they differ from the network and broadcast addresses.'
+        - '/31 and /32 blocks have no broadcast address, so the field reports that none exists. A /31 is used for point-to-point links and a /32 identifies a single host.'
+        - 'The wildcard mask is the netmask inverted, as used in some router access lists such as Cisco ACLs.'
+      faq:
+        - q: 'How many hosts fit in a /24?'
+          a: 'A /24 holds 256 addresses, of which 254 are usable by hosts. Each step shorter in the prefix doubles the size, so a /23 has 512 addresses.'
+        - q: 'Does this support IPv6?'
+          a: 'No. This calculator is for IPv4 only.'
 
   og-meta-generator:
     title: Open graph meta generator
@@ -967,6 +1128,26 @@ tools:
   url-encoder:
     title: Encode/decode URL-formatted strings
     description: Encode text to URL-encoded format (also known as "percent-encoded"), or decode from it.
+    guide:
+      intro: 'URLs may only contain a limited set of characters, so anything else, such as spaces, non-Latin text or reserved symbols, is written as percent-encoding (a % followed by two hex digits). This tool encodes text that way and decodes it again, using the same rules as JavaScript''s encodeURIComponent.'
+      useCases:
+        - 'Building a query-string value that contains spaces, &, = or non-English characters.'
+        - 'Decoding a long %E4%B8%AD%E6%96%87-style string from a log or browser address bar to read it.'
+        - 'Preparing a redirect target or callback URL that is passed inside another URL.'
+      steps:
+        - 'Type or paste text in the encode field to get the percent-encoded form.'
+        - 'Paste an encoded string in the decode field to get the original text.'
+        - 'Copy the result with the copy button.'
+      notes:
+        - 'The encoder escapes every character except letters, digits and - _ . ! ~ * '' ( ). That includes / ? & = : #, so do not encode a whole URL, only the individual value you are inserting into it. Otherwise the URL stops working.'
+        - 'A space becomes %20, not +. The + sign means a space only in HTML form submissions, so decoding a form-encoded string leaves the + signs in place.'
+        - 'Non-ASCII characters are first converted to UTF-8 bytes, so one Chinese character becomes three %XX groups.'
+        - 'Decoding fails on a % that is not followed by two hex digits, or on bytes that are not valid UTF-8.'
+      faq:
+        - q: 'Should I encode the whole URL or just the parameter values?'
+          a: 'Only the values (and key names, if needed). Encoding the whole URL also escapes the :// and the / separators and produces a string that is no longer a usable address.'
+        - q: 'Why is a plus sign not decoded back to a space?'
+          a: 'Percent-decoding does not treat + specially. If the text came from a form submission (application/x-www-form-urlencoded), replace + with a space before decoding.'
 
   text-to-binary:
     title: Text to ASCII binary
@@ -995,6 +1176,26 @@ tools:
   regex-tester:
     title: Regex Tester
     description: Test your regular expressions with sample text.
+    guide:
+      intro: 'Test a regular expression against sample text and see every match highlighted, with its position and capture groups. It uses the JavaScript regular-expression engine of your browser.'
+      useCases:
+        - 'Building and refining a pattern before pasting it into code, a validation rule or a log-search query.'
+        - 'Debugging why a pattern matches too much or too little by seeing each match and capture group.'
+        - 'Learning regex syntax interactively with immediate feedback.'
+      steps:
+        - 'Type the pattern (without the surrounding slashes) in the regex field.'
+        - 'Tick the flags you need: global, ignore case, multiline, dot-all, unicode or unicode sets.'
+        - 'Enter or paste the text to match; the matches and their groups are listed below.'
+      notes:
+        - 'This is the JavaScript flavour. Syntax such as named groups is (?<name>...), not (?P<name>...) as in Python, and features like possessive quantifiers or atomic groups are not available. Check how your target language differs before reusing a pattern.'
+        - 'Without the global flag only the first match is returned. Multiline makes ^ and $ match at each line, and dot-all lets . match newlines.'
+        - 'Unicode (u) and unicode sets (v) are alternatives; when both are ticked, u is used. Use one of them for patterns with emoji or \p{''{''}...{''}''} property escapes.'
+        - 'An invalid pattern simply shows no matches. A pattern with nested quantifiers such as (a+)+ can take exponential time on some inputs and freeze the tab.'
+      faq:
+        - q: 'Why does my pattern work here but not in another language?'
+          a: 'Regex engines differ. Lookbehind, named groups, flags and Unicode handling vary between JavaScript, Python, PCRE, Java and others. Test with the engine your code actually runs on.'
+        - q: 'Why do I only see one match?'
+          a: 'The global (g) flag is off. Turn it on to find all matches instead of stopping at the first one.'
 
   safelink-decoder:
     title: Outlook Safelink decoder
