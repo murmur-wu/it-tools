@@ -57,6 +57,12 @@
 - 陣列區塊在元件裡是用 `tm()` 讀取，不能用 `te()` 判斷存在與否，`te()` 對陣列 key 一律回傳 false。
 - 內容請寫實際有用的資訊（適用情境、參數意義、常見陷阱），這同時是 SEO 與廣告審核看重的原創內容。
 
+## 靜態頁面與 404
+
+- `pnpm build` 時 `build/static-pages.ts` 會替每個路由各輸出一份 HTML（`hash-text.html`、`about.html`、`404.html`…），帶各自的標題、描述、canonical 與可讀內容（含說明區塊），讓爬蟲不必執行 JS 就看得到內容。內容取自 `locales/en.yml`，和 app 的預設語言一致。
+- 工具的 `redirectFrom` 會產生 `dist/_redirects` 的 301 規則；不存在的網址由 Cloudflare 回傳 `404.html`，狀態碼為 404（`wrangler.jsonc` 的 `not_found_handling`）。
+- 新增工具以外的頁面路由時，要同時加進 `buildStaticPages()` 與 `vite.config.ts` 的 sitemap，否則該網址在正式站會是 404。
+
 ## 其他慣例
 
 - `components.d.ts` 由 build 自動產生，不要把它的變更加進 commit。
