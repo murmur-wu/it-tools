@@ -18,6 +18,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 import markdown from 'vite-plugin-vue-markdown';
 import svgLoader from 'vite-svg-loader';
 import { configDefaults } from 'vitest/config';
+import { parse as parseYaml } from 'yaml';
+import { type ToolRoute, buildRedirects, buildStaticPages, parseToolRoute, renderStaticPage } from './build/static-pages';
 
 const baseUrl = process.env.BASE_URL ?? '/';
 
@@ -42,6 +44,22 @@ const appVersion = getGitValue('git log -1 --format=%cs', new Date().toISOString
 // Public URL of the deployed site (canonical links, sitemap, analytics gating)
 const siteUrl = (process.env.VITE_SITE_URL ?? 'https://ittools.heitang.info').replace(/\/$/, '');
 
+// Path and legacy paths of every tool, read from src/tools/*/index.ts
+function readToolRoutes(): ToolRoute[] {
+  const toolsDir = resolve(__dirname, 'src/tools');
+  return readdirSync(toolsDir, { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map((entry) => {
+      try {
+        return parseToolRoute(readFileSync(resolve(toolsDir, entry.name, 'index.ts'), 'utf-8'));
+      }
+      catch {
+        return undefined;
+      }
+    })
+    .filter((route): route is ToolRoute => route !== undefined);
+}
+
 // Writes dist/sitemap.xml listing the home page and every tool route at build time
 function sitemapPlugin(): Plugin {
   let outDir = 'dist';
@@ -53,19 +71,7 @@ function sitemapPlugin(): Plugin {
       outDir = config.build.outDir;
     },
     closeBundle() {
-      const toolsDir = resolve(__dirname, 'src/tools');
-      const toolPaths = readdirSync(toolsDir, { withFileTypes: true })
-        .filter(entry => entry.isDirectory())
-        .map(entry => resolve(toolsDir, entry.name, 'index.ts'))
-        .map((file) => {
-          try {
-            return readFileSync(file, 'utf-8').match(/^\s*path:\s*'([^']+)'/m)?.[1];
-          }
-          catch {
-            return undefined;
-          }
-        })
-        .filter((path): path is string => typeof path === 'string');
+      const toolPaths = readToolRoutes().map(({ path }) => path);
 
       const lastmod = appVersion.replace(/\./g, '-');
       const urls = ['/', '/about', '/privacy', ...toolPaths.sort()]
@@ -74,6 +80,40 @@ function sitemapPlugin(): Plugin {
 
       mkdirSync(outDir, { recursive: true });
       writeFileSync(resolve(outDir, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+    },
+  };
+}
+
+// Emits one HTML file per route (about.html, hash-text.html, 404.html, ...) with its own title,
+// description and readable content, plus _redirects for the legacy tool paths. See build/static-pages.ts
+function staticPagesPlugin(): Plugin {
+  return {
+    name: 'it-tools:static-pages',
+    apply: 'build',
+    enforce: 'post',
+    generateBundle(_options, bundle) {
+      const index = bundle['index.html'];
+      if (!index || index.type !== 'asset') {
+        this.error('Static pages: index.html is missing from the bundle');
+      }
+
+      // Same default language as the app (src/plugins/i18n.plugin.ts) and as crawlers get
+      const messages = parseYaml(readFileSync(resolve(__dirname, 'locales/en.yml'), 'utf-8'));
+      const tools = readToolRoutes();
+      const template = String(index.source);
+
+      for (const page of buildStaticPages({ messages, tools })) {
+        const source = renderStaticPage({ template, page, siteUrl });
+
+        if (page.fileName === 'index.html') {
+          index.source = source;
+        }
+        else {
+          this.emitFile({ type: 'asset', fileName: page.fileName, source });
+        }
+      }
+
+      this.emitFile({ type: 'asset', fileName: '_redirects', source: buildRedirects(tools) });
     },
   };
 }
@@ -114,6 +154,7 @@ export default defineConfig({
     markdown(),
     svgLoader(),
     sitemapPlugin(),
+    staticPagesPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'generateSW',
@@ -122,6 +163,11 @@ export default defineConfig({
         // new routes) shows up on the first visit instead of after the service worker updates.
         // Offline, the precached index.html is served; it always matches the precached scripts.
         navigateFallback: null,
+        // Only index.html is needed offline; the per-route static pages are fetched from the network
+        manifestTransforms: [async entries => ({
+          manifest: entries.filter(({ url }) => !url.endsWith('.html') || url === 'index.html'),
+          warnings: [],
+        })],
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.mode === 'navigate',
