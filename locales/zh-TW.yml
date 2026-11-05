@@ -354,6 +354,26 @@ tools:
   json-to-csv:
     title: JSON 轉 CSV
     description: 將 JSON 轉換為 CSV，並自動偵測欄位標題。
+    guide:
+      intro: '把 JSON 物件陣列轉成 CSV。標題列由所有物件出現過的鍵聯集而成，所以欄位不一致的紀錄也會對齊到正確的欄。'
+      useCases:
+        - '在 Excel 或 Google 試算表中開啟 API 回應或資料庫匯出的資料。'
+        - '把一份紀錄清單交給習慣用試算表工作的同事。'
+        - '把 JSON 日誌或問卷結果轉換後在 BI 工具中分析。'
+      steps:
+        - '貼上 JSON 物件陣列，例如 [{''{''}"name":"Ann","age":30{''}''},{''{''}"name":"Bob"{''}''}]。接受 JSON5 語法。'
+        - '右側會顯示 CSV：第一行是標題，之後每個物件一行。'
+        - '複製結果並存成 .csv 檔。'
+      notes:
+        - '標題是所有鍵的聯集，依第一次出現的順序排列。缺少的鍵會是空白儲存格；值為 null 會寫成 null。'
+        - '含有逗號或雙引號的欄位會加引號，內部的引號會寫成兩個，符合 RFC 4180。值裡的換行會寫成 \n，讓每筆紀錄維持一行。'
+        - '巢狀物件與陣列不會被攤平：會顯示成 [object Object]，或是以逗號相連的項目。轉換前請先把資料攤平（例如 address.city）。'
+        - '輸入必須是物件陣列。單一物件或純量陣列無法產生有用的表格。'
+      faq:
+        - q: '為什麼某一欄顯示 [object Object]？'
+          a: '那個欄位放的是巢狀物件。CSV 是平面的，請先把巢狀資料攤平成獨立的鍵，例如 address_city，再轉換。'
+        - q: 'Excel 把所有內容塞在同一欄，怎麼回事？'
+          a: '某些語系的 Excel 預期分號作為分隔符號。請用「資料 > 從文字/CSV」匯入並選逗號作為分隔符號，或改用 Google 試算表開啟。'
 
   camera-recorder:
     title: 相機錄影
@@ -473,6 +493,26 @@ tools:
   sql-prettify:
     title: SQL 美化與格式化
     description: 線上格式化並美化您的 SQL 查詢（支援多種 SQL 方言）。
+    guide:
+      intro: '把 SQL 整理成一致縮排、易讀的版面，可選擇資料庫方言（PostgreSQL、MySQL、SQL Server、BigQuery 等）、關鍵字大小寫與縮排樣式。由 sql-formatter 函式庫驅動。'
+      useCases:
+        - '從日誌、ORM 或 BI 工具複製出來的一長串查詢，先整理成可讀再除錯。'
+        - '提交或貼進審查之前，統一查詢的風格。'
+        - '整理腳本產生的單行查詢。'
+      steps:
+        - '選擇符合您資料庫的方言，讓它特有的關鍵字與語法能被正確辨識。'
+        - '選擇關鍵字大小寫（大寫、小寫或保留）與縮排樣式。'
+        - '貼上查詢，複製整理後的結果。'
+      notes:
+        - '格式化只調整空白與關鍵字大小寫，絕不改變查詢的意義，也不會對照資料庫結構做驗證。'
+        - '選錯方言可能誤讀方言特有的語法（例如 T-SQL 的中括號或 PostgreSQL 的 :: 轉型），產生奇怪的斷行。Standard SQL 是安全的保底選項。'
+        - '表格式縮排會把關鍵字對齊成一欄，有些團隊偏好用在很長的 SELECT 清單；Standard 則是常見的巢狀版面。'
+        - '以分號分隔的多個敘述會依序逐一格式化。'
+      faq:
+        - q: '為什麼某個語法附近的輸出看起來不對？'
+          a: '最可能是方言不符。請切換到您資料庫的方言；如果是不常見的語法，Standard SQL 可能會格式化得比較穩定。'
+        - q: '格式化會改變資料庫執行查詢的方式嗎？'
+          a: '不會。空白與關鍵字大小寫對資料庫沒有影響，字串常值與識別字也都不會被動到，查詢的行為完全一樣。'
 
   benchmark-builder:
     title: 效能測試建構器
@@ -615,6 +655,26 @@ tools:
   toml-to-yaml:
     title: TOML 轉 YAML
     description: 解析 TOML 並轉換為 YAML。
+    guide:
+      intro: '把 TOML 文件轉成 YAML。從以 TOML 為主的工具把設定搬到需要 YAML 的工具時很有用，也可以用較熟悉的 YAML 排版檢視 TOML 檔。'
+      useCases:
+        - '把 TOML 設定轉成 Kubernetes、Compose、CI 或 Ansible 用的 YAML 檔。'
+        - '把有許多巢狀表格的密集 TOML 檔讀成縮排的 YAML 樹。'
+        - '從 TOML 文件準備 YAML 範例。'
+      steps:
+        - '把 TOML 貼進左側欄位。'
+        - '右側會顯示 YAML。'
+        - '複製結果。'
+      notes:
+        - 'TOML 的日期時間會變成 ISO 8601 時間戳，例如 1979-05-27T07:32:00.000Z，YAML 同樣把它視為時間戳。'
+        - '像 [server.tls] 這樣的表格標頭在 YAML 中會變成巢狀對應表，[[items]] 表格陣列會變成對應表的清單。'
+        - '註解會被丟掉。輸出使用兩個空格縮排。'
+        - '會被 YAML 讀成其他型別的字串（true、1.0、null）會自動加引號以保留原意。'
+      faq:
+        - q: '為什麼 YAML 幫我某些值加了引號？'
+          a: '只有讀回 YAML 時會改變型別的值才會加引號，例如字串 "on" 或以字串保存的數字。資料本身完全相同。'
+        - q: '可以反過來轉嗎？'
+          a: '可以，用「YAML 轉 TOML」工具，但文件最上層必須是對應表；null 值會被丟掉。'
 
   math-evaluator:
     title: 數學運算式計算器
@@ -623,6 +683,26 @@ tools:
   json-to-yaml-converter:
     title: JSON 轉 YAML
     description: 使用這個線上即時轉換器，輕鬆將 JSON 轉換為 YAML。
+    guide:
+      intro: '即時把 JSON 轉成 YAML。YAML 是多數設定檔的格式（Kubernetes、GitHub Actions、Docker Compose、Ansible），這個工具讓您輸入或貼上 JSON，得到等價的 YAML 文件。'
+      useCases:
+        - '把 JSON 設定或 API 回應轉成 YAML 的 manifest 或 workflow 檔。'
+        - '在手動編輯一份很長的設定檔之前，先看看 JSON 結構在 YAML 中長什麼樣。'
+        - '把 JSON 測試資料轉成 Ansible、Helm 等工具需要的 YAML。'
+      steps:
+        - '把 JSON 貼進左側欄位。接受較寬鬆的 JSON5 語法（註解、結尾逗號、不加引號的鍵）。'
+        - '右側會顯示 YAML，每次修改都會即時更新。'
+        - '用複製按鈕取用結果。'
+      notes:
+        - 'JSON5 輸入中的註解會被丟掉：轉換是對解析後的資料進行，不是對文字。'
+        - '會被 YAML 讀成其他型別的字串，例如 "true"、"null" 或寫成字串的數字，會自動加上引號以保留原意。yes、no 這類字在 YAML 1.2 中就是一般字串，不會加引號。'
+        - '輸出使用兩個空格縮排與區塊樣式。含有空格的長字串可能會被折成多行，這仍是合法的 YAML，但看起來可能有點意外。'
+        - '鍵的順序會保留。JSON 沒有註解、錨點或多文件的概念，所以輸出中也不會出現。'
+      faq:
+        - q: '為什麼有些字串有引號、有些沒有？'
+          a: 'YAML 只在裸值會被解讀成其他東西時才需要引號，例如字串 "true" 或 "1.0"。轉換器就只在這些情況加引號。'
+        - q: '可以把 YAML 轉回 JSON 嗎？'
+          a: '可以，請用「YAML 轉 JSON」工具。來回轉換資料不會變，但註解和排版不會保留。'
 
   url-parser:
     title: URL 解析器
@@ -687,6 +767,26 @@ tools:
   toml-to-json:
     title: TOML 轉 JSON
     description: 解析 TOML 並轉換為 JSON。
+    guide:
+      intro: '解析 TOML 文件並輸出成縮排的 JSON，方便檢視 Cargo.toml、pyproject.toml 或其他 TOML 設定，或交給只讀 JSON 的程式。'
+      useCases:
+        - '在預期 JSON 的腳本或 jq 管線中讀取 TOML 檔。'
+        - '確認 TOML 的表格、點號鍵與表格陣列如何對應到巢狀物件。'
+        - '驗證 TOML 檔案：語法錯誤會在輸入時即時顯示。'
+      steps:
+        - '把 TOML 貼進左側欄位。'
+        - '右側會顯示以三個空格縮排的 JSON。'
+        - '複製結果。'
+      notes:
+        - 'TOML 的日期時間（例如 1979-05-27T07:32:00Z）在 JSON 中會變成 ISO 8601 字串，因為 JSON 沒有日期型別。'
+        - '超出 JavaScript 安全範圍（約 9×10^15）的整數不被支援，輸出會是空的。'
+        - '註解會被丟掉，輸出一定是 JSON 物件，因為 TOML 文件本身就是一個表格。'
+        - '重複的鍵與定義兩次的表格在 TOML 中是錯誤，轉換器會直接拒絕，而不是默默保留其中一個。'
+      faq:
+        - q: '為什麼我的日期變成了字串？'
+          a: 'TOML 有原生的日期時間值，但 JSON 沒有，所以會序列化成 ISO 8601 文字。需要的話請在讀取端再解析回日期。'
+        - q: '可以把 JSON 轉回 TOML 嗎？'
+          a: '可以，用「JSON 轉 TOML」工具，但 JSON 的最上層必須是物件；null 值在轉換時會被丟掉。'
 
   lorem-ipsum-generator:
     title: Lorem ipsum 產生器
@@ -884,6 +984,26 @@ tools:
   xml-formatter:
     title: XML 格式化
     description: 將您的 XML 字串美化為友善、易讀的格式。
+    guide:
+      intro: '替 XML 文件加上縮排，讓結構容易閱讀，可設定縮排大小，並可選擇讓簡短的文字內容和元素留在同一行。不合法的 XML 會回報錯誤而不是硬排版。'
+      useCases:
+        - '閱讀被壓成單行的 XML 內容、SOAP 封包或設定檔。'
+        - '提交之前統一 XML 檔的格式，讓 diff 只顯示真正的修改。'
+        - '檢查一份 XML 文件是否格式良好（well-formed）。'
+      steps:
+        - '把 XML 貼進左側欄位。'
+        - '設定縮排大小（0 到 10 個空格），並切換「Collapse content」。'
+        - '複製整理後的結果。'
+      notes:
+        - '「Collapse content」會讓元素和它的文字留在同一行（<name>Ann</name>）。關掉後文字會移到獨立的縮排行，更整齊但也更長。'
+        - '格式化會改變元素之間的空白，通常不影響意義。但在文字內的空白有意義的文件（混合內容、預先排版的文字）中，請檢查結果。'
+        - '檢查只測試格式良好與否：標籤成對、正確巢狀、屬性加引號。不會對照 DTD 或 XML Schema 驗證。'
+        - '註解、CDATA 區段與 XML 宣告都會保留。'
+      faq:
+        - q: '為什麼我的 XML 被判定為不合法？'
+          a: '常見原因：標籤沒關閉、文字中有未轉義的 & 或 <（要寫成 &amp; 與 &lt;）、屬性值沒加引號，或有多個根元素。HTML 不是 XML，所以 HTML 網頁通常也會失敗。'
+        - q: '可以反過來壓縮 XML 嗎？'
+          a: '不能直接做。把縮排大小設為 0 可以去掉縮排，得到緊湊但仍有換行的文件。'
 
   temperature-converter:
     title: 溫度轉換器
@@ -924,6 +1044,26 @@ tools:
   yaml-to-toml:
     title: YAML 轉 TOML
     description: 解析 YAML 並轉換為 TOML。
+    guide:
+      intro: '把 YAML 文件直接轉成 TOML，不必手動經過 JSON。專案從 YAML 設定改用 TOML，或某個工具只讀 TOML 時很方便。'
+      useCases:
+        - '把設定檔從 YAML 遷移到 TOML，例如改成 pyproject.toml。'
+        - '從文件中找到的 YAML 範例產生 TOML 片段。'
+        - '比較同一份資料在兩種格式中的寫法。'
+      steps:
+        - '把 YAML 貼進左側欄位。'
+        - '右側會顯示 TOML。'
+        - '複製結果。'
+      notes:
+        - '結果要符合 TOML 的規則：最上層必須是對應表（mapping），null 值會被丟掉。最上層是清單或純量的 YAML 文件不會有輸出。'
+        - 'YAML 的隱含型別會先發生：沒加引號的 true 在轉換前就已經變成布林值，1.10 變成數字。想維持字串請在 YAML 中加引號。'
+        - '錨點、別名與合併鍵會被展開，所以重複的資料在 TOML 中會完整寫出。'
+        - '註解不會帶過去。'
+      faq:
+        - q: '錯誤訊息說我的 JSON 不合法，但我貼的是 YAML？'
+          a: '這個訊息是通用的，意思是 YAML 無法解析。如果 YAML 合法但輸出一直是空的，文件的最上層很可能是清單或純量，TOML 無法表示。'
+        - q: '為什麼 TOML 中少了一些鍵？'
+          a: '值為 null 的鍵（YAML 中的空值也會解析成 null）會被省略，因為 TOML 無法表示 null。'
 
   mac-address-generator:
     title: MAC 位址產生器
@@ -1214,6 +1354,26 @@ tools:
   json-to-toml:
     title: JSON 轉 TOML
     description: 解析 JSON 並轉換為 TOML。
+    guide:
+      intro: '把 JSON 轉成 TOML，也就是 Cargo（Rust）、pyproject.toml（Python）、Hugo 與許多命令列工具使用的設定格式。物件會變成表格（table），物件陣列會變成表格陣列。'
+      useCases:
+        - '用手上已有的 JSON 資料寫出 pyproject.toml 或 Cargo.toml 的區段。'
+        - '把 JSON 設定翻成 TOML，給只讀 TOML 的工具。'
+        - '透過熟悉的 JSON 結構在 TOML 中的寫法來學習 TOML 語法。'
+      steps:
+        - '把 JSON（接受 JSON5 語法）貼進左側欄位。'
+        - '右側會顯示 TOML。'
+        - '複製結果。'
+      notes:
+        - '最上層必須是物件。TOML 無法把整份文件表示成單純的陣列或純量，這類輸入不會有輸出。'
+        - '混合型別的陣列（例如數字與字串）會寫成行內陣列，TOML 1.0 允許這樣做；仍要求陣列單一型別的舊版 TOML 解析器可能會拒絕。'
+        - 'null 在 TOML 中沒有對應的寫法，值為 null 的鍵會從輸出中省略。'
+        - '巢狀物件會寫成 [table] 與 [table.sub] 標頭，物件陣列會寫成 [[array]] 項目，這是慣用的 TOML 排版。'
+      faq:
+        - q: '為什麼合法的 JSON 轉換會失敗？'
+          a: 'TOML 比 JSON 嚴格：文件必須是物件，而且沒有 null。最上層是陣列或純量時不會有輸出，值為 null 的鍵會默默消失。'
+        - q: '我值為 null 的鍵跑去哪了？'
+          a: '它被省略了，因為 TOML 無法表示 null。請改用空字串、特定的替代值，或在讀取端直接省略這個鍵。'
 
   device-information:
     title: 裝置資訊
@@ -1226,6 +1386,26 @@ tools:
   json-minify:
     title: JSON 壓縮
     description: 移除不必要的空白，將您的 JSON 最小化並壓縮。
+    guide:
+      intro: '移除 JSON 中所有不必要的空白，產生最短的等價單行文字。JSON5 輸入中的註解與結尾逗號也會被去掉，所以輸出一定是標準 JSON。'
+      useCases:
+        - '把 JSON 內容嵌進網址、HTML 屬性或設定字串之前先縮小。'
+        - '把帶註解的 JSON5 設定轉成解析器要求的嚴格 JSON。'
+        - '把 JSON 文件放成一行，用在日誌、環境變數或 curl 指令中。'
+      steps:
+        - '把 JSON 貼進左側欄位；接受帶註解的 JSON5 語法。'
+        - '右側會顯示單行的結果。'
+        - '複製它。'
+      notes:
+        - '只會移除字串以外的空白。字串值裡的空格與換行會保留，因為它們是資料的一部分。'
+        - '輸入會被解析後重新序列化，所以註解會消失、重複的鍵只保留最後一個值，數字也會被正規化（1.0 變成 1，1e3 變成 1000）。'
+        - '壓縮通常能讓有縮排的 JSON 縮小 20% 到 40%。真正要省頻寬，伺服器端的 gzip 或 brotli 壓縮重要得多。'
+        - '輸入不合法時會顯示錯誤，沒有輸出。'
+      faq:
+        - q: '為什麼 1.0 變成了 1？'
+          a: 'JSON 數字沒有格式的概念，1.0 和 1 是同一個值，序列化時會寫成最短的形式。如果這個差異很重要，請把值存成字串。'
+        - q: '怎麼把它變回可讀的格式？'
+          a: '用「JSON 美化與格式化」工具，它會把同樣的資料重新縮排成多行版面。'
 
   ulid-generator:
     title: ULID 產生器
@@ -1242,6 +1422,26 @@ tools:
   yaml-to-json-converter:
     title: YAML 轉 JSON
     description: 使用這個線上即時轉換器，輕鬆將 YAML 轉換為 JSON。
+    guide:
+      intro: '解析 YAML 文件，輸出相同資料的縮排 JSON。適合把設定檔餵給只接受 JSON 的工具與 API，或確認一份 YAML 檔案到底被怎麼解讀。'
+      useCases:
+        - '把 Kubernetes manifest、Compose 檔或 CI workflow 轉成 JSON，用於 API 呼叫或腳本。'
+        - '查看 YAML 的隱含型別如何解讀您的值：哪些變成了數字、布林或 null。'
+        - '找出 YAML 檔的縮排錯誤，不合法的 YAML 會顯示錯誤。'
+      steps:
+        - '把 YAML 貼進左側欄位。'
+        - '右側會顯示以三個空格縮排的 JSON。'
+        - '用複製按鈕取用結果。'
+      notes:
+        - 'YAML 會隱含地判斷型別：沒加引號的 true、false 會變成布林值，1.10 會變成數字 1.1，空值或 ~ 會變成 null。這個解析器遵循 YAML 1.2，所以 yes、no、on、off 維持字串。如果某個值的型別不對，請在 YAML 中加上引號。'
+        - '合併鍵（<<: *defaults）會被解析，錨點與別名會被展開，所以 JSON 中是合併、複製後的資料。'
+        - '多文件檔案（用 --- 分隔的區段）會被拒絕並顯示錯誤，請一次轉換一份文件。'
+        - '註解會遺失，因為 JSON 沒有註解。'
+      faq:
+        - q: '為什麼版本號 1.10 變成了 1.1？'
+          a: '沒加引號的 1.10 在 YAML 中是浮點數，數字不會保留結尾的零。寫成帶引號的 "1.10" 才會維持字串。'
+        - q: '為什麼輸出是空的卻沒有錯誤？'
+          a: 'YAML 解析出來是空值，例如整個檔案只有註解。請確認文件至少有一個鍵或清單項目。'
 
   uuid-generator:
     title: UUID 產生器
@@ -1358,6 +1558,26 @@ tools:
   json-to-xml:
     title: JSON 轉 XML
     description: 將 JSON 轉換為 XML
+    guide:
+      intro: '依 xml-js 函式庫的 compact 慣例把 JSON 轉成 XML：_attributes 物件變成元素屬性，_text 變成文字內容，陣列變成重複的元素。它是「XML 轉 JSON」工具的反向操作。'
+      useCases:
+        - '用保存為 JSON 的資料組出 SOAP 或舊式 API 的 XML 請求內容。'
+        - '把先前轉成 JSON 編輯過的資料再轉回 XML。'
+        - '從腳本輸出的 JSON 產生 XML 設定或 sitemap 片段。'
+      steps:
+        - '把 JSON（接受 JSON5 語法）貼進左側欄位。'
+        - '右側會顯示 XML。'
+        - '複製結果。'
+      notes:
+        - '一般的鍵會變成元素，一般的值會變成文字：{''{''}"a":"hi"{''}''} 會得到 <a>hi</a>。要得到 <a id="1">hi</a>，請寫成 {''{''}"a":{''{''}"_attributes":{''{''}"id":"1"{''}''},"_text":"hi"{''}''}{''}''}。'
+        - 'XML 需要單一根元素，所以 JSON 物件最上層應該只有一個鍵。多個鍵會產生多個根元素，不是合法的文件。'
+        - '鍵必須是合法的 XML 名稱：不能以數字開頭，也不能含空白。像 "1st" 或 "first name" 這樣的鍵會產生不合法的 XML。'
+        - '數字、布林與 null 會寫成文字；null 和空物件會變成空元素。輸出是單行的，可以再丟進「XML 格式化」工具縮排。'
+      faq:
+        - q: '為什麼輸出沒有 XML 宣告？'
+          a: '只有 JSON 中有 _declaration 鍵時才會寫出，例如 {''{''}"_declaration":{''{''}"_attributes":{''{''}"version":"1.0","encoding":"utf-8"{''}''}{''}''},"root":{''{''}...{''}''}{''}''}。'
+        - q: '怎麼替元素設定屬性？'
+          a: '把元素的值寫成物件，用 _attributes 鍵放屬性，需要文字內容的話再加 _text 鍵。'
 
   markdown-to-html:
     title: Markdown 轉 HTML
@@ -1398,6 +1618,26 @@ tools:
   xml-to-json:
     title: XML 轉 JSON
     description: 將 XML 轉換為 JSON
+    guide:
+      intro: '以 xml-js 函式庫的 compact 慣例把 XML 文件轉成 JSON：屬性放在 _attributes 底下，文字內容放在 _text，重複的元素會變成陣列。全部在瀏覽器中執行。'
+      useCases:
+        - '在腳本或瀏覽器工具中，把 SOAP 回應、RSS 訂閱或設定檔當成 JSON 讀取。'
+        - '探索一份不熟悉的 XML 文件的結構。'
+        - '把 XML 資料準備給只接受 JSON 的 API 或 NoSQL 資料庫。'
+      steps:
+        - '把 XML 貼進左側欄位。不合法的 XML 會顯示錯誤。'
+        - '右側會顯示 JSON。'
+        - '複製結果。'
+      notes:
+        - '屬性會集中在 _attributes 物件，元素文字放在 _text，所以 <a id="1">hi</a> 會變成 {''{''}"a":{''{''}"_attributes":{''{''}"id":"1"{''}''},"_text":"hi"{''}''}{''}''}。'
+        - '只出現一次的元素會變成物件，同一個元素出現兩次就會變成陣列。讀取結果的程式必須處理這兩種形狀，或先把它們統一。'
+        - '所有的值都是字串。XML 沒有型別，所以 42 和 true 會維持 "42" 與 "true"。'
+        - 'XML 宣告、註解、CDATA 與處理指令會保留在 _declaration、_comment、_cdata 等鍵底下。命名空間會留在元素名稱裡（ns:item）。'
+      faq:
+        - q: '為什麼同一個元素有時是物件、有時是陣列？'
+          a: '轉換器無法知道哪些元素是設計成會重複的。出現一次是物件，兩次以上是陣列。在程式中用類似 [].concat(value) 的方式統一即可。'
+        - q: '為什麼我的數字變成字串？'
+          a: 'XML 不帶型別資訊，所以每個值都是文字。請在讀取端再轉成數字或布林值。'
 
   certificate-parser:
     title: X.509 憑證解析
