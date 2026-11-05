@@ -1,11 +1,7 @@
-import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
-import { parse } from 'yaml';
 
-// Guides are added to tools over time, so the tool without one is looked up instead of hard-coded
-const { tools } = parse(readFileSync('locales/en.yml', 'utf8')) as { tools: Record<string, { title?: string; guide?: unknown }> };
-const [toolKeyWithoutGuide, toolWithoutGuide] = Object.entries(tools).find(([, tool]) => typeof tool?.title === 'string' && !tool.guide) ?? [];
-
+// Every tool ships a guide, so these tests check that the right guide is shown and that it
+// follows client-side navigation. Tools without a guide no longer exist, so that branch is not tested here.
 test.describe('Tool guide section', () => {
   test('is rendered for a tool that has guide content', async ({ page }) => {
     await page.goto('/crontab-generator');
@@ -19,13 +15,6 @@ test.describe('Tool guide section', () => {
     await expect(guide).toContainText('*/15 * * * *');
   });
 
-  test('is absent for a tool without guide content', async ({ page }) => {
-    expect(toolKeyWithoutGuide, 'every tool has a guide, so this test needs a new approach').toBeDefined();
-    await page.goto(`/${toolKeyWithoutGuide}`);
-
-    await expect(page.getByTestId('tool-guide')).toHaveCount(0);
-  });
-
   test('follows the tool when navigating between tools without a page reload', async ({ page }) => {
     await page.goto('/password-generator');
     await expect(page.getByTestId('tool-guide')).toContainText('Password generator');
@@ -36,8 +25,9 @@ test.describe('Tool guide section', () => {
     await expect(page.getByTestId('tool-guide')).toContainText('Hash text');
     await expect(page.getByTestId('tool-guide')).not.toContainText('Password generator');
 
-    await page.locator(`a[href="/${toolKeyWithoutGuide}"]`).first().click();
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(toolWithoutGuide!.title!);
-    await expect(page.getByTestId('tool-guide')).toHaveCount(0);
+    await page.locator('a[href="/uuid-generator"]').first().click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('UUIDs generator');
+    await expect(page.getByTestId('tool-guide')).toContainText('UUIDs generator');
+    await expect(page.getByTestId('tool-guide')).not.toContainText('Hash text');
   });
 });
