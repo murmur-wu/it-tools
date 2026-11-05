@@ -200,6 +200,26 @@ tools:
   chronometer:
     title: Chronometer
     description: Monitor the duration of a thing. Basically a chronometer with simple chronometer features.
+    guide:
+      intro: 'A simple stopwatch: start, pause, resume and reset, with the elapsed time shown to the millisecond. It runs in your browser tab and needs no sign-in or installation.'
+      useCases:
+        - 'Timing a task, a presentation rehearsal, a brewing step or an exercise set.'
+        - 'Measuring how long a manual procedure takes to estimate or document it.'
+        - 'Having a stopwatch on a computer that has none built in.'
+      steps:
+        - 'Press Start.'
+        - 'Press Stop to pause; press Start again to resume from where it stopped.'
+        - 'Press Reset to return to zero.'
+      notes:
+        - 'Time is measured with the system clock, so pausing and resuming does not drift; the display is refreshed as fast as the browser repaints.'
+        - 'The chronometer keeps running while the tab is in the background, but browsers slow down background tabs, so the display may jump when you come back. The elapsed time itself stays correct.'
+        - 'Reloading or closing the page resets the chronometer; there is no persistence or lap memory.'
+        - 'For long or important timings, note the start time as well, as a safety net.'
+      faq:
+        - q: 'Does it keep counting if I switch tabs or lock the screen?'
+          a: 'Yes, elapsed time is computed from timestamps, so it is still correct when you return. Only the on-screen refresh pauses in the background.'
+        - q: 'Can I record laps or several timers?'
+          a: 'Not in this tool; it is a single stopwatch. Note intermediate times manually when you need splits.'
 
   password-generator:
     title: Password generator
@@ -306,6 +326,26 @@ tools:
   percentage-calculator:
     title: Percentage calculator
     description: Easily calculate percentages from a value to another value, or from a percentage to a value.
+    guide:
+      intro: 'Answers the three everyday percentage questions: what is X% of Y, X is what percent of Y, and what is the percentage change from one value to another.'
+      useCases:
+        - 'Working out a discount, a tip, VAT or a commission (what is 15% of 80).'
+        - 'Finding a share or a score as a percentage (45 out of 60 is what percent).'
+        - 'Measuring growth or decline between two figures (from 120 to 150 is +25%).'
+      steps:
+        - 'Pick the row that matches your question and fill in the two numbers.'
+        - 'Read the result next to them; it updates as you type.'
+        - 'Copy it with the copy button.'
+      notes:
+        - 'Percentage change is computed relative to the starting value: (to − from) ÷ from × 100. Going from 100 to 150 is +50%, but going back from 150 to 100 is −33.3%, not −50%.'
+        - 'A change in percentage points is not the same as a percentage change: moving from 10% to 15% is +5 points but a +50% change.'
+        - 'Results are shown with limited rounding, so repeating decimals such as 33.33 appear truncated.'
+        - 'Negative numbers are allowed in all rows, but a starting value of 0 has no defined percentage change.'
+      faq:
+        - q: 'How do I add a percentage to a price?'
+          a: 'Compute X% of the price in the first row and add it, or multiply the price by (1 + X/100). To remove VAT from a gross price, divide by (1 + rate), do not subtract the percentage.'
+        - q: 'Why does a 20% drop followed by a 20% rise not get back to the start?'
+          a: 'Because each change is relative to the current value: 100 → 80 → 96. Percentage changes do not cancel out symmetrically.'
 
   svg-placeholder-generator:
     title: SVG placeholder generator
@@ -390,6 +430,26 @@ tools:
   color-converter:
     title: Color converter
     description: Convert color between the different formats (hex, rgb, hsl and css name)
+    guide:
+      intro: 'Converts a colour between the notations used on the web and in design tools: hex, rgb(), hsl(), hwb(), lch(), cmyk() and the CSS colour names. Edit any field or use the picker, and every other format updates.'
+      useCases:
+        - 'Turning a hex code from a design file into the hsl() or rgb() a stylesheet uses.'
+        - 'Finding the nearest CSS colour name for a hex value, or the hex value of a name such as rebeccapurple.'
+        - 'Getting CMYK values to hand a web colour to a print designer, or LCH values for perceptually even palettes.'
+      steps:
+        - 'Type a colour in any field (for example #1ea54c, rgb(30, 165, 76) or seagreen), or pick one with the colour picker.'
+        - 'All other fields update as soon as the input is a valid colour.'
+        - 'Copy the format you need with its copy button.'
+      notes:
+        - 'Hex accepts 3, 4, 6 and 8 digits; the 4- and 8-digit forms carry transparency, which rgb() and hsl() show as a fourth alpha value.'
+        - 'CMYK here is a plain mathematical conversion from RGB, not a colour-managed one. Printed results depend on the paper, inks and ICC profile, so treat the numbers as a starting point.'
+        - 'The name field shows a CSS colour name only when the colour matches one exactly; most colours have no name and the field stays empty.'
+        - 'LCH and HWB are supported by current browsers in CSS, but older browsers ignore them, so keep a hex or rgb() fallback when you use them in stylesheets.'
+      faq:
+        - q: 'Why does the name field stay empty?'
+          a: 'Only the 148 named CSS colours have a name, and the match must be exact. #1ea54c is close to seagreen but is not seagreen, so no name is shown.'
+        - q: 'Which format should I use in CSS?'
+          a: 'Hex is the most compact and universally supported. hsl() is easier to tweak by hand (lighter, darker, more saturated). Use the 8-digit hex or rgb() with alpha when you need transparency.'
 
   bcrypt:
     title: Bcrypt
@@ -645,10 +705,50 @@ tools:
   eta-calculator:
     title: ETA calculator
     description: An ETA (Estimated Time of Arrival) calculator to determine the approximate end time of a task, for example, the end time and duration of a file download.
+    guide:
+      intro: 'Estimates when a task will finish from how fast it is going: give the total amount of work, when it started and the rate observed so far (so many units per so much time), and get the total duration and the expected end time.'
+      useCases:
+        - 'Predicting when a download, a backup, a data migration or a batch job will complete from its current throughput.'
+        - 'Estimating how long a repetitive manual task will take at the pace observed so far.'
+        - 'Planning: checking whether a process will finish before a deadline or a maintenance window closes.'
+      steps:
+        - 'Enter the total number of units to process (files, rows, megabytes, items).'
+        - 'Set when the work started and the rate you observe, for example 3 units every 5 minutes.'
+        - 'Read the total duration and the relative end time (for example tomorrow at 14:30).'
+      notes:
+        - 'The estimate assumes a constant rate. Downloads, builds and migrations often slow down or speed up, so re-measure the rate from time to time and update the fields.'
+        - 'Duration is computed as total units divided by the rate; the end time adds that duration to the start time, in your device''s time zone.'
+        - 'Use the same unit for the total and the rate. If the rate is in megabytes per second, the total must be in megabytes too.'
+        - 'The end time is shown relative to now (today, tomorrow, a weekday), so it reads naturally but should be re-checked if you come back to the page much later.'
+      faq:
+        - q: 'How do I get the rate for a download?'
+          a: 'Note the amount transferred over a minute or two (most download managers show it), then enter that amount and that time span. Longer measurement windows give steadier estimates.'
+        - q: 'Why does the end time differ from what my tool predicts?'
+          a: 'Tools often use a moving average of recent speed, while this calculator uses the single rate you entered. If the speed changed since you measured it, the estimates diverge.'
 
   roman-numeral-converter:
     title: Roman numeral converter
     description: Convert Roman numerals to numbers and convert numbers to Roman numerals.
+    guide:
+      intro: 'Converts numbers from 1 to 3999 into Roman numerals and Roman numerals back into numbers, following the standard subtractive notation (IV rather than IIII).'
+      useCases:
+        - 'Writing a year, a chapter number or a sequel title (Rocky IV) in Roman numerals.'
+        - 'Reading a date on a monument, a film''s copyright notice or a clock face.'
+        - 'Checking homework or a puzzle answer.'
+      steps:
+        - 'Type a number in the first field to see its Roman numeral.'
+        - 'Type a Roman numeral in the second field to see the number.'
+        - 'Copy either result.'
+      notes:
+        - 'The seven symbols are I (1), V (5), X (10), L (50), C (100), D (500) and M (1000). A smaller symbol before a larger one is subtracted (IX is 9), after it is added (XI is 11).'
+        - 'Only 1 to 3999 are supported, because classical notation has no symbol above M and repeats a symbol at most three times. Larger numbers used a bar over the numerals, which cannot be typed as plain text.'
+        - 'There is no zero and there are no negative or fractional numbers in Roman numerals.'
+        - 'The validator accepts only the standard form: IIII, VX or IC are rejected even though they appear on some clock faces and inscriptions.'
+      faq:
+        - q: 'Why can I not convert 4000 or more?'
+          a: 'Standard Roman numerals stop at 3999 (MMMCMXCIX). Romans wrote larger values with an overline meaning times one thousand, which has no plain-text equivalent.'
+        - q: 'Why is MCMXCIX 1999 and not something else?'
+          a: 'Read it in groups: M (1000), CM (900), XC (90), IX (9). Each group is a largest symbol minus a smaller one placed before it.'
 
   hmac-generator:
     title: Hmac generator
@@ -758,6 +858,26 @@ tools:
   math-evaluator:
     title: Math evaluator
     description: A calculator for evaluating mathematical expressions. You can use functions like sqrt, cos, sin, abs, etc.
+    guide:
+      intro: 'Evaluates a mathematical expression as you type, with the functions and constants of the math.js library: arithmetic, powers, roots, trigonometry, logarithms, factorials, unit conversions and more.'
+      useCases:
+        - 'Quick calculations without opening a calculator app: 1920/1080, 2^32, sqrt(2)*10.'
+        - 'Trigonometry and logarithms with proper functions: sin(pi/4), log(1000, 10), atan2(1, 1).'
+        - 'Converting units inline: 5 inch to cm, 100 km/h to m/s, 72 degF to degC.'
+      steps:
+        - 'Type an expression in the field.'
+        - 'Read the result below it; errors are shown while the expression is incomplete.'
+        - 'Copy the result.'
+      notes:
+        - 'Standard operator precedence applies: ^ binds tighter than * and /, which bind tighter than + and −. Use parentheses when in doubt.'
+        - 'Trigonometric functions take radians. Write sin(45 deg) or sin(45 * pi / 180) for degrees.'
+        - 'log(x) is the natural logarithm; use log10(x) or log(x, 10) for base 10. The factorial is 5! and the modulo is mod or %.'
+        - 'Numbers are IEEE double precision, so 0.1 + 0.2 shows 0.30000000000000004. Use round(x, 2) to round to two decimals.'
+      faq:
+        - q: 'Why does 0.1 + 0.2 not give exactly 0.3?'
+          a: 'Binary floating point cannot represent 0.1 or 0.2 exactly, a limitation of nearly every calculator and programming language. Wrap the expression in round(..., 2) to display a clean result.'
+        - q: 'Can I convert units?'
+          a: 'Yes, math.js understands many units: write a value with its unit and to followed by the target unit, for example 3 ft to m or 1 GB to MB.'
 
   json-to-yaml-converter:
     title: JSON to YAML converter
@@ -934,6 +1054,26 @@ tools:
   docker-run-to-docker-compose-converter:
     title: Docker run to Docker compose converter
     description: Transforms "docker run" commands into docker-compose files!
+    guide:
+      intro: 'Translates a docker run command into an equivalent docker-compose.yml service definition, mapping ports, volumes, environment variables, restart policy, networks and the other common flags, using the composerize library.'
+      useCases:
+        - 'Turning the one-line docker run from an image''s README into a Compose file you can keep in version control.'
+        - 'Consolidating several containers started by hand into a single stack.'
+        - 'Learning how a docker run flag is spelled in Compose syntax.'
+      steps:
+        - 'Paste the complete docker run command, including the image name.'
+        - 'Read the generated Compose file on the right.'
+        - 'Check the notices below it for flags that could not be translated, then copy the result.'
+      notes:
+        - 'Flags that Compose cannot express, or that the library does not know, are listed as not translatable or not implemented. Review them rather than assuming the output is complete; --rm and -it, for example, have no equivalent because Compose services are long-running.'
+        - 'Relative volume paths and environment variables are copied as written. Make sure they make sense relative to the directory where the Compose file lives.'
+        - 'The output describes one service. For several containers, convert each command and merge the services blocks under a single services key.'
+        - 'Quoting matters: a command with unbalanced quotes or shell line continuations (trailing backslashes) must be cleaned up before pasting.'
+      faq:
+        - q: 'Why does the output not include a version key?'
+          a: 'Recent versions of Docker Compose treat the version field as obsolete and ignore it. The generated file follows the current Compose specification, which does not need it.'
+        - q: 'How do I start the stack?'
+          a: 'Save the output as docker-compose.yml (or compose.yaml) and run docker compose up -d in the same directory. docker compose down stops and removes the containers.'
 
   mac-address-lookup:
     title: MAC address lookup
@@ -1247,10 +1387,50 @@ tools:
   temperature-converter:
     title: Temperature converter
     description: Degrees temperature conversions for Kelvin, Celsius, Fahrenheit, Rankine, Delisle, Newton, Réaumur, and Rømer.
+    guide:
+      intro: 'Converts a temperature between Kelvin, Celsius, Fahrenheit, Rankine, Delisle, Newton, Réaumur and Rømer at once. Type a value in any scale and the others update.'
+      useCases:
+        - 'Reading a recipe, weather report or datasheet written in Fahrenheit when you think in Celsius, or the other way round.'
+        - 'Converting to Kelvin for a physics or chemistry calculation.'
+        - 'Checking the historical scales (Delisle, Réaumur, Rømer, Newton) found in old texts and instruments.'
+      steps:
+        - 'Type a temperature in the field of the scale you have.'
+        - 'Read the same temperature in all the other scales.'
+        - 'Use the plus and minus buttons for small adjustments.'
+      notes:
+        - 'Conversions go through Kelvin using the exact definitions: 0 °C is 273.15 K and °F = K × 9/5 − 459.67. Results are not rounded, so you may see long decimals.'
+        - 'Kelvin and Rankine are absolute scales and cannot be negative. Entering a Celsius value below −273.15 gives a negative Kelvin, which is not a physical temperature.'
+        - 'Delisle runs backwards: higher Delisle values are colder, with 0 °De at the boiling point of water and 150 °De at freezing.'
+        - 'A quick mental check for Fahrenheit: double the Celsius value and add 30 (20 °C is about 70 °F). The tool gives the exact value, 68 °F.'
+      faq:
+        - q: 'Why is 0 K shown as −273.15 °C and not −273?'
+          a: 'The Kelvin scale is defined so that absolute zero is exactly −273.15 °C. Rounding to −273 is a common approximation, but the converter uses the exact value.'
+        - q: 'What are Rankine and Rømer used for?'
+          a: 'Rankine is the absolute scale paired with Fahrenheit, still seen in some US engineering fields. Rømer, Delisle, Newton and Réaumur are historical scales from the 1700s, mostly of interest when reading old scientific literature.'
 
   chmod-calculator:
     title: Chmod calculator
     description: Compute your chmod permissions and commands with this online chmod calculator.
+    guide:
+      intro: 'Builds a Unix file permission from checkboxes: tick read, write and execute for the owner, the group and everyone else, and get the octal value (such as 755), the symbolic form (rwxr-xr-x) and the ready-to-run chmod command.'
+      useCases:
+        - 'Working out the right chmod value for a script, a web directory or a private key file.'
+        - 'Decoding a permission string seen in ls -l into what each class may do.'
+        - 'Checking what 644, 600 or 777 actually grant before copying a command from the internet.'
+      steps:
+        - 'Tick the permissions for owner (u), group (g) and public (o).'
+        - 'Read the octal and symbolic representations.'
+        - 'Copy the chmod command and replace path with your file or directory.'
+      notes:
+        - 'Each digit adds read (4), write (2) and execute (1): 7 is rwx, 6 is rw-, 5 is r-x, 4 is r--, 0 is ---. The three digits are owner, group and others in that order.'
+        - 'For directories, execute means being allowed to enter and list the directory, so directories normally need x (755 or 700) where files need only r (644 or 600).'
+        - 'Private key files and credentials should be 600 (or 400): SSH refuses keys readable by others. 777 gives everyone write access and is almost never the right fix.'
+        - 'This tool covers the basic bits only. The setuid, setgid and sticky bits (a leading fourth digit such as 4755) and ACLs are not represented.'
+      faq:
+        - q: 'What is the difference between 755 and 644?'
+          a: 'Both let the owner read and write and everyone else read; 755 also lets everyone execute. Use 755 for directories and scripts, 644 for ordinary files such as HTML or images.'
+        - q: 'How do I apply a permission to a whole directory tree?'
+          a: 'Add -R to the command (chmod -R 755 dir), but be careful: it gives the same bits to files and directories. Prefer find dir -type d -exec chmod 755 {''{''}{''}''} + and find dir -type f -exec chmod 644 {''{''}{''}''} + to treat them separately.'
 
   rsa-key-pair-generator:
     title: RSA key pair generator
@@ -1568,6 +1748,26 @@ tools:
   og-meta-generator:
     title: Open graph meta generator
     description: Generate open-graph and socials HTML meta tags for your website.
+    guide:
+      intro: 'Generates the Open Graph and Twitter Card meta tags that control how a page looks when shared on social networks and in chat apps: title, description, image, URL, page type and the type-specific fields for articles, books, profiles, music and video.'
+      useCases:
+        - 'Adding share previews to a new website, landing page or blog.'
+        - 'Fixing a link that shows no image or the wrong title when pasted into Slack, Facebook, X or LINE.'
+        - 'Producing the right tags for an article (author, publish date) or a video page.'
+      steps:
+        - 'Choose the page type and fill in the title, description, URL and image.'
+        - 'Fill in the type-specific fields and the Twitter card settings if you want them.'
+        - 'Copy the generated tags into the <head> of your page.'
+      notes:
+        - 'Use an absolute URL for og:image (https://...), and an image of at least 1200×630 pixels for large previews. Many platforms reject relative paths and small images.'
+        - 'Platforms cache previews aggressively. After changing tags, use their debug tools (Facebook Sharing Debugger, LinkedIn Post Inspector, X Card Validator) to refresh the cache.'
+        - 'Tags must be in the HTML served to crawlers. Pages that only add them with JavaScript after loading are usually not read by social scrapers.'
+        - 'Keep og:title under about 60 characters and og:description under about 160, as longer values are truncated in previews.'
+      faq:
+        - q: 'Why does my link preview not update after I changed the tags?'
+          a: 'The platform cached the old version. Run the URL through the platform''s sharing debugger to force a re-scrape, or append a query parameter to the URL as a last resort.'
+        - q: 'Do I need both Open Graph and Twitter tags?'
+          a: 'X falls back to Open Graph tags when Twitter tags are missing, but twitter:card is needed to get the large-image layout. Most sites include both sets.'
 
   ipv6-ula-generator:
     title: IPv6 ULA generator
@@ -1717,6 +1917,26 @@ tools:
   base-converter:
     title: Integer base converter
     description: Convert a number between different bases (decimal, hexadecimal, binary, octal, base64, ...)
+    guide:
+      intro: 'Converts an integer between number bases from 2 to 64: binary, octal, decimal, hexadecimal, base64-style digits and anything in between. Handles numbers far beyond 64 bits without losing precision.'
+      useCases:
+        - 'Reading a hexadecimal or binary constant from code, a register map or a packet dump as a decimal.'
+        - 'Writing a decimal value as hex for a colour, a memory address or a bitmask.'
+        - 'Checking file permissions or flags in octal and binary side by side.'
+      steps:
+        - 'Type the number and set the base it is written in (2 to 64).'
+        - 'Read it in binary, octal, decimal and hexadecimal at once.'
+        - 'Set a custom output base at the bottom for anything else, for example base 36 or 58.'
+      notes:
+        - 'Digits are 0-9, then a-z, then A-Z, then + and /, in that order. So bases above 10 use lowercase letters first (hex a-f), and bases above 36 are case-sensitive, where a and A are different digits.'
+        - 'The custom base 64 here is positional (a true base-64 number), not the Base64 text encoding used for files and strings. Use the Base64 tools for that.'
+        - 'Only non-negative integers are supported: no minus sign, decimal point or prefixes such as 0x or 0b. Strip the prefix before pasting.'
+        - 'Arithmetic uses arbitrary-precision integers, so 128-bit values and longer convert exactly.'
+      faq:
+        - q: 'Why is my hexadecimal input rejected?'
+          a: 'Probably because of uppercase letters or a 0x prefix. Hex digits must be lowercase a-f here (uppercase letters are digits of bases above 36), and the prefix must be removed.'
+        - q: 'What is base 36 or base 58 used for?'
+          a: 'Base 36 (0-9, a-z) gives compact, case-insensitive identifiers such as short URLs. Base 58 is used by Bitcoin addresses, although Bitcoin''s alphabet differs from the one here, so results are not interchangeable.'
 
   yaml-to-json-converter:
     title: YAML to JSON converter
@@ -2061,6 +2281,26 @@ tools:
   markdown-to-html:
     title: Markdown to HTML
     description: Convert Markdown to Html and allow to print (as PDF)
+    guide:
+      intro: 'Converts Markdown into HTML with the markdown-it parser (CommonMark plus tables and strikethrough), shows the rendered result, and can send it to the print dialog to save it as a PDF.'
+      useCases:
+        - 'Getting the HTML of a README or a note to paste into a CMS, an e-mail or a web page.'
+        - 'Printing or saving a Markdown document as a PDF without installing anything.'
+        - 'Checking how a Markdown snippet renders before publishing it.'
+      steps:
+        - 'Paste or type Markdown in the left field.'
+        - 'Read the generated HTML on the right and the rendered preview.'
+        - 'Copy the HTML, or use the print button to open the print dialog and choose Save as PDF.'
+      notes:
+        - 'Raw HTML inside the Markdown is not passed through: it is shown as text. Use Markdown syntax for formatting instead.'
+        - 'Supported beyond basic CommonMark: tables and strikethrough (~~text~~), which markdown-it enables by default; task lists, footnotes and math are not.'
+        - 'The output is a fragment (no <html>, <head> or <body>), ready to insert into an existing page or template.'
+        - 'Printing uses your browser''s print dialog, so page size, margins and headers are controlled there. Choose Save as PDF as the destination.'
+      faq:
+        - q: 'Why does my inline HTML show up as text?'
+          a: 'HTML passthrough is disabled for safety, so tags are escaped and displayed literally. Express the formatting in Markdown, or add the HTML after conversion.'
+        - q: 'Can I style the PDF?'
+          a: 'Only through the browser''s print options (paper size, margins, scale). For custom fonts or colours, paste the HTML into your own page with a stylesheet and print from there.'
 
   regex-memo:
     title: Regex cheatsheet
