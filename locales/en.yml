@@ -196,6 +196,26 @@ tools:
   password-strength-analyser:
     title: Password strength analyser
     description: Discover the strength of your password with this client-side-only password strength analyser and crack time estimation tool.
+    guide:
+      intro: 'Estimates how strong a password is from its length and the character classes it uses: it computes the entropy in bits, the size of the character set, a score, and how long a brute-force attack at one billion guesses per second would need. Nothing leaves your browser.'
+      useCases:
+        - 'Checking whether a password you are about to use is long and varied enough.'
+        - 'Explaining to a team why length matters more than symbols, with concrete numbers.'
+        - 'Comparing candidate password policies (8 mixed characters versus 16 lowercase letters).'
+      steps:
+        - 'Type or paste a password.'
+        - 'Read the length, entropy, character set size, score and estimated crack time.'
+        - 'Lengthen or vary the password and watch the numbers change.'
+      notes:
+        - 'Entropy is computed as log2(character set size) × length, so it measures brute-force resistance only. It does not know that password123 or a dictionary word is weak: real attackers try common passwords first, so a high score here is necessary but not sufficient.'
+        - 'The crack time assumes 10^9 guesses per second against a fast hash. Against slow hashes such as bcrypt it is far longer; against a leaked fast hash with GPUs it can be shorter.'
+        - 'The character set is 26 for lowercase, 52 with uppercase, 62 with digits and about 94 with symbols. Adding one more character to the length helps more than adding a symbol class.'
+        - 'The password is analysed locally and never transmitted. Even so, avoid typing a password you already use into any website.'
+      faq:
+        - q: 'Why does a passphrase of four common words score high?'
+          a: 'Because the analyser only counts characters, 25 lowercase letters give about 117 bits. A real dictionary attack on four words from a 7000-word list needs only about 51 bits, so treat word-based passphrases with this tool''s score as optimistic.'
+        - q: 'What score should I aim for?'
+          a: 'The score reaches 1 at 128 bits. For an account protected by a slow hash and rate limiting, 60 to 80 bits (a 12-character mixed password or a 5-word random passphrase) is already very strong. Use a password manager so length is free.'
 
   chronometer:
     title: Chronometer
@@ -350,6 +370,26 @@ tools:
   svg-placeholder-generator:
     title: SVG placeholder generator
     description: Generate svg images to use as a placeholder in your applications.
+    guide:
+      intro: 'Creates a placeholder image as an SVG: a coloured rectangle with the dimensions written in the middle (or your own text), available as SVG source, as a Base64 data URL, or as a downloadable file.'
+      useCases:
+        - 'Filling image slots in a layout or a prototype before the real pictures exist.'
+        - 'Providing a lightweight fallback or loading image in a web app.'
+        - 'Generating a quick fixed-size image for a test or a documentation screenshot.'
+      steps:
+        - 'Set the width and height, the background and text colours, the font size and optionally a custom text.'
+        - 'Choose whether the SVG declares its exact size or only a viewBox so it scales to its container.'
+        - 'Copy the SVG source or the Base64 data URL, or download the .svg file.'
+      notes:
+        - 'SVG placeholders are a few hundred bytes regardless of their dimensions, unlike PNG or JPEG placeholders, and they stay sharp at any zoom level.'
+        - 'With "use exact size" the SVG has width and height attributes and renders at that size; without it, only the viewBox is kept and the image fills whatever size the <img> or CSS gives it.'
+        - 'The Base64 data URL can be pasted directly into an <img src> or a CSS background-image, which avoids an extra request.'
+        - 'The text is rendered with the viewer''s default sans-serif font, so its exact look varies slightly between systems.'
+      faq:
+        - q: 'Why use SVG instead of a placeholder service?'
+          a: 'No network request, no third-party dependency, works offline and in tests, and the file is tiny. A service is only better when you need realistic photos.'
+        - q: 'Can I use it as the src of an img tag?'
+          a: 'Yes, either save the file and reference it, or paste the data URL straight into src. Both work in all browsers.'
 
   csv-to-json:
     title: CSV to JSON
@@ -418,14 +458,74 @@ tools:
   camera-recorder:
     title: Camera recorder
     description: Take a picture or record a video from your webcam or camera.
+    guide:
+      intro: 'Takes photos and records video clips with your webcam or phone camera, directly in the browser, and lets you download the results. Pick the camera and microphone to use; nothing is uploaded.'
+      useCases:
+        - 'Quickly capturing a photo of a whiteboard, a document or yourself without opening another app.'
+        - 'Recording a short screencast-style clip or a message to attach to a ticket or a chat.'
+        - 'Testing that a webcam and microphone work and which device the browser selects.'
+      steps:
+        - 'Allow camera and microphone access when the browser asks, then choose the devices from the lists.'
+        - 'Press the photo button for a still image, or start and stop a recording for a video.'
+        - 'Download the captured photo or clip.'
+      notes:
+        - 'Video is recorded as WebM, which plays in Chrome, Edge and Firefox. Convert it with the video compressor if you need MP4 for other players.'
+        - 'Camera access requires a secure page (HTTPS) and your permission; if you denied it earlier, re-enable it from the browser''s site settings, since the page cannot ask again.'
+        - 'Everything stays on your device. The stream is captured and encoded locally, and the files are only saved where you download them.'
+        - 'Safari''s support for MediaRecorder and WebM is limited, so recording may be unavailable there while photos still work.'
+      faq:
+        - q: 'Why is my camera list empty?'
+          a: 'The browser lists devices only after permission is granted, and some systems hide cameras in use by another app. Grant permission, close other apps using the camera, then reload.'
+        - q: 'Why does the recording button say it is not supported?'
+          a: 'The browser does not support recording WebM with MediaRecorder, which is the case in some Safari versions. Use Chrome, Edge or Firefox for video recording.'
 
   keycode-info:
     title: Keycode info
     description: Find the javascript keycode, code, location and modifiers of any pressed key.
+    guide:
+      intro: 'Press any key and see what JavaScript reports for it: the key value, the legacy keyCode number, the physical code, the location (left or right Shift, numpad) and which modifiers were held.'
+      useCases:
+        - 'Finding the right value to compare against in a keydown handler or a keyboard shortcut library.'
+        - 'Debugging why a shortcut works on one keyboard layout and not another.'
+        - 'Checking what a special key (media keys, Fn combinations, dead keys) sends to the page.'
+      steps:
+        - 'Click on the page so it has focus, then press a key.'
+        - 'Read the values; each field has a copy button.'
+        - 'Hold modifiers (Shift, Ctrl, Alt, Meta) to see them reported.'
+      notes:
+        - 'key is the character or name produced (a, A, Enter, ArrowLeft) and depends on the layout and modifiers; code is the physical position (KeyA, Digit1, NumpadEnter) and does not. Use code for game-style controls, key for typing-oriented shortcuts.'
+        - 'keyCode is deprecated and inconsistent across browsers and layouts (and 0 for many keys). It is shown for legacy code only; new code should use key or code.'
+        - 'Some keys never reach the page: the browser or operating system handles them first (Cmd+Q, Alt+Tab, some function keys, Print Screen).'
+        - 'On macOS the Meta key is Cmd; on Windows it is the Windows key. AltGraph appears on European layouts for the right Alt key.'
+      faq:
+        - q: 'Why does the key show Dead or Unidentified?'
+          a: 'Dead means a dead key (such as ´ or ^) waiting to combine with the next letter. Unidentified means the browser has no name for that key, common for some laptop-specific or media keys.'
+        - q: 'Why is keyCode 0 or the same for different keys?'
+          a: 'keyCode was never standardised. Browsers report 0 for keys they cannot map, and some keys share codes. That is exactly why key and code replaced it.'
 
   emoji-picker:
     title: Emoji picker
     description: Copy and paste emojis easily and get the unicode and code points value of each emoji.
+    guide:
+      intro: 'Browse and search about 1900 emoji, copy one with a click, and see its Unicode code points and the escaped forms you need in JavaScript, HTML or CSS.'
+      useCases:
+        - 'Finding and copying an emoji on a desktop computer without a built-in picker.'
+        - 'Getting the code point (U+1F600) or the JavaScript escape sequence to use an emoji in source code.'
+        - 'Looking up the official name of an emoji for documentation or accessibility text.'
+      steps:
+        - 'Type a keyword in the search box (smile, cat, flag, heart) or browse by category.'
+        - 'Click an emoji to copy it.'
+        - 'Open its card for the name, code points and escaped representations.'
+      notes:
+        - 'An emoji may be several code points joined by zero-width joiners (family, profession and flag emoji), so one visible symbol can be 2 to 7 code points and up to 20 UTF-16 code units. String length in JavaScript therefore does not equal the number of emoji.'
+        - 'The way an emoji looks depends on the platform font (Apple, Google, Microsoft, Samsung) and recent emoji are missing on older systems, where they show as boxes or as separate parts.'
+        - 'Skin-tone variants are the base emoji followed by a modifier code point (U+1F3FB to U+1F3FF).'
+        - 'Searching uses English names and keywords from the Unicode data, so search in English even when the interface is in another language.'
+      faq:
+        - q: 'Why does an emoji appear as two symbols or a box on my computer?'
+          a: 'Your system font lacks that emoji or the joiner sequence that combines its parts. Newer emoji need a recent operating system; the copied text is still correct and renders on up-to-date devices.'
+        - q: 'How do I use an emoji in JavaScript source?'
+          a: 'Either paste the character directly in a UTF-8 file, or use the escape shown on the card, such as \u{''{''}1F600{''}''}. For CSS content use the hexadecimal form \1F600.'
 
   color-converter:
     title: Color converter
@@ -597,10 +697,50 @@ tools:
   benchmark-builder:
     title: Benchmark builder
     description: Easily compare execution time of tasks with this very simple online benchmark builder.
+    guide:
+      intro: 'Compares sets of measurements you have taken yourself, for example execution times of two implementations: enter the values for each suite and get the mean and variance, ranked, with a Markdown table ready to paste into an issue or a pull request.'
+      useCases:
+        - 'Presenting timings of two or three code variants in a pull request description.'
+        - 'Summarising repeated manual measurements (page load, build time, request latency) without a spreadsheet.'
+        - 'Checking whether a difference between two approaches is consistent or just noise.'
+      steps:
+        - 'Name each suite and type its measurements, one number per field; add suites with the plus button.'
+        - 'Set the unit (ms, s, MB) so the table is labelled.'
+        - 'Read the mean and variance, then copy the result as a Markdown table or as plain text.'
+      notes:
+        - 'The variance shown is the population variance (mean of squared deviations). A large variance relative to the mean means the measurements are noisy, and a small mean difference between suites may not be meaningful.'
+        - 'Take at least five measurements per suite, discard the first run (cold caches, JIT warm-up) and measure the variants under the same conditions, or the comparison is not fair.'
+        - 'The tool does not run any code. It only aggregates the numbers you provide; use your language''s benchmarking library to produce them.'
+        - 'Suites and the unit are remembered in this browser, so you can come back and add measurements later.'
+      faq:
+        - q: 'Why does my faster variant sometimes measure slower?'
+          a: 'Background activity, CPU frequency scaling and garbage collection all add noise. More repetitions and reporting the mean with its variance (or better, the median) make the comparison robust.'
+        - q: 'Can I paste a list of numbers at once?'
+          a: 'Not currently; values are entered one per field. For long series, aggregate them in your benchmarking tool and enter the summary values here.'
 
   git-memo:
     title: Git cheatsheet
     description: Git is a decentralized version management software. With this cheatsheet, you will have quick access to the most common git commands.
+    guide:
+      intro: 'A one-page Git cheat sheet with the commands you reach for most often, grouped by task: configuring Git, starting a repository, committing, undoing mistakes and miscellaneous day-to-day operations.'
+      useCases:
+        - 'Looking up the exact syntax of a command you use rarely, such as amending a commit or reverting a file.'
+        - 'Recovering from a mistake (wrong branch, bad commit, accidental add) under pressure.'
+        - 'Onboarding someone new to Git with a short, practical reference.'
+      steps:
+        - 'Scan the section headings for your task.'
+        - 'Copy the command and replace the placeholders (branch names, file paths) with your own.'
+        - 'Use the search in your browser (Ctrl+F) for a keyword.'
+      notes:
+        - 'Commands that rewrite history (amend, rebase, reset --hard, force push) are safe on commits you have not pushed. Once others may have pulled them, prefer git revert, which adds a new commit instead.'
+        - 'git reset --hard and git checkout -- file discard uncommitted work permanently. Run git stash first if you might want it back.'
+        - 'git pull is fetch plus merge; many teams prefer git pull --rebase to avoid merge commits on feature branches.'
+        - 'The sheet covers the command-line client. Graphical clients and IDEs expose the same operations under different names.'
+      faq:
+        - q: 'How do I undo my last commit but keep the changes?'
+          a: 'git reset --soft HEAD~1 moves the branch back one commit and leaves the files staged. Use --mixed (the default) to also unstage them, and --hard only if you want to discard the changes.'
+        - q: 'What is the difference between git revert and git reset?'
+          a: 'revert creates a new commit that undoes an earlier one, keeping history intact and safe to push. reset moves the branch pointer and rewrites history, so it is for local, unpushed commits.'
 
   slugify-string:
     title: Slugify string
@@ -701,6 +841,26 @@ tools:
   yaml-prettify:
     title: YAML prettify and format
     description: Prettify your YAML string into a friendly, human-readable format.
+    guide:
+      intro: 'Re-formats a YAML document with consistent indentation, optionally sorting the keys of every mapping. The document is parsed and written back, so the output is valid, canonical YAML.'
+      useCases:
+        - 'Normalising the indentation of a configuration file edited by several people or tools.'
+        - 'Sorting keys so two YAML files can be compared with a plain diff.'
+        - 'Validating a YAML file: syntax errors are reported instead of formatted output.'
+      steps:
+        - 'Paste the YAML into the input field.'
+        - 'Set the indent size (1 to 10 spaces) and toggle "Sort keys".'
+        - 'Copy the formatted output.'
+      notes:
+        - 'Because the document is parsed and re-serialised, comments are removed, anchors and aliases are expanded, and the original quoting style of strings may change. Values and structure stay identical.'
+        - '"Sort keys" reorders mappings alphabetically at every level. Lists keep their order, since order in a list is meaningful.'
+        - 'Strings that would be read as another type (true, 1.0, null) are quoted in the output so their meaning is preserved.'
+        - 'Only one document is handled; a file with several documents separated by --- is rejected.'
+      faq:
+        - q: 'Why did my comments disappear?'
+          a: 'YAML comments are not part of the data model, and the formatter works on the parsed data. Keep a copy of the original if the comments matter, or re-add them after formatting.'
+        - q: 'Is this the same as the YAML to JSON converter?'
+          a: 'They share the parser, but this tool writes YAML back out while the converter writes JSON. Use this one when the result must stay YAML.'
 
   eta-calculator:
     title: ETA calculator
@@ -777,10 +937,50 @@ tools:
   bip39-generator:
     title: BIP39 passphrase generator
     description: Generate a BIP39 passphrase from an existing or random mnemonic, or get the mnemonic from the passphrase.
+    guide:
+      intro: 'Works with BIP39 mnemonics, the 12- or 24-word recovery phrases used by cryptocurrency wallets: generate a new random phrase, derive the phrase from a hexadecimal entropy value, or recover the entropy from an existing phrase, in any of the ten official word lists.'
+      useCases:
+        - 'Understanding how a wallet''s recovery phrase is derived from random entropy.'
+        - 'Creating test phrases for wallet software, tutorials or automated tests.'
+        - 'Checking that a phrase is valid (correct words and checksum) in its language.'
+      steps:
+        - 'Pick the word list language.'
+        - 'Press refresh for new random entropy, or paste your own hexadecimal entropy, to get the phrase.'
+        - 'Or paste an existing phrase to see the entropy it encodes.'
+      notes:
+        - 'Never type a phrase that protects real funds into any website, including this one. Although the computation runs locally, a browser extension, screenshot or clipboard manager could capture it. Use this tool for learning and testing only.'
+        - '128 bits of entropy give 12 words and 256 bits give 24; the last word contains a checksum, so a random set of words is almost never a valid phrase.'
+        - 'The word list is part of the standard, and a phrase is only meaningful in its own language. Changing the language with the same entropy produces a different phrase.'
+        - 'A phrase derives wallet keys only together with the derivation path and an optional passphrase (the "25th word"). This tool covers the mnemonic step only.'
+      faq:
+        - q: 'Why is my phrase reported as invalid?'
+          a: 'A word is misspelled or from another language''s list, the word count is wrong (12, 15, 18, 21 or 24), or the checksum in the last word does not match. Compare each word against the official list.'
+        - q: 'Can I make my own phrase from words I like?'
+          a: 'Not safely. Human-chosen words have little entropy and the checksum would most likely fail. Always use entropy from a secure random source, ideally generated by the wallet itself.'
 
   base64-file-converter:
     title: Base64 file converter
     description: Convert a string, file, or image into its base64 representation.
+    guide:
+      intro: 'Encodes any file (image, PDF, font, archive) into a Base64 string, and turns a Base64 string back into a downloadable file, detecting the type from the data when possible. Everything happens in your browser.'
+      useCases:
+        - 'Embedding a small image or font directly in HTML, CSS or JSON as a data URL.'
+        - 'Sending a binary file through a text-only channel such as a JSON API, an e-mail body or a configuration file.'
+        - 'Saving a Base64 payload received from an API as a real file to open it.'
+      steps:
+        - 'To encode, drop a file onto the upload area and copy the Base64 output.'
+        - 'To decode, paste a Base64 string (with or without the data: prefix), set a file name and extension if the type is not detected, and press download.'
+        - 'Use the preview to confirm an image decoded correctly.'
+      notes:
+        - 'Base64 makes data about 33% larger. Embedding is sensible for files under a few kilobytes (icons, small fonts); larger assets are better served as separate files that the browser can cache.'
+        - 'A data URL needs the MIME type in front (data:image/png;base64,...). The encoder output here is the raw Base64 body; prepend the type yourself when building a data URL, or copy it from the image preview.'
+        - 'The file type is guessed from the first bytes of the decoded data. For formats without a recognisable header (plain text, CSV, some binaries) set the extension manually.'
+        - 'Large files are encoded in memory, so files of several hundred megabytes may be slow or fail depending on the device.'
+      faq:
+        - q: 'Why is the decoded file damaged or will not open?'
+          a: 'Usually the Base64 string was truncated, had line breaks or spaces inserted by an e-mail client, or was URL-safe Base64 (with - and _). Clean the string and make sure its length is a multiple of 4 (padding with =).'
+        - q: 'Is Base64 a way to hide or protect a file?'
+          a: 'No. It is an encoding anyone can reverse instantly. Use encryption if confidentiality matters.'
 
   list-converter:
     title: List converter
@@ -930,6 +1130,26 @@ tools:
   iban-validator-and-parser:
     title: IBAN validator and parser
     description: Validate and parse IBAN numbers. Check if an IBAN is valid and get the country, BBAN, if it is a QR-IBAN and the IBAN friendly format.
+    guide:
+      intro: 'Checks whether an IBAN (International Bank Account Number) is valid and breaks it down: country, BBAN (the national account part), whether it is a Swiss QR-IBAN, and the standard grouped-by-four display format. Validation runs locally with the ibantools library.'
+      useCases:
+        - 'Verifying an IBAN typed into a form or received in an invoice before making a transfer.'
+        - 'Finding out which country and bank an IBAN belongs to.'
+        - 'Formatting an IBAN into readable groups of four characters for a document.'
+      steps:
+        - 'Paste the IBAN, with or without spaces.'
+        - 'Read the validity, any errors found, the country code, the BBAN and the QR-IBAN flag.'
+        - 'Copy the friendly format if you need it.'
+      notes:
+        - 'Validation checks the length and structure defined for the country and the ISO 7064 mod-97 checksum. A valid IBAN means the number is well-formed, not that the account exists or belongs to a given person.'
+        - 'The checksum catches almost all single typos and transpositions, which is why banks reject invalid IBANs immediately.'
+        - 'A QR-IBAN is a Swiss or Liechtenstein IBAN whose bank code is in the 30000 to 31999 range, used only with QR-bills; it cannot be used for ordinary transfers.'
+        - 'The IBAN is checked in your browser and not sent anywhere. Still, treat account numbers as personal data.'
+      faq:
+        - q: 'Why is a real IBAN reported as invalid?'
+          a: 'Most often a typo, a letter O instead of a zero, or a character lost when copying. Some countries also updated their format; make sure the full IBAN including the two check digits was pasted.'
+        - q: 'Can it tell me the bank name?'
+          a: 'Only the country and the BBAN are extracted. The bank identifier is part of the BBAN and its meaning differs per country; look it up in that country''s bank register.'
 
   user-agent-parser:
     title: User-agent parser
@@ -1359,6 +1579,26 @@ tools:
   wifi-qrcode-generator:
     title: WiFi QR Code generator
     description: Generate and download QR codes for quick connections to WiFi networks.
+    guide:
+      intro: 'Creates a QR code that connects a phone to a Wi-Fi network when scanned: enter the network name, the security type and the password, and download the code to print or display. Hidden networks and WPA2-Enterprise (EAP) are supported.'
+      useCases:
+        - 'Letting guests join your home or office Wi-Fi without spelling out a long password.'
+        - 'Printing a connection card for a café, a meeting room or a holiday rental.'
+        - 'Sharing a hidden network that phones cannot find by browsing.'
+      steps:
+        - 'Choose the encryption method (WPA/WPA2 for most networks, WEP for very old ones, none for open networks, WPA2-EAP for enterprise login).'
+        - 'Type the network name (SSID) exactly as broadcast, the password, and tick hidden SSID if needed.'
+        - 'Download the QR code and print or display it.'
+      notes:
+        - 'The code encodes the password in plain text (WIFI:S:name;T:WPA;P:password;;). Anyone who scans or photographs it can read the password, so place it where only intended people see it.'
+        - 'iOS (11 and later) and Android (10 and later) scan Wi-Fi codes with the built-in camera app; older devices need a QR scanner app that understands the format.'
+        - 'The SSID and password are case-sensitive and must match exactly. Special characters are escaped automatically.'
+        - 'WPA3 networks use the WPA option, which phones accept. For WPA2-EAP you also provide the EAP method, phase 2 method and identity.'
+      faq:
+        - q: 'Why does my phone not connect after scanning?'
+          a: 'Check that the SSID and password match exactly, including case, and that the security type is right (a WPA network scanned as WEP fails). Some phones also need the network to be in range at the moment of scanning.'
+        - q: 'Can I change the password later?'
+          a: 'The code is static: a new password means printing a new code. Consider a dedicated guest network whose password you rotate rarely.'
 
   xml-formatter:
     title: XML formatter
@@ -1459,6 +1699,26 @@ tools:
   html-wysiwyg-editor:
     title: HTML WYSIWYG editor
     description: Online, feature-rich WYSIWYG HTML editor which generates the source code of the content immediately.
+    guide:
+      intro: 'A rich-text editor that writes HTML for you: format text with the toolbar as in a word processor, and the corresponding source code appears below, cleanly indented. Built on the Tiptap editor.'
+      useCases:
+        - 'Writing a formatted description, announcement or e-mail body and grabbing the HTML for a CMS or template.'
+        - 'Producing clean HTML for headings, lists, quotes and code blocks without typing tags.'
+        - 'Learning what HTML a given formatting produces.'
+      steps:
+        - 'Type in the editor and use the toolbar for headings, bold, italic, lists, quotes, code and horizontal rules.'
+        - 'Read the generated HTML below; it updates as you edit.'
+        - 'Copy the HTML into your page or system.'
+      notes:
+        - 'The output is semantic HTML (<h1>, <p>, <ul>, <blockquote>, <pre>) without inline styles or classes, so it inherits the styling of wherever you paste it.'
+        - 'Pasting formatted text from a word processor is cleaned to the supported elements; colours, fonts and tables are dropped.'
+        - 'Your content is saved in this browser between visits, so you can leave and come back. Clear it manually if the device is shared.'
+        - 'The editor covers common formatting only: no images, tables or links in this version. Add those in the HTML by hand.'
+      faq:
+        - q: 'Can I edit the HTML directly and see it in the editor?'
+          a: 'Not in this tool: the flow is editor to HTML. Edit in the visual editor and copy the result; for HTML-first work, use a code editor.'
+        - q: 'Why is the HTML so much shorter than what my word processor exports?'
+          a: 'Word processors embed fonts, sizes and layout as inline styles and wrappers. This editor emits only structural tags, which is what web pages and CMSs want.'
 
   yaml-to-toml:
     title: YAML to TOML
@@ -1720,6 +1980,26 @@ tools:
   phone-parser-and-formatter:
     title: Phone parser and formatter
     description: Parse, validate and format phone numbers. Get information about the phone number, like the country code, type, etc.
+    guide:
+      intro: 'Parses a phone number with Google''s libphonenumber rules: tells you the country and calling code, whether the number is valid or merely possible, its type (mobile, fixed line, toll-free...), and formats it in international, national, E.164 and RFC 3966 styles.'
+      useCases:
+        - 'Normalising phone numbers collected from a form into E.164 (+886912345678) before storing them.'
+        - 'Checking whether a number is valid for its country and whether it is a mobile that can receive SMS.'
+        - 'Formatting a number for display in the local or international convention.'
+      steps:
+        - 'Choose the default country, used when the number has no + prefix; it is preselected from your browser language.'
+        - 'Type the number in any common form (spaces, dashes, parentheses, leading 0 or +).'
+        - 'Read the country, validity, type and the four formats, and copy the one you need.'
+      notes:
+        - 'Possible means the length fits the country''s patterns; valid means the number matches an actually assigned range. Store E.164 only for valid numbers.'
+        - 'A number without + is interpreted in the default country, so 0912 345 678 is Taiwanese with Taiwan selected and invalid with another country selected.'
+        - 'Type detection (mobile versus fixed line) is reliable in most countries but ambiguous in some, notably the United States, where both share the same ranges.'
+        - 'Numbering plans change; the library is updated regularly but a brand-new range may be reported as invalid for a while.'
+      faq:
+        - q: 'Which format should I store in a database?'
+          a: 'E.164: a plus sign, the country code and the national number with no spaces (+886912345678). It is unambiguous and what SMS and telephony APIs expect.'
+        - q: 'Why is a number I can call reported as invalid?'
+          a: 'Either the default country is wrong for a number without +, or the number belongs to a range the library does not yet know. Try adding the country code with + to rule out the first cause.'
 
   ipv4-subnet-calculator:
     title: IPv4 subnet calculator
@@ -1857,10 +2137,50 @@ tools:
   device-information:
     title: Device information
     description: Get information about your current device (screen size, pixel-ratio, user agent, ...)
+    guide:
+      intro: 'Shows what the browser knows about the device it runs on: screen size, orientation, colour depth, pixel ratio, window size, browser vendor, languages, platform and User-Agent string.'
+      useCases:
+        - 'Telling support which screen size, pixel ratio and browser you have when reporting a display bug.'
+        - 'Checking the CSS pixel dimensions of a phone or tablet while designing responsive layouts.'
+        - 'Confirming the languages your browser sends to websites, which decide their default language.'
+      steps:
+        - 'Open the page on the device you want to inspect.'
+        - 'Read the values; resize or rotate the device and watch them update.'
+        - 'Copy any value with its copy button.'
+      notes:
+        - 'Screen and window sizes are in CSS pixels, not physical pixels. Multiply by the pixel ratio for the physical resolution: a phone showing 390×844 at ratio 3 has a 1170×2532 screen.'
+        - 'Window size is the viewport available to the page and shrinks when the address bar, developer tools or a side panel are visible.'
+        - 'The User-Agent string is partly frozen in modern Chrome, so OS and device details are deliberately coarse; use the User-Agent parser tool to decode it.'
+        - 'Everything shown is already available to any website you visit; this page just displays it and sends nothing anywhere.'
+      faq:
+        - q: 'Why does the screen size not match my monitor''s resolution?'
+          a: 'Browsers report CSS pixels, which are scaled by the operating system''s display scaling and the browser zoom. A 4K monitor at 200% scaling reports 1920×1080 with a pixel ratio of 2.'
+        - q: 'What is the pixel ratio used for?'
+          a: 'It tells a site how many physical pixels make one CSS pixel, so it can serve sharper images (srcset, 2x assets) on high-density screens.'
 
   pdf-signature-checker:
     title: PDF signature checker
     description: Verify the signatures of a PDF file. A signed PDF file contains one or more signatures that may be used to determine whether the contents of the file have been altered since the file was signed.
+    guide:
+      intro: 'Reads the digital signatures embedded in a PDF and shows, for each one, whether the document is unchanged since signing and who signed it: the signer''s certificate details (name, organisation, country) and its validity period. The file is parsed in your browser.'
+      useCases:
+        - 'Checking that a signed contract, invoice or official document has not been altered after signing.'
+        - 'Seeing who signed a PDF and whether their certificate was valid at the time.'
+        - 'Confirming that a document you signed actually contains the signature before sending it.'
+      steps:
+        - 'Drop the PDF onto the upload area or click to select it.'
+        - 'Each signature is listed with its verification result.'
+        - 'Expand a signature for the certificate details.'
+      notes:
+        - 'Integrity verified means the signed byte range still matches the signature. If the document was modified afterwards without a new signature, the check fails.'
+        - 'The tool validates the signature mathematically, but it does not check the certificate chain against trusted roots or revocation lists like Adobe Reader does. A verified signature from an unknown or self-signed certificate still proves integrity, not identity.'
+        - 'Some PDFs use visible signature images that are just pictures with no cryptographic signature; those are reported as no signatures found.'
+        - 'Nothing is uploaded; the PDF stays on your device.'
+      faq:
+        - q: 'Why does it say no signatures were found?'
+          a: 'The PDF either has no digital signature (a scanned or drawn signature is just an image) or uses a signature format the parser does not understand. Open it in a PDF reader to see its signature panel.'
+        - q: 'Is a verified signature enough to trust the document?'
+          a: 'It proves the content is unchanged and tied to the shown certificate. To trust the identity, confirm that the certificate was issued by an authority you recognise, which this tool does not do.'
 
   json-minify:
     title: JSON minify
@@ -1889,6 +2209,26 @@ tools:
   ulid-generator:
     title: ULID generator
     description: Generate random Universally Unique Lexicographically Sortable Identifier (ULID).
+    guide:
+      intro: 'Generates ULIDs (Universally Unique Lexicographically Sortable Identifiers): 26-character identifiers that start with a timestamp, so they sort by creation time, followed by 80 bits of randomness. Output as plain lines or as a JSON array.'
+      useCases:
+        - 'Primary keys or object ids that must be unique and sort chronologically, such as events, orders or log entries.'
+        - 'Replacing UUID v4 where index locality and readable, URL-safe ids matter.'
+        - 'Generating test fixtures with realistic, ordered identifiers.'
+      steps:
+        - 'Set how many ULIDs you need (1 to 100).'
+        - 'Choose raw lines or a JSON array.'
+        - 'Copy the result, or refresh (Ctrl+Enter) for a new batch.'
+      notes:
+        - 'The first 10 characters encode the millisecond timestamp, the last 16 are random. ULIDs created in the same millisecond are made monotonic (the random part is incremented) so they still sort in creation order.'
+        - 'ULIDs use Crockford''s Base32 alphabet, which omits I, L, O and U to avoid confusion; they are case-insensitive and safe in URLs.'
+        - 'Because the timestamp is visible, a ULID reveals roughly when the record was created. If that is sensitive, use UUID v4 instead.'
+        - 'A ULID is 128 bits, the same size as a UUID, and can be stored in a UUID column by converting its bits; many databases and libraries support this.'
+      faq:
+        - q: 'ULID or UUID v7?'
+          a: 'Both are time-ordered 128-bit ids. UUID v7 is the newer standard with native support in more databases and libraries; ULID has a shorter, friendlier text form. Pick whichever your stack supports best.'
+        - q: 'Why do consecutive ULIDs differ only in the last characters?'
+          a: 'They were generated in the same millisecond, so the timestamp part is identical and the random part is incremented to keep them sortable. This is by design.'
 
   string-obfuscator:
     title: String obfuscator
@@ -2253,6 +2593,26 @@ tools:
   email-normalizer:
     title: Email normalizer
     description: Normalize email addresses to a standard format for easier comparison. Useful for deduplication and data cleaning.
+    guide:
+      intro: 'Rewrites e-mail addresses into the canonical form their provider actually delivers to: lowercases the address, removes dots and +tags where the provider ignores them (Gmail), strips +tags where supported (Outlook, Hotmail, Live) and maps alias domains such as googlemail.com to gmail.com. Paste many addresses, one per line.'
+      useCases:
+        - 'Detecting duplicate sign-ups that use john.doe+promo{''@''}gmail.com and johndoe{''@''}gmail.com for the same inbox.'
+        - 'Cleaning a mailing list or CRM export before deduplicating or merging records.'
+        - 'Matching user accounts across systems that stored the same address in different spellings.'
+      steps:
+        - 'Paste the addresses, one per line.'
+        - 'Read the normalised list on the right; lines that are not valid addresses are flagged.'
+        - 'Copy the result.'
+      notes:
+        - 'Rules are provider-specific: Gmail ignores dots and anything after + in the local part, Outlook, Hotmail and Live ignore +tags but not dots, and most other providers treat dots and + as significant, so for them only the case is normalised.'
+        - 'Normalisation is for comparison and deduplication. Keep the address the user actually typed for sending mail and for display, since some providers do deliver to the exact form only.'
+        - 'Lowercasing the local part is technically not guaranteed by the standard, but every major provider is case-insensitive, so it is safe in practice.'
+        - 'Custom domains hosted on Google Workspace or Microsoft 365 are not recognised as Gmail or Outlook, because the domain alone does not reveal the provider.'
+      faq:
+        - q: 'Why was a.b+c{''@''}yahoo.com left unchanged?'
+          a: 'Yahoo treats dots as significant and uses a different disposable-address scheme (a hyphen), so only the case is normalised. Only providers with known rules are rewritten.'
+        - q: 'Can I use the normalised address to send mail?'
+          a: 'It will usually arrive for the providers listed, but the safe practice is to store both: the normalised form for matching and the original for correspondence.'
 
   json-to-xml:
     title: JSON to XML
@@ -2305,6 +2665,26 @@ tools:
   regex-memo:
     title: Regex cheatsheet
     description: Javascript Regex/Regular Expression cheatsheet
+    guide:
+      intro: 'A compact reference for JavaScript regular expressions: character classes, anchors, quantifiers, groups and backreferences, lookaround, flags and the escape sequences, with the meaning of each token.'
+      useCases:
+        - 'Recalling the exact syntax of a lookbehind, a named group or a lazy quantifier while writing a pattern.'
+        - 'Checking which flags exist and what the u, s and y flags do.'
+        - 'Teaching regular expressions with a one-page overview.'
+      steps:
+        - 'Find the section for the construct you need.'
+        - 'Read the token and its meaning, then try it in the Regex Tester tool.'
+        - 'Use your browser''s search (Ctrl+F) for a specific token.'
+      notes:
+        - 'This sheet describes the JavaScript flavour. Named groups are (?<name>...), and \d, \w and \s match ASCII only unless the u flag and Unicode property escapes such as \p{''{''}L{''}''} are used.'
+        - 'Quantifiers are greedy by default; add ? (as in .*?) to make them lazy. Nested quantifiers such as (a+)+ can cause catastrophic backtracking on some inputs.'
+        - 'Lookbehind ((?<=...) and (?<!...)) is supported in all current browsers but was missing in Safari before 16.4; check your target environment.'
+        - 'Inside a character class most metacharacters lose their meaning, so [.] matches a literal dot, while - and ] need escaping or careful placement.'
+      faq:
+        - q: 'What is the difference between .* and .*?'
+          a: '.* is greedy and takes as much as possible, then backs off; .*? is lazy and takes as little as possible. On <b>a</b><b>b</b>, <b>.*</b> matches everything while <b>.*?</b> matches the first tag pair only.'
+        - q: 'Why does \d not match Arabic-Indic or other digits?'
+          a: 'In JavaScript \d is always [0-9]. To match digits in other scripts use \p{''{''}Nd{''}''} with the u flag.'
 
   regex-tester:
     title: Regex Tester
@@ -2333,6 +2713,26 @@ tools:
   safelink-decoder:
     title: Outlook Safelink decoder
     description: Decode Outlook SafeLink links
+    guide:
+      intro: 'Recovers the original web address from a Microsoft Outlook Safe Links URL, the long https://...safelinks.protection.outlook.com/?url=... links that Microsoft 365 substitutes for links in e-mails.'
+      useCases:
+        - 'Seeing where a link in a forwarded or quoted e-mail really points before opening it.'
+        - 'Cleaning Safe Links wrappers out of URLs you want to save, share or paste into a document.'
+        - 'Checking a suspicious link without clicking it.'
+      steps:
+        - 'Paste the Safe Links URL.'
+        - 'Read the decoded destination below.'
+        - 'Copy it.'
+      notes:
+        - 'Safe Links rewrites links so Microsoft can scan the destination at click time. The original address is carried in the url parameter, URL-encoded; this tool just extracts and decodes it.'
+        - 'Only URLs on a safelinks.protection.outlook.com host are accepted. Other link-wrapping services (Proofpoint urldefense, Mimecast, Google) use different formats.'
+        - 'Decoding bypasses Microsoft''s click-time check. Look at the decoded address carefully before visiting it, especially for login pages or unexpected domains.'
+        - 'The decoding happens in your browser; the link is not visited or sent anywhere.'
+      faq:
+        - q: 'Why do my e-mails contain these long links at all?'
+          a: 'Your organisation enabled Safe Links in Microsoft Defender for Office 365. It rewrites links so that known-malicious destinations can be blocked even after the e-mail was delivered.'
+        - q: 'The decoded URL itself looks like another tracker; can I decode further?'
+          a: 'Marketing links often chain several redirects. Paste the result into the URL parser to inspect its parameters; the final destination may only be known by following the redirect.'
 
   xml-to-json:
     title: XML to JSON
