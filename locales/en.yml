@@ -730,6 +730,58 @@ tools:
           a: 'No. Compression uses your browser''s canvas, so the files stay on your device. That also means very large images use your device''s memory and may take a moment.'
         - q: 'Which format should I choose?'
           a: 'WebP gives the smallest files for most photos and is supported by all current browsers. Choose JPEG when you need maximum compatibility with older software, and PNG for graphics with sharp edges or transparency.'
+  video-compressor:
+    title: 'Video compressor'
+    description: 'Compress videos and convert them to MP4 or WebM, scale them down to 1080p or 720p, with progress and without uploading anything. Uses the hardware video encoder of your browser.'
+    format: 'Output format'
+    quality: 'Quality'
+    maxResolution: 'Max resolution'
+    original: 'Keep original'
+    upload: 'Drag and drop videos here, or click to select them'
+    privacy: 'Videos are processed in your browser with WebCodecs and never uploaded.'
+    unsupported: 'This browser does not support WebCodecs, which this tool needs. Use a recent Chrome, Edge, Safari (16.4 or later) or Firefox (130 or later).'
+    cancel: 'Cancel'
+    clear: 'Clear'
+    download: 'Download'
+    notAVideo: '{name} is not a video.'
+    qualityLevels:
+      high: 'High (larger file)'
+      medium: 'Medium (recommended)'
+      low: 'Low (smallest file)'
+    status:
+      queued: 'Queued'
+      error: 'Failed'
+    errors:
+      noVideoTrack: 'This file has no video track.'
+      undecodable: 'This browser cannot decode the video codec of this file.'
+      noEncoder: 'This browser has no encoder for the chosen output format. Try the other format.'
+      unsupportedInput: 'Unsupported file format. MP4, MOV, WebM and MKV are supported.'
+      canceled: 'Canceled.'
+      failed: 'Unable to compress this video.'
+    guide:
+      intro: 'Re-encodes a video with your browser''s built-in hardware encoder (WebCodecs) to make the file smaller, optionally scaling it down and changing the container to MP4 or WebM. The audio track is copied as is whenever the output format allows it, so sound quality does not change.'
+      useCases:
+        - 'Getting a phone recording under the size limit of a chat app, an e-mail or a form upload.'
+        - 'Shrinking screen recordings or 4K clips to 1080p or 720p before sharing or archiving them.'
+        - 'Converting a MOV or MKV file into an MP4 that plays everywhere, without installing software.'
+      steps:
+        - 'Choose the output format (MP4 for compatibility, WebM for the web), the quality level and the maximum resolution.'
+        - 'Drop one or more videos onto the upload area. They are processed one after another and a progress bar shows each one.'
+        - 'Compare the sizes and download the results. Cancel stops the current file and drops the ones still waiting.'
+      notes:
+        - 'Compression works by re-encoding at a lower bitrate, so some detail is lost each time. Keep the original if you may need to edit it later, and avoid compressing a file several times in a row.'
+        - 'Lowering the resolution saves far more than lowering the quality level. 1080p is enough for most screens; 720p is fine for chat apps and previews. The source is never upscaled.'
+        - 'Quality levels are bitrate targets scaled to the resolution: medium is a sensible default, high keeps fine detail at roughly double the size, low is for when size matters most.'
+        - 'The codec is chosen by what your browser can encode: usually H.264 for MP4 and VP9 for WebM. The audio is copied unchanged when the container allows it (AAC in MP4, Opus in WebM) and re-encoded otherwise.'
+        - 'Everything runs in your browser and nothing is uploaded, which also means very large files (several GB) may exceed the memory the browser can use. Speed depends on your device; a hardware encoder handles 1080p faster than real time on most laptops.'
+        - 'Encrypted (DRM) videos and some professional codecs cannot be decoded in a browser and are reported as unsupported.'
+      faq:
+        - q: 'Why is the compressed file larger than the original?'
+          a: 'The original was already encoded at a lower bitrate than the quality level you picked. Choose a lower quality or a smaller resolution, or keep the original file.'
+        - q: 'Why does it say my browser is not supported?'
+          a: 'The tool needs the WebCodecs API, available in Chrome and Edge, Safari 16.4 or later, and Firefox 130 or later. Older browsers, and some privacy-hardened ones, do not provide it.'
+        - q: 'Can it trim or cut a video?'
+          a: 'Not at the moment. It re-encodes the whole file; trimming and cropping are not available in this tool.'
 
   pdf-compressor:
     title: 'PDF compressor'
