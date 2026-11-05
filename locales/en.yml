@@ -489,6 +489,26 @@ tools:
   http-status-codes:
     title: HTTP status codes
     description: The list of all HTTP status codes, their name, and their meaning.
+    guide:
+      intro: 'A searchable reference of every standard HTTP status code, grouped into the five classes (1xx informational, 2xx success, 3xx redirection, 4xx client error, 5xx server error), with the official name and a short explanation of each.'
+      useCases:
+        - 'Looking up an unfamiliar code seen in a log, a browser''s network panel or an API response.'
+        - 'Choosing the right code to return from an API endpoint, for example 204 versus 200, or 401 versus 403.'
+        - 'Refreshing the difference between similar codes such as 301, 302, 307 and 308.'
+      steps:
+        - 'Type a code, a name or a keyword in the search box; results update as you type and match approximately.'
+        - 'Leave the search empty to browse all codes by class.'
+        - 'Read the name and description of the code you need.'
+      notes:
+        - 'The first digit tells the class: 2xx the request worked, 3xx look elsewhere, 4xx the client got something wrong, 5xx the server failed. Unknown codes should be handled by their class.'
+        - '401 means not authenticated (no or invalid credentials), 403 means authenticated but not allowed. Picking the wrong one confuses clients and leaks information.'
+        - '301 and 308 are permanent redirects, 302 and 307 temporary. 307 and 308 keep the request method and body, while browsers may turn a POST into a GET on 301 and 302.'
+        - 'Some codes are specific to one protocol extension or are unofficial (such as 418 and 451); check that your framework and clients support a code before relying on it.'
+      faq:
+        - q: 'Which code should an API return when a resource is not found?'
+          a: '404 for a missing resource at a valid path, and 410 when it existed but was deliberately removed. Use 400 or 422 when the problem is the request body rather than the path.'
+        - q: 'What is the difference between 500, 502, 503 and 504?'
+          a: '500 is a generic server error, 502 means a gateway received an invalid response from an upstream server, 503 means the service is temporarily unavailable or overloaded, and 504 means the upstream did not answer in time.'
 
   sql-prettify:
     title: SQL prettify and format
@@ -578,6 +598,25 @@ tools:
   random-port-generator:
     title: Random port generator
     description: Generate random port numbers outside of the range of "known" ports (0-1023).
+    guide:
+      intro: 'Picks a random TCP/UDP port number between 1024 and 65535, outside the well-known range (0 to 1023) that needs administrator rights and is reserved for standard services.'
+      useCases:
+        - 'Choosing a port for a new development server, test database or local service without colliding with the usual defaults.'
+        - 'Picking an arbitrary port for a tunnel, a proxy or a temporary container mapping.'
+        - 'Generating test values for configuration files.'
+      steps:
+        - 'Read the generated port number.'
+        - 'Press refresh (or Ctrl+Enter) for another one.'
+        - 'Copy it into your configuration.'
+      notes:
+        - 'Ports 1024 to 49151 are registered ports that IANA assigns to specific applications; a random pick may land on one that another program on your machine already uses, such as 3306 (MySQL) or 5432 (PostgreSQL). Check with netstat, ss or lsof before committing to it.'
+        - 'Ports 49152 to 65535 are the dynamic (ephemeral) range that operating systems hand out for outgoing connections. A service listening there works, but can occasionally conflict with an ephemeral port in use.'
+        - 'The generator does not check your machine, it only draws a number.'
+      faq:
+        - q: 'Why does it avoid ports below 1024?'
+          a: 'Those are the well-known ports (HTTP 80, HTTPS 443, SSH 22 and so on). Binding to them requires root or administrator rights on most systems and risks clashing with standard services.'
+        - q: 'Is a random port a security measure?'
+          a: 'Barely. Port scanners find open ports in seconds, so an unusual port only reduces noise from automated probes. Protect the service with authentication and a firewall instead.'
 
   yaml-prettify:
     title: YAML prettify and format
@@ -707,6 +746,26 @@ tools:
   url-parser:
     title: URL parser
     description: Parse a URL into its separate constituent parts (protocol, origin, params, port, username-password, ...)
+    guide:
+      intro: 'Splits a URL into its parts, protocol, username and password, hostname, port, path, query string and hash, and lists every query parameter separately, using the same URL parser as your browser.'
+      useCases:
+        - 'Reading a long tracking or OAuth redirect URL to see which parameters it actually carries.'
+        - 'Checking whether a URL built by your code has the host, port and path you intended.'
+        - 'Extracting the host or a single parameter value without counting characters by hand.'
+      steps:
+        - 'Paste the full URL, including the scheme such as https://.'
+        - 'Read each component in its own field; the copy button next to each one copies just that part.'
+        - 'Scroll down to the parameter table for the decoded value of every query key.'
+      notes:
+        - 'The URL must be absolute. A bare path such as /api/users or a host without a scheme is reported as invalid; prepend https:// to parse it.'
+        - 'Port is empty when the URL uses the default port of its scheme (80 for http, 443 for https), because the browser parser normalises it away.'
+        - 'Parameter values in the table are percent-decoded, while the raw query string field shows them exactly as written.'
+        - 'A key that appears several times (?tag=a&tag=b) is shown once with its last value in the table. Use the raw query string to see all occurrences.'
+      faq:
+        - q: 'Why does the hostname lose its uppercase letters?'
+          a: 'Host names are case-insensitive, so the parser lowercases them. Internationalised domain names are also converted to their punycode (xn--) form.'
+        - q: 'Where are the username and password used?'
+          a: 'They are the credentials embedded as user:password{''@''} before the host, an old HTTP feature. Browsers mostly ignore them today, and you should never share URLs that contain real credentials.'
 
   iban-validator-and-parser:
     title: IBAN validator and parser
@@ -715,6 +774,26 @@ tools:
   user-agent-parser:
     title: User-agent parser
     description: Detect and parse Browser, Engine, OS, CPU, and Device type/model from an user-agent string.
+    guide:
+      intro: 'Decodes a browser User-Agent string into the browser name and version, rendering engine, operating system, device type and model, and CPU architecture, using the ua-parser-js library. Your own browser''s string is filled in by default.'
+      useCases:
+        - 'Finding out which browser and OS a user had when reading a bug report or a server log line.'
+        - 'Checking what your own browser announces about itself.'
+        - 'Building or testing device-detection rules against real User-Agent strings.'
+      steps:
+        - 'Paste a User-Agent string, or keep the one pre-filled from your browser.'
+        - 'Read the cards: Browser, Engine, OS, Device and CPU.'
+        - 'Empty fields mean the string does not carry that information.'
+      notes:
+        - 'User-Agent strings are self-declared and often misleading on purpose: every modern browser claims to be Mozilla, Chrome-based browsers include Safari and AppleWebKit, and Edge includes Chrome. Trust the parsed result over the raw text.'
+        - 'Since 2021 Chrome freezes parts of its string (reduced User-Agent): the Android and Windows versions are no longer precise, and the minor browser version is always 0. Device model is usually missing on Android.'
+        - 'Desktop browsers rarely report a device type; empty Device fields are normal on a PC.'
+        - 'Parsing is heuristic and depends on the library''s rules, so very new browsers or unusual apps may be partly misidentified.'
+      faq:
+        - q: 'Why does my iPad show up as a Mac?'
+          a: 'Since iPadOS 13, Safari on iPad requests desktop sites and uses a Mac-like User-Agent string. The string itself no longer says iPad, so no parser can tell.'
+        - q: 'Why does the OS version look wrong?'
+          a: 'Chrome and Chromium-based browsers report frozen, generic OS versions (for example Windows 10 for Windows 11). The precise version is only available through Client Hints, not the User-Agent string.'
 
   numeronym-generator:
     title: Numeronym generator
@@ -727,6 +806,26 @@ tools:
   html-entities:
     title: Escape HTML entities
     description: Escape or unescape HTML entities (replace characters like <,>, &, " and \' with their HTML version)
+    guide:
+      intro: 'Escapes the five characters that are special in HTML (&, <, >, " and '') into their entity form (&amp;, &lt;, &gt;, &quot;, &#39;), and unescapes such entities back to plain text.'
+      useCases:
+        - 'Showing a code sample or user-provided text inside an HTML page without it being interpreted as markup.'
+        - 'Reading text copied from page source or an API that arrived with entities in it.'
+        - 'Preparing a value to put inside an HTML attribute.'
+      steps:
+        - 'To escape, type text in the first field and read the escaped version below it.'
+        - 'To unescape, paste text containing entities in the second section and read the plain text.'
+        - 'Copy the result.'
+      notes:
+        - 'Escaping these five characters is what prevents cross-site scripting (XSS) when inserting untrusted text into HTML. Do it on output, with your framework''s escaping function, not by hand.'
+        - 'Only &, <, >, " and '' are escaped; other characters, including non-ASCII text, are left as they are, which is correct for UTF-8 pages.'
+        - 'Unescaping handles the same five entities plus numeric forms such as &#39;; named entities like &apos;, &nbsp; or &copy; are left untouched.'
+        - 'Escaping is for HTML text and attributes only. Inside <script>, in URLs or in CSS, different escaping rules apply.'
+      faq:
+        - q: 'Why does &apos; stay as it is after unescaping?'
+          a: '&apos; is an XML entity that older HTML did not define, so this tool, like many libraries, does not translate it. Use &#39; for an apostrophe in HTML.'
+        - q: 'Do I need to escape text in a JavaScript framework like Vue or React?'
+          a: 'Not when using normal text bindings: they escape automatically. Only raw HTML insertion (v-html, dangerouslySetInnerHTML, innerHTML) needs manual care.'
 
   json-prettify:
     title: JSON prettify and format
@@ -759,10 +858,50 @@ tools:
   mac-address-lookup:
     title: MAC address lookup
     description: Find the vendor and manufacturer of a device by its MAC address.
+    guide:
+      intro: 'Finds the manufacturer behind a MAC address from its first three bytes, the OUI (Organizationally Unique Identifier) assigned by the IEEE, using an offline copy of the registry. The lookup runs entirely in your browser.'
+      useCases:
+        - 'Identifying an unknown device on your Wi-Fi or in a DHCP lease table.'
+        - 'Checking whether a device really is the brand it claims to be.'
+        - 'Grouping devices by vendor when auditing a network.'
+      steps:
+        - 'Type or paste a MAC address in any common notation: colons, hyphens, dots or no separators.'
+        - 'Read the vendor name and registered address below.'
+        - 'Copy the result if you need it elsewhere.'
+      notes:
+        - 'Only the first six hex digits matter; the remaining three bytes identify the individual device and are not used.'
+        - 'Modern phones and laptops use randomised MAC addresses on Wi-Fi for privacy. A randomised address has the second hex digit set to 2, 6, A or E and will not match any vendor.'
+        - 'The database is a snapshot bundled with the site, so very recently registered prefixes may be missing until the dependency is updated.'
+        - 'Some prefixes are registered to component makers (network chip vendors) rather than the brand on the device, so the result may name the chip manufacturer.'
+      faq:
+        - q: 'Why is no vendor found for my address?'
+          a: 'Most often it is a randomised (private) MAC address, which is normal on recent iOS, Android and Windows devices. Otherwise the prefix is newer than the bundled database or belongs to a locally administered range.'
+        - q: 'Can I find the device owner or location from a MAC address?'
+          a: 'No. The registry only maps the prefix to the company that bought it. It says nothing about who owns a specific device or where it is.'
 
   mime-types:
     title: MIME types
     description: Convert MIME types to file extensions and vice-versa.
+    guide:
+      intro: 'Looks up the file extensions that belong to a MIME type, and the MIME type that belongs to a file extension, using the same database as most web servers and Node.js (the mime-db project).'
+      useCases:
+        - 'Finding the correct Content-Type header to send for a file your server delivers.'
+        - 'Checking which extension to give a file received with a given MIME type.'
+        - 'Configuring upload filters or accept attributes that must list MIME types.'
+      steps:
+        - 'In the first list, pick or type a MIME type such as application/pdf to see its extensions.'
+        - 'In the second list, pick or type an extension such as png to see its MIME type(s).'
+        - 'Both lists are searchable: start typing to filter them.'
+      notes:
+        - 'Some types have several extensions (image/jpeg has jpeg, jpg, jpe, jfif) and some extensions have more than one registered type. The first entry is usually the preferred one.'
+        - 'application/octet-stream is the fallback for unknown binary data; browsers download such files rather than displaying them.'
+        - 'The MIME type is what the server declares, not what the file contains. A mismatch between the two can make browsers refuse to run scripts or styles.'
+        - 'Text types usually need a charset, for example text/html; charset=utf-8. The list shows the type only.'
+      faq:
+        - q: 'Why is the extension I am looking for missing?'
+          a: 'The database only lists registered or widely used types. Very new or proprietary formats may be absent; use application/octet-stream or the vendor''s documented type.'
+        - q: 'What is the difference between text/javascript and application/javascript?'
+          a: 'Both have been used; the current standard is text/javascript. Browsers accept either for script files.'
 
   toml-to-json:
     title: TOML to JSON
@@ -1068,6 +1207,26 @@ tools:
   mac-address-generator:
     title: MAC address generator
     description: Enter the quantity and prefix. MAC addresses will be generated in your chosen case (uppercase or lowercase)
+    guide:
+      intro: 'Generates random MAC addresses, optionally starting with a prefix you choose, in upper or lower case and with the separator you need (colon, hyphen, dot or none). Up to 100 addresses at a time.'
+      useCases:
+        - 'Assigning addresses to virtual machines, containers or network simulators.'
+        - 'Creating test data for inventory systems, DHCP configurations or parsers.'
+        - 'Producing addresses within a given vendor prefix (OUI) for lab equipment.'
+      steps:
+        - 'Set the quantity (1 to 100) and, if needed, a prefix such as 64:16:7F.'
+        - 'Choose upper or lower case and the separator.'
+        - 'Copy the generated list, or refresh for a new one.'
+      notes:
+        - 'The prefix can be given with any separator or none; it is normalised and the remaining bytes are filled randomly. A full 6-byte prefix yields that exact address.'
+        - 'Without a prefix the first byte is fully random, so some addresses will be multicast (first byte odd) or marked as locally administered. For a unicast address that cannot clash with a real vendor, set a prefix whose second hex digit is 2, 6, A or E, for example 02:00:00.'
+        - 'Randomness is not cryptographic here, which is fine for test data but not for anything security-sensitive.'
+        - 'Quantity, prefix and separator are remembered in this browser.'
+      faq:
+        - q: 'Why does my hypervisor reject a generated address?'
+          a: 'Many hypervisors require a unicast, locally administered address and refuse multicast ones. Use a prefix such as 02:xx:xx or the vendor range your hypervisor documents (for example 52:54:00 for QEMU/KVM or 00:50:56 for VMware).'
+        - q: 'What do the separators mean?'
+          a: 'Nothing technically; they are display conventions. Colons are usual on Linux and macOS, hyphens on Windows, and dotted groups of four digits (0000.0000.0000) on Cisco equipment.'
 
   json-diff:
     title: JSON diff
@@ -1313,6 +1472,26 @@ tools:
   ipv6-ula-generator:
     title: IPv6 ULA generator
     description: Generate your own local, non-routable IP addresses for your network according to RFC4193.
+    guide:
+      intro: 'Generates an IPv6 Unique Local Address prefix (fd00::/8) following RFC 4193: a pseudo-random 40-bit global ID derived from a MAC address and the current time, giving you a /48 prefix for your private network plus its first and last /64 subnets.'
+      useCases:
+        - 'Choosing an internal IPv6 prefix for a home lab, office LAN, VPN or container network that does not need to be routable on the internet.'
+        - 'Avoiding the collisions that fd00::/48 or fd00:1::/64 cause when two private networks are later joined by a VPN.'
+        - 'Learning how ULA prefixes are structured.'
+      steps:
+        - 'Enter a MAC address of one of your network interfaces; any valid MAC works and it only seeds the random part.'
+        - 'Read the /48 prefix (IPv6 ULA) and the first and last /64 blocks you can carve out of it.'
+        - 'Copy the prefix and record it; the result changes on every refresh, so do not expect to regenerate the same one.'
+      notes:
+        - 'The global ID is a hash of the MAC address and the current timestamp, as RFC 4193 recommends, so each generation gives a new prefix. Save the one you decide to use.'
+        - 'A /48 contains 65536 /64 subnets, from xxxx:0::/64 to xxxx:ffff::/64. Each LAN segment normally gets one /64.'
+        - 'ULAs are private, like 10.0.0.0/8 in IPv4, but they are not meant to be NATed; hosts use them alongside a global address, and a random prefix keeps the two networks distinct when merged.'
+        - 'fc00::/8, the other half of the ULA space, is reserved for a centrally assigned scheme that was never deployed, so generated prefixes always start with fd.'
+      faq:
+        - q: 'Can I just use fd00::/48?'
+          a: 'It works, but everyone who takes that shortcut picks the same prefix, so two such networks collide as soon as they are connected. A random global ID is the whole point of RFC 4193.'
+        - q: 'Is the generated prefix guaranteed unique?'
+          a: 'Not guaranteed, but with 40 random bits the chance that two independently generated prefixes collide is negligible for any realistic number of networks.'
 
   hash-text:
     title: Hash text
@@ -1470,6 +1649,26 @@ tools:
   ipv4-address-converter:
     title: IPv4 address converter
     description: Convert an IP address into decimal, binary, hexadecimal, or even an IPv6 representation of it.
+    guide:
+      intro: 'Shows an IPv4 address in the other notations it can take: as a single decimal integer, in hexadecimal, in binary, and as an IPv4-mapped IPv6 address in both long and short form.'
+      useCases:
+        - 'Reading an address stored as an integer in a database or a log, or converting one to store it that way.'
+        - 'Understanding how a subnet mask or address looks bit by bit.'
+        - 'Writing the IPv6 form (::ffff:a.b.c.d) of an IPv4 address for a dual-stack configuration or firewall rule.'
+      steps:
+        - 'Type the address in dotted form, for example 192.168.1.1.'
+        - 'Read the decimal, hexadecimal, binary and IPv6 forms, each with a copy button.'
+        - 'An invalid address shows a validation message and empty results.'
+      notes:
+        - 'The decimal form is the four bytes read as one 32-bit number (a.b.c.d = a×16777216 + b×65536 + c×256 + d). Many databases store addresses this way because integers sort and compare faster.'
+        - 'The binary form has 32 digits; reading it next to a netmask makes the network and host parts obvious.'
+        - '::ffff:192.168.1.1 is an IPv4-mapped IPv6 address, the form in which dual-stack servers see IPv4 clients. It is the same host, not a different one.'
+        - 'Leading zeros in the input (192.168.001.001) are not accepted, because some systems read them as octal.'
+      faq:
+        - q: 'Why does a browser accept http://3232235777 as an address?'
+          a: 'That is the decimal form of 192.168.1.1. Browsers and many tools accept the integer notation, which is also why attackers use it to disguise addresses.'
+        - q: 'Can I convert the other way, from a number to an address?'
+          a: 'Not in this tool. Use the IPv4 range or subnet tools for address math, or convert the number to hexadecimal with the base converter and read it two digits per byte.'
 
   text-statistics:
     title: Text statistics
@@ -1482,6 +1681,26 @@ tools:
   basic-auth-generator:
     title: Basic auth generator
     description: Generate a base64 basic auth header from a username and password.
+    guide:
+      intro: 'Builds the Authorization header for HTTP Basic authentication from a username and password: the two are joined with a colon and Base64-encoded, giving Authorization: Basic dXNlcjpwYXNz.'
+      useCases:
+        - 'Calling an API or a protected endpoint with curl, Postman or a script that needs the raw header.'
+        - 'Checking what a client sends when it uses Basic auth, for example to debug a 401.'
+        - 'Configuring a webhook or an integration that only accepts a pre-built header.'
+      steps:
+        - 'Type the username and the password.'
+        - 'Read the complete header line.'
+        - 'Copy it into your request (for curl: -H "Authorization: Basic ...").'
+      notes:
+        - 'Base64 is encoding, not encryption. Anyone who sees the header can read the password, so Basic auth is only acceptable over HTTPS.'
+        - 'The username cannot contain a colon, because the colon separates it from the password. Passwords may contain colons.'
+        - 'Non-ASCII characters are encoded as UTF-8 before Base64, which is what modern servers expect; a few old systems expect Latin-1 and will reject such passwords.'
+        - 'The computation happens in your browser; nothing is sent anywhere. Still, prefer test credentials when trying things out.'
+      faq:
+        - q: 'Why does the server still answer 401?'
+          a: 'Check that the header reaches the server (proxies and some frameworks strip it), that the realm expects Basic rather than Bearer or Digest, and that the credentials are correct. Spaces or line breaks copied around the header are another frequent cause.'
+        - q: 'Can I decode a header back to the credentials?'
+          a: 'Yes: paste the part after Basic into the Base64 decoder tool. That is exactly why Basic auth must only be used over an encrypted connection.'
 
   text-to-unicode:
     title: Text to Unicode
@@ -1490,6 +1709,26 @@ tools:
   ipv4-range-expander:
     title: IPv4 range expander
     description: Given a start and an end IPv4 address, this tool calculates a valid IPv4 subnet along with its CIDR notation.
+    guide:
+      intro: 'Given the first and last address of a range, finds the smallest CIDR block that contains the whole range, and shows how many addresses the block covers compared with the range you asked for.'
+      useCases:
+        - 'Turning a range such as 10.0.4.17 to 10.0.6.200 into a CIDR for a firewall, security group or route.'
+        - 'Checking how much larger the aligned block is than the range you actually need.'
+        - 'Converting legacy start/end style allow-lists into prefix notation.'
+      steps:
+        - 'Enter the start and the end address.'
+        - 'Read the result table: the original and the expanded start and end, the number of addresses and the CIDR.'
+        - 'If the end is lower than the start, use the swap button to exchange them.'
+      notes:
+        - 'A CIDR block must be aligned to a power of two, so the result is often larger than the range: the start is rounded down and the end rounded up to the block boundaries. Check the "addresses in range" row before using the CIDR in a rule, because the extra addresses are included too.'
+        - 'A range that is not already a block cannot be expressed as one CIDR without including extra addresses. If that is unacceptable, split it into several blocks by hand.'
+        - 'The expansion compares the two addresses bit by bit and keeps the common prefix, so ranges whose start and end differ in a high bit expand to a very large block (even /0).'
+        - 'Start and end are remembered in this browser between visits.'
+      faq:
+        - q: 'Why does my range of 1000 addresses become a /22 with 1024?'
+          a: 'Because 1000 is not a power of two and the range is not aligned. The smallest block that contains all 1000 addresses is 1024 addresses wide.'
+        - q: 'How do I get an exact list of blocks instead?'
+          a: 'Split the range at power-of-two boundaries: repeatedly take the largest aligned block that starts at the current start address and fits in the range, then continue from the next address.'
 
   text-diff:
     title: Text diff
