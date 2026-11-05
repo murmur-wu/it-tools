@@ -545,6 +545,26 @@ tools:
   slugify-string:
     title: Slugify string
     description: Make a string url, filename and id safe.
+    guide:
+      intro: 'Turns any text into a slug: lowercase ASCII letters and digits separated by hyphens, safe to use in a URL, a file name or an HTML id. Accented letters are transliterated and symbols are removed or spelled out.'
+      useCases:
+        - 'Building the URL path of a blog post or product page from its title.'
+        - 'Creating file or folder names from user-entered labels without spaces or special characters.'
+        - 'Generating anchor ids for headings in generated HTML.'
+      steps:
+        - 'Paste the text, a title for example.'
+        - 'Read the slug below; it updates as you type.'
+        - 'Copy it.'
+      notes:
+        - 'Accented and special Latin letters are transliterated (é to e, ö to oe, ß to ss), & becomes and, and everything that is not a letter or digit becomes a hyphen. Repeated hyphens are collapsed and leading or trailing ones removed.'
+        - 'Non-Latin scripts such as Chinese, Japanese or Arabic have no transliteration here and are dropped. A title written only in those scripts gives an empty slug, so provide a Latin title or use a transliteration tool first.'
+        - 'Case changes inside a word are treated as word boundaries, so fooBar becomes foo-bar.'
+        - 'The slug is not guaranteed unique. Two titles that differ only in punctuation or accents produce the same slug, so systems usually append an id or a counter.'
+      faq:
+        - q: 'Why is a slug better than the raw title in a URL?'
+          a: 'It avoids percent-encoding, is readable, stable across systems that mishandle Unicode, and is what search engines and users expect. Hyphens are preferred to underscores because search engines treat them as word separators.'
+        - q: 'Why did my Chinese title produce nothing?'
+          a: 'The library only transliterates Latin-based characters. For other scripts, translate or romanise the title (for example with pinyin) before slugifying.'
 
   encryption:
     title: Encrypt / decrypt text
@@ -665,6 +685,26 @@ tools:
   list-converter:
     title: List converter
     description: This tool can process column-based data and apply various changes (transpose, add prefix and suffix, reverse list, sort list, lowercase values, truncate values) to each row.
+    guide:
+      intro: 'Reshapes a list of lines into the format you need: trim, deduplicate, lowercase, sort or reverse the items, add a prefix and suffix to each one, join them with a separator and wrap the whole list. Typical output is a comma-separated or SQL-ready list.'
+      useCases:
+        - 'Turning a column copied from a spreadsheet into ''a'', ''b'', ''c'' for an SQL IN clause or a code array.'
+        - 'Cleaning a list: removing duplicates and blank lines, trimming spaces, sorting.'
+        - 'Adding quotes, brackets or a URL prefix to every item at once.'
+      steps:
+        - 'Paste the items, one per line.'
+        - 'Toggle the transformations: trim, remove duplicates, lowercase, sort, reverse, keep line breaks.'
+        - 'Set the item prefix and suffix, the separator and the list prefix and suffix, then copy the result.'
+      notes:
+        - 'Transformations are applied in a fixed order: lowercase, deduplicate, reverse, sort, trim, remove empty lines, then wrap and join. Deduplication therefore happens before trimming, so ''a'' and ''a '' stay two items even with trimming on; paste the trimmed output back in for a second pass if that matters.'
+        - 'Sorting is alphabetical as text, so 10 sorts before 2. Pad numbers or sort them elsewhere when numeric order matters.'
+        - 'The separator is inserted between items only; combine it with "Keep line breaks" to get one item per line while still ending each line with a comma.'
+        - 'Your settings are remembered in this browser, so the tool opens with the last configuration you used.'
+      faq:
+        - q: 'How do I make an SQL IN list?'
+          a: 'Set the item prefix and suffix to a single quote each, the separator to a comma and a space, and the list prefix and suffix to ( and ). Lines like a, b, c become (''a'', ''b'', ''c'').'
+        - q: 'Why is a duplicate not removed?'
+          a: 'Items are compared exactly after lowercasing but before trimming, so a trailing space or an invisible character makes two items differ. Trim first (run the tool once with only trimming on), then deduplicate in a second pass.'
 
   base64-string-converter:
     title: Base64 string encoder/decoder
@@ -798,10 +838,50 @@ tools:
   numeronym-generator:
     title: Numeronym generator
     description: A numeronym is a word where a number is used to form an abbreviation. For example, "i18n" is a numeronym of "internationalization" where 18 stands for the number of letters between the first i and the last n in the word.
+    guide:
+      intro: 'Builds the numeronym of a word: its first letter, the number of letters in between, and its last letter, the pattern behind i18n (internationalization), l10n (localization) and a11y (accessibility).'
+      useCases:
+        - 'Coining a short tag for a long term in code, folder names, tickets or chat.'
+        - 'Decoding or checking an existing abbreviation such as k8s or o11y.'
+        - 'Picking consistent short names for feature flags or configuration keys.'
+      steps:
+        - 'Type a word.'
+        - 'Read the numeronym next to it.'
+        - 'Copy it.'
+      notes:
+        - 'Words of three letters or fewer are returned unchanged, because a numeronym would not be shorter.'
+        - 'Only one word is processed; spaces count as letters, so enter a single word without spaces or hyphens.'
+        - 'The count is the number of characters between the first and last one, not the total length: internationalization has 20 letters, so it becomes i18n.'
+        - 'Numeronyms are handy but opaque to newcomers; define them once in your documentation.'
+      faq:
+        - q: 'What does k8s stand for?'
+          a: 'Kubernetes: k, then the 8 letters ubernete, then s. Likewise o11y is observability and a11y is accessibility.'
+        - q: 'Can two different words have the same numeronym?'
+          a: 'Yes, easily: any two words with the same first and last letter and the same length collide. Use numeronyms only where the context makes the meaning clear.'
 
   case-converter:
     title: Case converter
     description: Transform the case of a string and choose between different formats
+    guide:
+      intro: 'Shows a piece of text in every common naming convention at once: lowercase, UPPERCASE, camelCase, PascalCase, snake_case, CONSTANT_CASE, kebab-case (param case), dot.case, path/case, Header-Case, Sentence case, Capital Case, no case and mOcKiNg cAsE.'
+      useCases:
+        - 'Renaming an identifier when moving between languages or layers, for example a JSON field (snake_case) to a JavaScript property (camelCase) to a CSS class (kebab-case).'
+        - 'Producing a constant name (CONSTANT_CASE) or a file path (path/case) from a human-readable label.'
+        - 'Normalising inconsistent titles or labels to one style.'
+      steps:
+        - 'Type or paste the text in the input field.'
+        - 'Every conversion appears below, each with its own copy button.'
+        - 'Copy the variant you need.'
+      notes:
+        - 'Words are detected from spaces, punctuation and case changes, so helloWorld, hello_world and Hello World all split into the same two words. Digits are treated as separators and dropped (v2 becomes v).'
+        - 'Lowercase and uppercase keep the text as is and only change the letters; all other variants rebuild the text from the detected words, removing punctuation.'
+        - 'Accented Latin letters (é, ö, ñ) are kept as word characters; other scripts such as Chinese or Japanese are not split into words and may be removed by the word-based variants.'
+        - 'Mocking case alternates upper and lower case letter by letter, including spaces in the count, so the pattern restarts after each space.'
+      faq:
+        - q: 'What is the difference between camelCase and PascalCase?'
+          a: 'Both join words without separators and capitalise each word; camelCase keeps the first letter lowercase (userName), PascalCase capitalises it too (UserName). JavaScript uses camelCase for variables and PascalCase for classes.'
+        - q: 'Why did the numbers disappear from my text?'
+          a: 'The word splitter treats digits as separators, so item2name becomes item name. Add the numbers back by hand when they are part of the identifier.'
 
   html-entities:
     title: Escape HTML entities
@@ -930,6 +1010,26 @@ tools:
   lorem-ipsum-generator:
     title: Lorem ipsum generator
     description: Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content
+    guide:
+      intro: 'Generates Lorem ipsum placeholder text with the number of paragraphs, sentences and words you choose, optionally wrapped in HTML paragraph tags, to fill layouts and mock-ups before the real content exists.'
+      useCases:
+        - 'Filling a page design, a template or a component with realistic-looking text to judge layout and typography.'
+        - 'Creating sample content for a CMS, a database seed or a UI test.'
+        - 'Producing dummy paragraphs of a specific length to test truncation and overflow.'
+      steps:
+        - 'Set the number of paragraphs, and the range of sentences per paragraph and words per sentence.'
+        - 'Choose whether the text must start with the classic Lorem ipsum dolor sit amet and whether to wrap paragraphs in <p> tags.'
+        - 'Copy the text, or refresh (Ctrl+Enter) for a different random text with the same settings.'
+      notes:
+        - 'The text is pseudo-Latin and carries no meaning, which is the point: readers judge the design instead of reading the content.'
+        - 'Sentence and word counts are ranges picked at random for each paragraph, so two paragraphs are rarely the same length, much like real text.'
+        - 'The HTML option wraps each paragraph in <p>...</p> on its own line, ready to paste into a template.'
+        - 'Lorem ipsum has only Latin-like words, so it does not represent the width or line breaks of Chinese, Japanese or other scripts. Use real sample text in the target language for those layouts.'
+      faq:
+        - q: 'Where does Lorem ipsum come from?'
+          a: 'It is a scrambled passage from Cicero''s De finibus bonorum et malorum, used by printers as filler since at least the 1960s and popularised by desktop publishing software.'
+        - q: 'Why does the generated text change each time?'
+          a: 'Words are chosen at random within your ranges, so every refresh yields a new text. Copy the one you like, because it cannot be regenerated identically.'
 
   image-compressor:
     title: Image compressor
@@ -1593,6 +1693,26 @@ tools:
   string-obfuscator:
     title: String obfuscator
     description: Obfuscate a string (like a secret, an IBAN, or a token) to make it shareable and identifiable without revealing its content.
+    guide:
+      intro: 'Masks the middle of a string with asterisks while keeping a few characters at the start and end visible, so a secret, token, IBAN or card number can be shared or shown in a screenshot and still be recognised without being usable.'
+      useCases:
+        - 'Pasting an API key or token into a bug report, a ticket or a chat so the reader can identify which key it is without seeing it.'
+        - 'Showing a partially hidden IBAN, card number or phone number in a UI or a screenshot.'
+        - 'Logging an identifier without writing the full secret to the log.'
+      steps:
+        - 'Paste the string.'
+        - 'Choose how many characters to keep at the start and at the end, and whether spaces stay visible.'
+        - 'Copy the masked result.'
+      notes:
+        - 'Every character between the kept parts becomes an asterisk, so the length of the original is still visible. Keep that in mind if the length itself is sensitive.'
+        - 'Keeping spaces makes grouped numbers (IBANs, card numbers) easier to read while still hiding the digits.'
+        - 'The more characters you keep, the easier the secret is to guess or match against leaks. For API keys, a few leading characters are usually enough to identify them.'
+        - 'This is a display aid, not a security control. The masking is done in your browser and nothing is sent anywhere, but anyone with the original string can of course still use it.'
+      faq:
+        - q: 'Can the masked string be reversed?'
+          a: 'No, the hidden characters are replaced and not recoverable from the output. That is why you should keep the original somewhere safe if you still need it.'
+        - q: 'How much should I keep visible for a credit card number?'
+          a: 'Industry practice (PCI DSS) allows at most the first six and last four digits to be shown; most receipts show only the last four.'
 
   base-converter:
     title: Integer base converter
@@ -1673,10 +1793,50 @@ tools:
   text-statistics:
     title: Text statistics
     description: Get information about a text, the number of characters, the number of words, its size in bytes, ...
+    guide:
+      intro: 'Counts the characters, words and lines of a text and shows its size in bytes when encoded as UTF-8, updating as you type.'
+      useCases:
+        - 'Checking a text against a length limit: a tweet, a meta description, a form field or a database column.'
+        - 'Estimating the storage or payload size of a piece of content.'
+        - 'Counting the words of an essay, an abstract or an answer with a word limit.'
+      steps:
+        - 'Paste or type the text.'
+        - 'Read the four counters above the field.'
+        - 'Edit the text and watch the numbers follow.'
+      notes:
+        - 'Character count is the number of UTF-16 code units, which is what JavaScript''s length reports. Most emoji and some rare characters count as 2, so the number can differ from what a platform shows.'
+        - 'Byte size is the UTF-8 length: ASCII letters take 1 byte, most European accented letters 2, Chinese, Japanese and Korean characters 3, and emoji usually 4. A limit expressed in bytes (database columns, some APIs) therefore differs from a limit in characters.'
+        - 'Words are counted by splitting on whitespace, which works for languages that separate words with spaces. Chinese and Japanese text without spaces counts as one word per line.'
+        - 'Line count follows line breaks, so a long paragraph that wraps on screen is still one line.'
+      faq:
+        - q: 'Why does my emoji count as two characters?'
+          a: 'Emoji outside the Basic Multilingual Plane are stored as two UTF-16 code units. Some platforms count them as one, others as two; this tool follows JavaScript, which counts two.'
+        - q: 'Why is the byte size larger than the character count?'
+          a: 'Any character outside plain ASCII takes more than one byte in UTF-8. Text with accents, CJK characters or emoji is therefore larger in bytes than in characters.'
 
   text-to-nato-alphabet:
     title: Text to NATO alphabet
     description: Transform text into the NATO phonetic alphabet for oral transmission.
+    guide:
+      intro: 'Spells out text letter by letter with the NATO phonetic alphabet (Alpha, Bravo, Charlie...), the standard used in aviation, radio and call centres so that letters are not confused when spoken aloud.'
+      useCases:
+        - 'Reading a booking reference, licence plate, serial number or password over the phone.'
+        - 'Preparing a script for radio communication or a support call.'
+        - 'Learning or checking the phonetic alphabet.'
+      steps:
+        - 'Type the text.'
+        - 'Read the spelled-out version below, one word per letter.'
+        - 'Copy it or read it aloud.'
+      notes:
+        - 'Only the 26 Latin letters are converted, case-insensitively. Digits, punctuation and other characters are left as they are, so 7 stays 7 and a space stays a space.'
+        - 'In practice digits are read individually (seven, not seventy) and often with the aviation forms tree, fife and niner to avoid confusion; the tool does not change them.'
+        - 'Accented letters (é, ü) are not converted; spell them with the base letter and mention the accent, or remove the accent first.'
+        - 'This is the ICAO/NATO alphabet (Alfa, Juliett are the official spellings, pronounced the same). Other spelling alphabets exist, such as the LAPD or the German one, with different words.'
+      faq:
+        - q: 'Why does the output show my digits unchanged?'
+          a: 'The NATO alphabet covers letters only. Read digits one at a time as you would normally; the tool leaves them in place so the sequence stays readable.'
+        - q: 'Why Alpha and not A for apple?'
+          a: 'Alpha, Bravo and the other words were chosen so that each is distinct in every major language and over poor audio. Ad hoc words such as apple or ice are more easily misheard.'
 
   basic-auth-generator:
     title: Basic auth generator
@@ -1705,6 +1865,26 @@ tools:
   text-to-unicode:
     title: Text to Unicode
     description: Parse and convert text to unicode and vice-versa
+    guide:
+      intro: 'Converts text into HTML numeric character references (&#72;&#105; for Hi) and back. This is one way to write any character in an HTML or XML document using only ASCII.'
+      useCases:
+        - 'Embedding special characters, symbols or non-Latin text in an HTML file or e-mail template that must stay pure ASCII.'
+        - 'Decoding a string of &#...; references found in page source or a data export.'
+        - 'Lightly obscuring an e-mail address in a web page so simple scrapers do not read it.'
+      steps:
+        - 'To encode, type text in the first field and read the &#...; sequence below it.'
+        - 'To decode, paste a sequence of &#...; references in the second field and read the text.'
+        - 'Copy the result.'
+      notes:
+        - 'Every character is encoded, including plain letters and spaces, so the output is much longer than the input. Browsers render it identically.'
+        - 'The references are decimal code points (&#8364; for the euro sign). Hexadecimal references (&#x20AC;) are equivalent in HTML but are not produced or decoded here.'
+        - 'Characters outside the Basic Multilingual Plane, such as most emoji, are encoded as two surrogate references (for example &#55357;&#56832;). Browsers display them correctly, but they are not the character''s single code point.'
+        - 'This is not encryption or a security measure. Anyone can decode it, and most scrapers do.'
+      faq:
+        - q: 'Is this the same as the Unicode code point U+XXXX?'
+          a: 'Related but not identical: the number after &# is the decimal code point for characters up to U+FFFF. For emoji and other supplementary characters this tool emits two surrogate numbers instead of the single code point.'
+        - q: 'When should I use references instead of typing the character?'
+          a: 'Only when the file cannot be saved as UTF-8 or passes through a system that corrupts non-ASCII text. In a UTF-8 document, typing the character directly is simpler and more readable.'
 
   ipv4-range-expander:
     title: IPv4 range expander
@@ -1733,6 +1913,26 @@ tools:
   text-diff:
     title: Text diff
     description: Compare two texts and see the differences between them.
+    guide:
+      intro: 'Compares two texts side by side and highlights the lines and characters that differ, using the same diff editor as Visual Studio Code. Both sides are editable, so you can fix a text and watch the differences disappear.'
+      useCases:
+        - 'Spotting what changed between two versions of a configuration file, a contract clause or a block of code.'
+        - 'Checking that a copied or re-typed text matches the original exactly.'
+        - 'Reviewing the output of a script against the expected result.'
+      steps:
+        - 'Paste the original text on the left and the modified text on the right.'
+        - 'Changed lines are highlighted; within a line, the exact characters that differ are marked.'
+        - 'Edit either side; the comparison updates as you type.'
+      notes:
+        - 'The comparison is line-based first, then character-based within changed lines. Reordering lines shows up as a removal plus an addition, not as a move.'
+        - 'Whitespace differences, such as tabs versus spaces or a trailing space, are real differences and are highlighted. If they are noise, normalise both texts first.'
+        - 'Different line endings (Windows CRLF versus Unix LF) can make every line look changed. Convert the texts to the same line ending before comparing.'
+        - 'Everything stays in your browser. Large texts work, but the editor can become slow beyond a few megabytes.'
+      faq:
+        - q: 'Why does every line show as changed?'
+          a: 'Usually because of invisible differences: line endings, indentation (tabs versus spaces) or trailing whitespace. Check a single line''s highlighted characters to see which.'
+        - q: 'Can I compare two files?'
+          a: 'Open each file in a text editor, copy its content and paste it into one side. The tool does not read files directly.'
 
   otp-generator:
     title: OTP code generator
@@ -1785,10 +1985,50 @@ tools:
   text-to-binary:
     title: Text to ASCII binary
     description: Convert text to its ASCII binary representation and vice-versa.
+    guide:
+      intro: 'Writes text as binary, eight bits per character, and turns such binary back into text. Each character becomes its ASCII code in base 2, padded to 8 digits and separated by spaces.'
+      useCases:
+        - 'Teaching or learning how characters are stored as bits.'
+        - 'Decoding binary-looking strings in puzzles, CTF challenges or geocaching clues.'
+        - 'Producing a binary representation for a design, a T-shirt or a demo.'
+      steps:
+        - 'Type text in the first field to get its binary form.'
+        - 'Paste groups of eight 0s and 1s in the second field to get the text back; spaces and other separators are ignored.'
+        - 'Copy the result.'
+      notes:
+        - 'Each character is encoded as its UTF-16 code unit in 8 bits, which is exact for ASCII (0 to 127) and Latin-1 (up to 255). Characters above 255, including Chinese text and most emoji, do not fit in 8 bits and are encoded incorrectly, so stick to ASCII.'
+        - 'Decoding removes everything that is not 0 or 1 and then requires a multiple of 8 digits; otherwise it reports an invalid binary string.'
+        - 'A capital letter and its lowercase form differ by exactly one bit (the 32 bit): A is 01000001, a is 01100001.'
+        - 'This is a representation, not a compression or encryption. It makes text 8 times longer.'
+      faq:
+        - q: 'Why does my decoded text look wrong?'
+          a: 'Either the input was not grouped in 8-bit bytes (7-bit groups are common in puzzles, so add a leading 0 to each group), or the original text contained non-ASCII characters that do not survive the 8-bit encoding.'
+        - q: 'Is this how computers really store text?'
+          a: 'For ASCII, yes, one byte per character. Modern systems use UTF-8, where characters beyond ASCII take 2 to 4 bytes; this tool only shows the simple one-byte case.'
 
   ascii-text-drawer:
     title: ASCII Art Text Generator
     description: Create ASCII art text with many fonts and styles.
+    guide:
+      intro: 'Renders text as large ASCII art letters using FIGlet fonts, with nearly 300 styles to choose from and an adjustable line width. Handy for terminal banners, README headers and code comments.'
+      useCases:
+        - 'Adding a banner to a CLI tool''s start-up output or a shell script.'
+        - 'Making a decorative heading for a README, a plain-text e-mail or a comment block.'
+        - 'Creating retro-style text for a terminal-themed website.'
+      steps:
+        - 'Type the text, then pick a font from the list; Standard, Big, Slant and Shadow are popular choices.'
+        - 'Adjust the width if long text should wrap sooner or later.'
+        - 'Copy the result into a file or terminal.'
+      notes:
+        - 'ASCII art depends on a monospaced font. In a proportional font (most chat apps and word processors) the letters fall apart, so paste it into a terminal, a code block or a <pre> element.'
+        - 'Most FIGlet fonts cover ASCII letters, digits and punctuation only. Accented or non-Latin characters are usually left blank or rendered as their closest ASCII form.'
+        - 'Fonts are downloaded on demand from the unpkg CDN the first time you select them, so the first render of each font needs a network connection. The text you type is not sent anywhere.'
+        - 'Multi-line output is wide: a short word in a large font can exceed 80 columns. Lower the width or choose a smaller font (Small, Mini, Thin) if it must fit a narrow terminal.'
+      faq:
+        - q: 'Why does the output look broken where I pasted it?'
+          a: 'The destination is not using a monospaced font, or it collapsed repeated spaces. Use a code block (triple backticks in Markdown), a <pre> tag or a terminal.'
+        - q: 'Which font looks like the classic Linux login banner?'
+          a: 'Standard is the default FIGlet font seen in many banners; Slant, Big and Doom are other widely recognised ones.'
 
   email-normalizer:
     title: Email normalizer
