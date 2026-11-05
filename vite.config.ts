@@ -19,6 +19,7 @@ import markdown from 'vite-plugin-vue-markdown';
 import svgLoader from 'vite-svg-loader';
 import { configDefaults } from 'vitest/config';
 import { parse as parseYaml } from 'yaml';
+import { FIGLET_FONTS_PATH, figletFontsPlugin } from './build/figlet-fonts';
 import { type ToolRoute, buildRedirects, buildStaticPages, parseToolRoute, renderStaticPage } from './build/static-pages';
 
 const baseUrl = process.env.BASE_URL ?? '/';
@@ -155,6 +156,7 @@ export default defineConfig({
     svgLoader(),
     sitemapPlugin(),
     staticPagesPlugin(),
+    figletFontsPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'generateSW',
@@ -184,6 +186,16 @@ export default defineConfig({
             options: {
               cacheName: 'ghostscript-wasm',
               expiration: { maxEntries: 1 },
+            },
+          },
+          {
+            // The ASCII text drawer's ~290 FIGlet fonts (~3 MB) are served from /figlet-fonts/ and
+            // fetched one at a time on demand, so only the fonts actually used get cached, for offline use.
+            urlPattern: ({ url }) => url.pathname.includes(`/${FIGLET_FONTS_PATH}/`) && url.pathname.endsWith('.flf'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'figlet-fonts',
+              expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 90 },
             },
           },
         ],

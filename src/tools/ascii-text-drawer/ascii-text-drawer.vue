@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import figlet from 'figlet';
+import standardFont from 'figlet/fonts/Standard.flf?raw';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
 import { useToolInput } from '@/composable/toolInput';
 
@@ -11,7 +12,11 @@ const output = ref('');
 const errored = ref(false);
 const processing = ref(false);
 
-figlet.defaults({ fontPath: '//unpkg.com/figlet@1.6.0/fonts/' });
+// Fonts are served by the app itself (see build/figlet-fonts.ts), not from a third-party CDN:
+// the tool keeps working on restricted networks and offline (the service worker caches used fonts).
+figlet.defaults({ fontPath: `${import.meta.env.BASE_URL}figlet-fonts` });
+// The default font ships with the tool's chunk, so the first drawing needs no extra request
+figlet.parseFont('Standard', standardFont);
 
 watchEffect(async () => {
   processing.value = true;
