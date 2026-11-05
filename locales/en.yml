@@ -489,10 +489,51 @@ tools:
   encryption:
     title: Encrypt / decrypt text
     description: Encrypt clear text and decrypt ciphertext using crypto algorithms like AES, TripleDES, Rabbit or RC4.
+    guide:
+      intro: 'A quick way to encrypt a piece of text with a passphrase using AES, TripleDES, Rabbit or RC4, and to decrypt text produced the same way. It is based on the CryptoJS library, whose passphrase mode is compatible with the OpenSSL format.'
+      useCases:
+        - 'Protecting a short note or snippet before sending it through a channel you do not fully trust.'
+        - 'Decrypting a value that was produced by CryptoJS in a web application, given the passphrase.'
+        - 'Demonstrating or testing passphrase-based encryption in a tutorial.'
+      steps:
+        - 'Enter the text, the secret key (passphrase) and the algorithm; the encrypted text appears below.'
+        - 'To decrypt, paste the encrypted text, enter the same secret key and choose the same algorithm.'
+        - 'Copy the result. A wrong key or algorithm shows an error instead of the text.'
+      notes:
+        - 'The output is a Base64 string starting with U2FsdGVkX1, which is the text Salted__ encoded. A random salt is generated each time, so encrypting the same text twice gives different results, and both decrypt correctly.'
+        - 'The key and IV are derived from your passphrase with the OpenSSL-style key derivation (a single MD5-based round), which is weak against guessing. Use a long, random passphrase.'
+        - 'AES is the sensible choice. TripleDES is slow and being retired, RC4 is broken, and Rabbit is rarely used. The others exist for compatibility.'
+        - 'There is no authentication, so a modified ciphertext may decrypt to garbage instead of failing cleanly. This is not suitable for protecting real secrets or passwords.'
+      faq:
+        - q: 'Why does the same input give a different result each time?'
+          a: 'Because of the random salt. This is intended: it stops two identical messages from producing identical ciphertext. Decryption reads the salt back from the beginning of the ciphertext.'
+        - q: 'When should I use the AES advanced tool instead?'
+          a: 'When you must match a specific key, IV and mode used by another system. This tool hides those details and cannot reproduce them.'
 
   aes-advanced-encryption:
     title: AES advanced encrypt / decrypt
     description: Encrypt and decrypt text with AES using an explicit key and IV (hex, base64 or text) in CBC, GCM, CTR or ECB mode, for interoperability with other systems.
+    guide:
+      intro: 'Encrypts and decrypts text with AES using an explicit key and IV that you control, in CBC, GCM, CTR or ECB mode. Unlike a passphrase-based tool, it lets you reproduce exactly what another system or library does, which is what you need for interoperability work.'
+      useCases:
+        - 'Reproducing the ciphertext an API or a legacy system expects, or decrypting a value it sent you, given its key and IV.'
+        - 'Checking that your own code encrypts a test vector to the same bytes as a reference implementation.'
+        - 'Learning how modes, IV length and padding change the output.'
+      steps:
+        - 'Choose the mode, then enter the key and pick its encoding (hex, base64 or UTF-8 text).'
+        - 'Enter the IV or nonce in the same way; ECB needs none. For GCM you can also add optional authenticated data.'
+        - 'Type the plain text to get the ciphertext in the encoding you chose, or paste ciphertext in the decrypt section to read the plain text.'
+      notes:
+        - 'The key must be exactly 16, 24 or 32 bytes (AES-128, 192 or 256); the tool tells you the length it received. Remember that a hex key of 64 characters is 32 bytes, while the same 64 characters entered as text are 64 bytes and rejected.'
+        - 'CBC and CTR need a 16-byte IV, GCM works with a 12-byte nonce (recommended), and ECB uses no IV.'
+        - 'GCM is authenticated encryption: the 16-byte tag is appended to the ciphertext and decryption fails if anything was modified. CBC, CTR and ECB give no integrity protection.'
+        - 'Never reuse the same IV with the same key in GCM or CTR. Doing so can reveal the plain text. Always generate a fresh random IV for each message.'
+        - 'ECB encrypts identical blocks identically and leaks patterns. It is offered for compatibility only, not for new designs.'
+      faq:
+        - q: 'Why does decryption fail or give garbage?'
+          a: 'Almost always a mismatch: a different key or IV, the wrong mode, the wrong ciphertext encoding (hex versus base64), or in GCM a missing tag or different additional data. Check each setting against the system that produced the data.'
+        - q: 'Is this the same as the simple encrypt/decrypt tool?'
+          a: 'No. The simple tool takes a passphrase and derives the key and IV itself using a random salt, so its output differs each time and only matches tools with the same scheme. This one takes the raw key and IV, so you control every byte.'
 
   random-port-generator:
     title: Random port generator
@@ -513,6 +554,26 @@ tools:
   hmac-generator:
     title: Hmac generator
     description: Computes a hash-based message authentication code (HMAC) using a secret key and your favorite hashing function.
+    guide:
+      intro: 'Computes an HMAC, a hash of a message mixed with a secret key, using MD5, SHA-1, SHA-2 (224, 256, 384, 512), SHA-3 or RIPEMD-160. An HMAC proves that a message was produced by someone who knows the key and was not altered on the way.'
+      useCases:
+        - 'Verifying webhook signatures from services that sign the request body with a shared secret.'
+        - 'Reproducing the signature an API expects (request signing, signed URLs) to find out why yours is rejected.'
+        - 'Checking an HMAC implementation against a known-good result.'
+      steps:
+        - 'Enter the message in the plain text field and the shared secret in the secret key field.'
+        - 'Choose the hashing function; SHA256 is the usual one.'
+        - 'Choose the output encoding (hex, base64, base64url or binary) and copy the HMAC.'
+      notes:
+        - 'Both the message and the key are taken as UTF-8 text. If your key is binary or given as hex or base64, decode it first, because the tool will otherwise use the characters of that text as the key.'
+        - 'A single extra space or newline in the message changes the whole result, so paste exactly the bytes that were signed, such as the raw request body, not a re-formatted version.'
+        - 'Prefer SHA-256 or stronger. HMAC-MD5 and HMAC-SHA1 are still considered secure as MACs, but are kept mostly for older systems.'
+        - 'Compare HMACs in constant time on your server (for example crypto.timingSafeEqual) rather than with ordinary string comparison.'
+      faq:
+        - q: 'What is the difference between HMAC and a plain hash?'
+          a: 'A plain hash can be computed by anyone, so it only detects accidental changes. An HMAC needs the secret key, so it also proves who produced the message and stops an attacker from forging a matching value.'
+        - q: 'Why does my HMAC not match the one the service sent?'
+          a: 'Typical causes are a different output encoding (hex versus base64), a key that should have been decoded first, the wrong hash function, or a body that was changed by a framework before you signed it.'
 
   bip39-generator:
     title: BIP39 passphrase generator
@@ -648,6 +709,27 @@ tools:
     clear: Clear
     notAnImage: '{name} is not an image.'
     failed: 'Unable to compress {name}.'
+    guide:
+      intro: 'Shrinks photos and screenshots by re-encoding them as WebP, JPEG or PNG and optionally scaling them down. Several images can be processed at once and downloaded one by one or as a single zip. Everything runs in your browser.'
+      useCases:
+        - 'Making images small enough for an upload limit, an e-mail attachment or a CMS that rejects files over a few megabytes.'
+        - 'Improving page speed by converting heavy PNG or JPEG files to WebP and limiting their width to what the layout really needs.'
+        - 'Preparing a batch of screenshots or product photos for a document or a store listing.'
+      steps:
+        - 'Drop images onto the upload area, or click it to choose files.'
+        - 'Choose the output format (or keep each image''s original format), the quality, and an optional maximum width and height.'
+        - 'Check the size shown for each result, then download images individually or all together as a zip.'
+      notes:
+        - 'Quality applies to WebP and JPEG only. PNG is lossless, so its slider is disabled and PNG files shrink mainly by lowering the pixel dimensions. Quality around 75 to 85 is usually a good balance.'
+        - 'Maximum width and height only ever scale an image down and keep its aspect ratio; a small image is never enlarged.'
+        - 'JPEG has no transparency, so transparent areas become white. Use WebP or PNG to keep transparency.'
+        - 'Re-encoding drops metadata such as EXIF data, including camera details and GPS location, and an animated GIF keeps only its first frame.'
+        - 'An already well-optimised image can come out larger. Compare the sizes and keep the original in that case.'
+      faq:
+        - q: 'Are my images uploaded to a server?'
+          a: 'No. Compression uses your browser''s canvas, so the files stay on your device. That also means very large images use your device''s memory and may take a moment.'
+        - q: 'Which format should I choose?'
+          a: 'WebP gives the smallest files for most photos and is supported by all current browsers. Choose JPEG when you need maximum compatibility with older software, and PNG for graphics with sharp edges or transparency.'
 
   pdf-compressor:
     title: 'PDF compressor'
@@ -762,6 +844,26 @@ tools:
   rsa-key-pair-generator:
     title: RSA key pair generator
     description: Generate a new random RSA private and public pem certificate key pair.
+    guide:
+      intro: 'Generates a new random RSA private and public key pair and shows both as PEM text. Generation happens in your browser with a background worker, so the page stays responsive and the keys are never sent anywhere.'
+      useCases:
+        - 'Creating a throwaway key pair for testing signing, encryption, SSH or JWT code.'
+        - 'Producing keys for a local development environment or a tutorial.'
+        - 'Trying different key sizes to see how long generation takes.'
+      steps:
+        - 'Set the number of bits (2048 by default, from 256 to 16384 in steps of 8).'
+        - 'Wait for the key pair to be generated; larger sizes take noticeably longer.'
+        - 'Copy the public key and the private key, or press the button to generate a new pair.'
+      notes:
+        - 'Use 2048 bits at least; 3072 or 4096 for long-lived keys. Keys below 2048 bits are considered insecure and exist here only for experiments.'
+        - 'A 4096-bit or larger key can take several seconds to many seconds to generate, and the time varies because prime numbers are searched at random.'
+        - 'The private key is written in the traditional format (-----BEGIN RSA PRIVATE KEY-----, PKCS#1) and the public key in -----BEGIN PUBLIC KEY-----. Some libraries want PKCS#8 (-----BEGIN PRIVATE KEY-----); convert with: openssl pkcs8 -topk8 -nocrypt -in key.pem.'
+        - 'Do not use keys generated in a web page for production systems or anything valuable. Generate those on a trusted machine with openssl or your platform''s key management service.'
+      faq:
+        - q: 'Is the generated key really random?'
+          a: 'Yes. Generation uses the node-forge library with your browser''s secure random source, and each click creates an independent key. But as with any web tool, you cannot audit the page you are using, which is why production keys should be made elsewhere.'
+        - q: 'Why does the page take a while to produce a key?'
+          a: 'Finding two large random prime numbers is the slow part, and it grows quickly with key size. A 2048-bit key usually appears within a few seconds.'
 
   html-wysiwyg-editor:
     title: HTML WYSIWYG editor
@@ -852,6 +954,26 @@ tools:
     errors:
       notANumber: Not a number
       outOfRange: Out of range
+    guide:
+      intro: 'Converts many Unix timestamps at once. Paste a column from a log, a database export or a spreadsheet and get readable dates in the timezone and format you choose, with invalid lines flagged individually.'
+      useCases:
+        - 'Reading a list of epoch values from application logs or an API response without converting them one by one.'
+        - 'Checking which timestamps in a database export fall in a given day once you view them in your own timezone.'
+        - 'Producing ISO 8601 strings from numeric timestamps to paste into a ticket, a test fixture or a report.'
+      steps:
+        - 'Paste the timestamps, one per line or separated by commas, semicolons or tabs.'
+        - 'Leave the unit on automatic detection, or pick seconds, milliseconds, microseconds or nanoseconds.'
+        - 'Choose the output format and the timezone, then read or copy the results table.'
+      notes:
+        - 'Automatic detection looks at the number of digits: up to 11 digits is read as seconds, 12 to 14 as milliseconds, 15 to 17 as microseconds and more as nanoseconds. A small millisecond value, such as one from 1970, looks like seconds, so set the unit by hand when you know it.'
+        - 'Fractional values such as 1700000000.5 and negative values (dates before 1970) are accepted.'
+        - 'A Unix timestamp has no timezone of its own. The timezone you select only changes how the moment is displayed, not which moment it is.'
+        - 'Lines that are not numbers, or that fall outside the range JavaScript dates can represent, are marked with an error while the other lines are still converted.'
+      faq:
+        - q: 'Why does my timestamp show a date in 1970?'
+          a: 'The value is probably in milliseconds or microseconds but was read as seconds, or the other way around. Set the unit explicitly instead of using automatic detection.'
+        - q: 'Is there a limit on how many I can paste?'
+          a: 'There is no fixed limit. Conversion runs in your browser, so a few thousand lines are instant, while a very large paste depends on your device.'
 
   date-calculator:
     title: 'Date calculator'
@@ -1124,6 +1246,26 @@ tools:
   otp-generator:
     title: OTP code generator
     description: Generate and validate time-based OTP (one time password) for multi-factor authentication.
+    guide:
+      intro: 'Generates and checks time-based one-time passwords (TOTP, RFC 6238), the 6-digit codes that authenticator apps show for two-factor login. It shows the current code with the previous and next one, and gives you a key URI that can be turned into a QR code.'
+      useCases:
+        - 'Testing a two-factor login you are building, by comparing your server''s code with a reference implementation.'
+        - 'Generating a secret and a provisioning URI to add to an authenticator app during development.'
+        - 'Working out why codes are rejected, for example because of clock drift between the server and the phone.'
+      steps:
+        - 'Use the generated secret or paste your own Base32 secret.'
+        - 'Read the current 6-digit code; it changes every 30 seconds, and the previous and next codes are shown beside it.'
+        - 'To enrol an app, use the key URI (otpauth://) or its QR code, then compare the app''s code with the one shown here.'
+      notes:
+        - 'The secret is Base32 (letters A to Z and digits 2 to 7). Characters outside that set, such as 0, 1, 8 and 9, are not valid in it.'
+        - 'Codes use HMAC-SHA1, 6 digits and a 30-second step, the defaults of nearly all authenticator apps. Settings that differ, such as 8 digits or SHA-256, are not covered here.'
+        - 'A code is derived from the current time, so the server and the device must have accurate clocks. Servers usually accept the previous and next code as well, which is why those are shown.'
+        - 'Anyone who knows the secret can generate valid codes forever. Treat it as a password, and use test secrets only.'
+      faq:
+        - q: 'Why is my code different from my phone app?'
+          a: 'Either the secret differs, the app uses other settings (digits, algorithm or period), or a clock is off by more than about 30 seconds. Check the phone''s time first, and make sure automatic time is on.'
+        - q: 'What is the difference between TOTP and HOTP?'
+          a: 'HOTP uses a counter that increases with each use, while TOTP uses the current time divided into 30-second steps. TOTP is what authenticator apps use, and this tool is built around it.'
 
   url-encoder:
     title: Encode/decode URL-formatted strings
@@ -1208,11 +1350,72 @@ tools:
   certificate-parser:
     title: X.509 certificate parser
     description: Decode a PEM or DER certificate (or a whole chain) and see the subject, issuer, validity and days left, SAN, key type, key usage, extensions and fingerprints. Everything runs in your browser.
+    guide:
+      intro: 'Decodes an X.509 certificate, or a whole chain, and lays out the subject, issuer, validity period with days remaining, subject alternative names, public key type, key usage, extensions and SHA-1 and SHA-256 fingerprints. Parsing runs in your browser.'
+      useCases:
+        - 'Finding out when a TLS certificate expires and which domain names (SAN) it actually covers.'
+        - 'Checking that the certificate a server presents is the one you just issued, by comparing fingerprints.'
+        - 'Inspecting a chain from a PEM bundle to see which certificate is the leaf, which is the intermediate and who issued each.'
+      steps:
+        - 'Paste a PEM block (-----BEGIN CERTIFICATE-----) or a bare base64 DER certificate. Several certificates pasted together are read as a chain.'
+        - 'Read the status tag (valid, expired or not yet valid) and the days remaining for each certificate.'
+        - 'Open the details for names, key information, usage and fingerprints, and copy what you need.'
+      notes:
+        - 'Modern browsers match the host name against the subject alternative names, not the common name (CN), so check the SAN list when a certificate is rejected for a name mismatch.'
+        - 'This tool only parses the certificate. It does not validate the chain against trusted roots, check revocation, or confirm that the certificate matches a private key.'
+        - 'Only certificates are read. A private key in the pasted text is ignored, and you should never paste one into a web tool.'
+        - 'Validity dates are interpreted against your device''s clock, so a wrong system date changes the status tag and days remaining.'
+      faq:
+        - q: 'How do I get the certificate of a website?'
+          a: 'In a browser, open the certificate details from the padlock and export it as PEM. On the command line, openssl s_client -connect example.com:443 -showcerts prints the chain in PEM form.'
+        - q: 'What is the fingerprint used for?'
+          a: 'A fingerprint is a hash of the whole certificate. Comparing it with the value published by the other party confirms that you are looking at exactly the same certificate, which is how certificate pinning and many manual trust checks work.'
 
   jwt-signer:
     title: JWT sign and verify
     description: Create a signed JSON Web Token from a header and payload, or verify a token's signature, with HS256/384/512, RS256/384/512, PS256/384/512 and ES256/384/512. Keys stay in your browser.
+    guide:
+      intro: 'Creates a signed JSON Web Token from a header and payload you write, and verifies the signature of an existing token. It supports HMAC (HS256/384/512), RSA (RS and PS) and ECDSA (ES256/384/512), using your browser''s built-in Web Crypto, so keys never leave the page.'
+      useCases:
+        - 'Generating test tokens with exactly the claims, expiry and algorithm your API needs, without writing a script.'
+        - 'Checking whether a token''s signature matches a given secret or public key while debugging a 401 or an invalid signature error.'
+        - 'Trying an algorithm (HS256 versus RS256 versus ES256) before wiring it into a service.'
+      steps:
+        - 'Choose the algorithm, then edit the header and payload JSON. The alg field is set for you, and typ defaults to JWT.'
+        - 'For HS algorithms enter a shared secret (as UTF-8 text or base64url). For RS, PS and ES algorithms paste a private key, or use the button that generates a key pair.'
+        - 'Copy the signed token. To verify, paste a token into the verify section with the secret or the public key and read the result.'
+      notes:
+        - 'Private keys must be PKCS#8 PEM, starting with -----BEGIN PRIVATE KEY-----. A key that starts with BEGIN RSA PRIVATE KEY or BEGIN EC PRIVATE KEY is not accepted; convert it with: openssl pkcs8 -topk8 -nocrypt -in key.pem.'
+        - 'The curve must match the algorithm: ES256 uses P-256, ES384 uses P-384 and ES512 uses P-521 (not P-512). A mismatched key is rejected with a clear message.'
+        - 'Verification checks the signature only. It does not check exp, nbf, aud or iss, so an expired token can still show as valid. Check the claims with the JWT parser.'
+        - 'For verification you can paste a public key (-----BEGIN PUBLIC KEY-----); a PKCS#8 private key also works, because the public part is derived from it.'
+        - 'Use test keys only. Do not paste a production private key or secret into any web page, even one that runs locally.'
+      faq:
+        - q: 'What is the difference between HS256 and RS256?'
+          a: 'HS256 uses one shared secret for both signing and verifying, so every party that can verify can also forge tokens. RS256 signs with a private key and verifies with a public key, which lets you share verification without sharing the ability to sign.'
+        - q: 'Why does verification say the signature is invalid?'
+          a: 'The most common causes are a different secret or key, a secret decoded with the wrong encoding (UTF-8 text versus base64url), a token whose header names another algorithm than the one you expect, or a token that was edited after signing.'
 
   chinese-converter:
     title: Traditional / Simplified Chinese converter
     description: Convert text between Simplified Chinese and Traditional Chinese (Taiwan, Hong Kong, with optional Taiwanese phrases such as 软件 → 軟體) using OpenCC, entirely in your browser.
+    guide:
+      intro: 'Converts text between Simplified and Traditional Chinese using OpenCC, the open-source conversion dictionaries. Besides character-by-character conversion it can apply Taiwan and Hong Kong forms and, optionally, Taiwanese vocabulary such as 软件 to 軟體.'
+      useCases:
+        - 'Turning a Simplified Chinese document, subtitle file or README into Traditional Chinese for readers in Taiwan or Hong Kong.'
+        - 'Localising product copy, so that both the characters and the everyday terms (软件, 内存, 视频) read naturally.'
+        - 'Converting Traditional text to Simplified for a mainland audience or for matching against Simplified data.'
+      steps:
+        - 'Choose the source variant in From and the target in To; the swap button reverses them.'
+        - 'Pick Taiwan (characters only) or Taiwan with idioms if you also want vocabulary changed.'
+        - 'Paste the text and copy the converted result.'
+      notes:
+        - 'Plain character conversion is not enough for natural Traditional Chinese, because the two communities use different words for the same thing, for example 内存 versus 記憶體 and 软件 versus 軟體. Use the Taiwan with idioms option for text aimed at Taiwanese readers.'
+        - 'Some Simplified characters map to several Traditional ones (发 can be 發 or 髮, 后 can be 后 or 後). OpenCC resolves most cases from the surrounding words, but proper nouns and unusual phrases can still come out wrong, so proofread the result.'
+        - 'Conversion does not translate. Differences in grammar, punctuation style or regional spelling of names are left as they are.'
+        - 'Your last chosen directions are remembered in this browser. The text itself is not uploaded.'
+      faq:
+        - q: 'What is the difference between the Traditional options?'
+          a: 'Taiwan changes characters to the standard used in Taiwan. Taiwan with idioms also replaces regional vocabulary. Hong Kong uses Hong Kong character forms, and the OpenCC standard option uses a neutral set without regional variants.'
+        - q: 'Why did a word come out wrong?'
+          a: 'Conversion is dictionary-based, so rare names, quotations and ambiguous characters can be mapped incorrectly. Fix those by hand, or split the text so the ambiguous word appears with more context.'
