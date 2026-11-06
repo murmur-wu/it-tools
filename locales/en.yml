@@ -2582,7 +2582,7 @@ tools:
       notes:
         - 'ASCII art depends on a monospaced font. In a proportional font (most chat apps and word processors) the letters fall apart, so paste it into a terminal, a code block or a <pre> element.'
         - 'Most FIGlet fonts cover ASCII letters, digits and punctuation only. Accented or non-Latin characters are usually left blank or rendered as their closest ASCII form.'
-        - 'Fonts are downloaded on demand from the unpkg CDN the first time you select them, so the first render of each font needs a network connection. The text you type is not sent anywhere.'
+        - 'Fonts are served by this site and loaded the first time you select each one, so the first render of a new font needs a short network request; fonts you have used are cached for offline use. The text you type is not sent anywhere.'
         - 'Multi-line output is wide: a short word in a large font can exceed 80 columns. Lower the width or choose a smaller font (Small, Mini, Thin) if it must fit a narrow terminal.'
       faq:
         - q: 'Why does the output look broken where I pasted it?'
